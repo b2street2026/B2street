@@ -1,203 +1,214 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>B2 Street</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>B2 Street</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:'Inter', sans-serif;
-    }
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter', sans-serif;
+}
 
-    body{
-      background-image: url('fundo.jpg');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      background-repeat: no-repeat;
-      color:#111;
-    }
+/* ===== FUNDO SEM BORRÃO ===== */
+body{
+position:relative;
+color:#111;
+}
 
-    header{
-      height:90px;
-      background:#000;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      border-bottom:1px solid #333;
-    }
+body::before{
+content:"";
+position:fixed;
+inset:0;
+background-image:url('fundo.jpg');
+background-repeat:no-repeat;
+background-position:center center;
+background-size:cover;
+z-index:-1;
+transform:translateZ(0);
+will-change:transform;
+}
 
-    header img{
-      height:55px;
-    }
+/* HEADER */
+header{
+height:90px;
+background:#000;
+display:flex;
+align-items:center;
+justify-content:center;
+border-bottom:1px solid #333;
+}
 
-    .hero{
-      height:420px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      background:linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9));
-      color:#fff;
-    }
+header img{
+height:55px;
+}
 
-    .hero h1{
-      font-size:3rem;
-      font-weight:900;
-      letter-spacing:2px;
-    }
+/* HERO */
+.hero{
+height:420px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+background:linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9));
+color:#fff;
+}
 
-    .section{
-      max-width:1400px;
-      margin:80px auto;
-      padding:0 30px;
-    }
+.hero h1{
+font-size:3rem;
+font-weight:900;
+letter-spacing:2px;
+}
 
-    .section h2{
-      font-size:2.2rem;
-      font-weight:900;
-      margin-bottom:40px;
-      color:#000;
-      border-left:6px solid silver;
-      padding-left:15px;
-    }
+/* SECTION */
+.section{
+max-width:1400px;
+margin:80px auto;
+padding:0 30px;
+}
 
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
-      gap:35px;
-    }
+.section h2{
+font-size:2.2rem;
+font-weight:900;
+margin-bottom:40px;
+color:#000;
+border-left:6px solid silver;
+padding-left:15px;
+}
 
-    .product{
-      background:#fff;
-      border-radius:18px;
-      padding:20px;
-      box-shadow:0 15px 35px rgba(0,0,0,0.12);
-      transition:0.3s;
-    }
+/* GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+gap:35px;
+}
 
-    .product:hover{
-      transform:translateY(-8px);
-    }
+/* PRODUCT */
+.product{
+background:#fff;
+border-radius:18px;
+padding:20px;
+box-shadow:0 15px 35px rgba(0,0,0,0.12);
+transition:0.3s;
+}
 
-    .product img{
-      width:100%;
-      border-radius:14px;
-    }
+.product:hover{
+transform:translateY(-8px);
+}
 
-    .product h3{
-      font-size:1.05rem;
-      margin:15px 0 8px;
-      font-weight:600;
-    }
+.product img{
+width:100%;
+border-radius:14px;
+}
 
-    .price{
-      font-weight:800;
-      color:#000;
-      margin-bottom:12px;
-    }
+.product h3{
+font-size:1.05rem;
+margin:15px 0 8px;
+font-weight:600;
+}
 
-    .buy{
-      display:block;
-      text-align:center;
-      padding:14px;
-      background:#000;
-      color:#fff;
-      border-radius:30px;
-      text-decoration:none;
-      font-weight:700;
-      transition:0.3s;
-      border:2px solid silver;
-    }
+.price{
+font-weight:800;
+color:#000;
+margin-bottom:12px;
+}
 
-    .buy:hover{
-      background:silver;
-      color:#000;
-    }
+.buy{
+display:block;
+text-align:center;
+padding:14px;
+background:#000;
+color:#fff;
+border-radius:30px;
+text-decoration:none;
+font-weight:700;
+transition:0.3s;
+border:2px solid silver;
+}
 
-    footer{
-      background:#000;
-      color:#fff;
-      text-align:center;
-      padding:35px;
-      margin-top:80px;
-      font-size:0.9rem;
-    }
+.buy:hover{
+background:silver;
+color:#000;
+}
 
-    /* ===== CORREÇÃO FUNDO MOBILE (REMOVE BLUR) ===== */
-    @media (max-width: 768px) {
-      body {
-        background-attachment: scroll;
-        background-size: cover;
-        background-position: center top;
-        background-repeat: no-repeat;
-      }
-    }
-  </style>
+/* FOOTER */
+footer{
+background:#000;
+color:#fff;
+text-align:center;
+padding:35px;
+margin-top:80px;
+font-size:0.9rem;
+}
+</style>
 </head>
+
 <body>
 
 <header>
-  <img src="logo.jpg" alt="B2 Street">
+<img src="logo.jpg" alt="B2 Street">
 </header>
 
 <section class="hero">
-  <h1>B2 STREET<br>STREETWEAR PREMIUM</h1>
+<h1>B2 STREET<br>STREETWEAR PREMIUM</h1>
 </section>
 
 <section class="section">
-  <h2>TÊNIS</h2>
-  <div class="grid">
-    <div class="product"><img src="air max95 x corteiz.jpg"><h3>Air max 95 x Corteiz</h3><p class="price">R$ 349,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="nike DN white.jpg"><h3>Nike DN white</h3><p class="price">R$ 354,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="nike-dn-preto.jpg"><h3>Nike DN black</h3><p class="price">R$ 354,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="nocta glide.jpg"><h3>Nike nocta glide</h3><p class="price">R$ 359,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="nike-air-force.jpg"><h3>Nike air force black</h3><p class="price">R$ 249,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="bota timberland.jpg"><h3>Bota Timberland</h3><p class="price">R$ 359,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="Asics gel NYC.jpg"><h3>Asics gel NYC</h3><p class="price">R$ 449,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="Nike TN.jpg"><h3>Nike TN</h3><p class="price">R$ 329,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-  </div>
+<h2>TÊNIS</h2>
+<div class="grid">
+
+<div class="product"><img src="air max95 x corteiz.jpg"><h3>Air max 95 x Corteiz</h3><p class="price">R$ 349,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="nike DN white.jpg"><h3>Nike DN white</h3><p class="price">R$ 354,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="nike-dn-preto.jpg"><h3>Nike DN black</h3><p class="price">R$ 354,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="nocta glide.jpg"><h3>Nike nocta glide</h3><p class="price">R$ 359,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="nike-air-force.jpg"><h3>Nike air force black</h3><p class="price">R$ 249,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="bota timberland.jpg"><h3>Bota Timberland</h3><p class="price">R$ 359,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="Asics gel NYC.jpg"><h3>Asics gel NYC</h3><p class="price">R$ 449,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="Nike TN.jpg"><h3>Nike TN</h3><p class="price">R$ 329,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+
+</div>
 </section>
 
 <section class="section">
-  <h2>ROUPAS</h2>
-  <div class="grid">
-    <div class="product"><img src="calça cargo corteiz 1.jpg"><h3>calça cargo corteiz</h3><p class="price">R$ 249,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="calça cargo corteiz 2.jpg"><h3>calça cargo corteiz grey</h3><p class="price">R$ 249,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="shorts cargo corteiz 1.jpg"><h3>shorts cargo corteiz</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="shorts cargo corteiz 2.jpg"><h3>shorts cargo corteiz green</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="shorts cargo corteiz 3.jpg"><h3>shorts cargo corteiz blue</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="hellstar 1.jpg"><h3>hellstar black</h3><p class="price">R$ 285,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="hellstar 2.jpg"><h3>hellstar white</h3><p class="price">R$ 285,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="hellstar 3.jpg"><h3>hellstar red</h3><p class="price">R$ 285,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="minus two1.jpg"><h3>minus two blue</h3><p class="price">R$ 225,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="minus two 2.jpg"><h3>minus two yellow</h3><p class="price">R$ 225,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="minus two 3.jpg"><h3>minus two pink</h3><p class="price">R$ 225,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="minus two 4.jpg"><h3>minus two red</h3><p class="price">R$ 225,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="nike tech flecee branca 1.jpg"><h3>nike tech flecee branca</h3><p class="price">R$ 384,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="nike tech flecee branca 2.jpg"><h3>nike tech flecee calça branca</h3><p class="price">R$ 325,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="nike tech flecee gray 1.jpg"><h3>nike tech flecee cinza</h3><p class="price">R$ 384,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="nike tech flecee gray 2.jpg"><h3>nike tech flecee calça cinza</h3><p class="price">R$ 325,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="nike tech flecee preta 1.jpg"><h3>nike tech flecee preta</h3><p class="price">R$ 384,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="nike tech flecee preta 2.jpg"><h3>nike tech flecee calça preta</h3><p class="price">R$ 325,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="denim tears 1.jpg"><h3>denim tears black</h3><p class="price">R$ 269,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="denim tears 2.jpg"><h3>denim tears grey</h3><p class="price">R$ 269,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="syna shorts 1.jpg"><h3>syna shorts pink</h3><p class="price">R$ 284,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="syna shorts 2.jpg"><h3>syna shorts black</h3><p class="price">R$ 284,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="syna kit1.jpg"><h3>syna kit blue</h3><p class="price">R$ 539,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="syna kit2.jpg"><h3>syna kit green</h3><p class="price">R$ 539,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="syna x nike tech fleece 1.jpg"><h3>syna x nike tech fleece 1</h3><p class="price">R$ 389,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-    <div class="product"><img src="syna x nike tech fleece 2.jpg"><h3>syna x nike tech fleece calça</h3><p class="price">R$ 329,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
-  </div>
+<h2>ROUPAS</h2>
+<div class="grid">
+
+<div class="product"><img src="calça cargo corteiz 1.jpg"><h3>calça cargo corteiz</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="calça cargo corteiz 2.jpg"><h3>calça cargo corteiz grey</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="shorts cargo corteiz 1.jpg"><h3>shorts cargo corteiz</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="shorts cargo corteiz 2.jpg"><h3>shorts cargo corteiz green</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="shorts cargo corteiz 3.jpg"><h3>shorts cargo corteiz blue</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="hellstar 1.jpg"><h3>hellstar black</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="hellstar 2.jpg"><h3>hellstar white</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="hellstar 3.jpg"><h3>hellstar red</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="minus two1.jpg"><h3>minus two blue</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="minus two 2.jpg"><h3>minus two yellow</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="minus two 3.jpg"><h3>minus two pink</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="minus two 4.jpg"><h3>minus two red</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="nike tech flecee branca 1.jpg"><h3>nike tech flecee branca</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="nike tech flecee branca 2.jpg"><h3>nike tech flecee calça branca</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="nike tech flecee gray 1.jpg"><h3>nike tech flecee cinza</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="nike tech flecee gray 2.jpg"><h3>nike tech flecee calça cinza</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="nike tech flecee preta 1.jpg"><h3>nike tech flecee preta</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="nike tech flecee preta 2.jpg"><h3>nike tech flecee calça preta</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="denim tears 1.jpg"><h3>denim tears black</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="denim tears 2.jpg"><h3>denim tears grey</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="syna shorts 1.jpg"><h3>syna shorts pink</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="syna shorts 2.jpg"><h3>syna shorts black</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="syna kit1.jpg"><h3>syna kit blue</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="syna kit2.jpg"><h3>syna kit green</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="syna x nike tech fleece 1.jpg"><h3>syna x nike tech fleece 1</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+<div class="product"><img src="syna x nike tech fleece 2.jpg"><h3>syna x nike tech fleece calça</h3><p class="price">R$ 199,90</p><a class="buy" href="https://wa.me/5519989620940" target="_blank">Comprar agora</a></div>
+
+</div>
 </section>
 
 <footer>
-  © 2026 B2 Street — Todos os direitos reservados
+© 2026 B2 Street — Todos os direitos reservados
 </footer>
 
 </body>
