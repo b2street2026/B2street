@@ -10,7 +10,6 @@
     <style>
         *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
 
-        /* FUNDO ESCURO PREMIUM */
         body{
             background:#000;
             color:#111;
@@ -24,7 +23,6 @@
             z-index:-1;
         }
 
-        /* HEADER */
         header{
             height:90px;
             background:rgba(0,0,0,.85);
@@ -40,7 +38,6 @@
         }
         header img{height:48px}
 
-        /* BOTÃO CARRINHO */
         .cart-btn{
             background:#fff;
             color:#000;
@@ -52,11 +49,8 @@
             letter-spacing:.5px;
             transition:.3s;
         }
-        .cart-btn:hover{
-            transform:scale(1.05);
-        }
+        .cart-btn:hover{ transform:scale(1.05); }
 
-        /* HERO */
         .hero{
             height:340px;
             display:flex;
@@ -65,13 +59,12 @@
             text-align:center;
             color:#fff;
         }
-        .hero h1{
-            font-size:3.5rem;
-            font-weight:900;
-            letter-spacing:6px;
+
+        .hero img{
+            max-width:320px;
+            width:90%;
         }
 
-        /* SECTION */
         .section{
             max-width:1350px;
             margin:80px auto;
@@ -85,14 +78,12 @@
             letter-spacing:2px;
         }
 
-        /* GRID */
         .grid{
             display:grid;
             grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
             gap:30px;
         }
 
-        /* CARD PRODUTO */
         .product{
             background:#fff;
             padding:20px;
@@ -107,8 +98,8 @@
         }
         .product img{
             width:100%;
-            height: 250px;
-            object-fit: cover;
+            height:250px;
+            object-fit:cover;
             border-radius:12px;
             margin-bottom:10px;
         }
@@ -116,7 +107,7 @@
             font-size:1rem;
             font-weight:600;
             margin:10px 0;
-            min-height: 40px;
+            min-height:40px;
         }
         .price{
             font-weight:900;
@@ -124,7 +115,6 @@
             margin-bottom:12px;
         }
 
-        /* BOTÕES */
         .actions{
             display:flex;
             gap:10px;
@@ -140,25 +130,12 @@
             transition:.3s;
         }
 
-        /* ADICIONAR */
-        .add{
-            background:#000;
-            color:#fff;
-        }
-        .add:hover{
-            background:#222;
-        }
+        .add{ background:#000;color:#fff; }
+        .add:hover{ background:#222; }
 
-        /* COMPRAR */
-        .buy{
-            background:#25D366;
-            color:#fff;
-        }
-        .buy:hover{
-            transform:scale(1.05);
-        }
+        .buy{ background:#25D366;color:#fff; }
+        .buy:hover{ transform:scale(1.05); }
 
-        /* CARRINHO */
         .cart{
             position:fixed;
             right:-380px;
@@ -172,7 +149,21 @@
             z-index:999;
             box-shadow:-10px 0 40px rgba(0,0,0,.5);
         }
-        .cart.show{right:0}
+        .cart.show{ right:0; }
+
+        .cart-close{
+            position:absolute;
+            top:15px;
+            right:15px;
+            background:#000;
+            color:#fff;
+            border:none;
+            width:32px;
+            height:32px;
+            border-radius:50%;
+            font-weight:900;
+            cursor:pointer;
+        }
 
         .cart h2{
             font-size:1.6rem;
@@ -182,11 +173,11 @@
         .cart-item{
             display:flex;
             justify-content:space-between;
-            align-items: center;
+            align-items:center;
             margin:12px 0;
             font-size:.95rem;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 8px;
+            border-bottom:1px solid #eee;
+            padding-bottom:8px;
         }
 
         .remove{
@@ -221,10 +212,12 @@
 </header>
 
 <section class="hero">
-    <h1>B2 STREET</h1>
+    <img src="b2street.jpg" alt="B2 Street">
 </section>
 
 <div class="cart" id="cart">
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+
     <h2>Seu Carrinho</h2>
     <div id="cartItems"></div>
     <button class="checkout" onclick="checkout()">Finalizar no WhatsApp</button>
@@ -239,10 +232,7 @@
 const WHATS = "5519989620949";
 
 const products = [
-    // NOVIDADE ADICIONADA
-    ["IMG_9064.JPG", "Nike NOCTA Hot Step 2 White", 630.00],
-    
-    // TÊNIS
+    ["IMG_9064.JPG","Nike NOCTA Hot Step 2 White",630.00],
     ["air max95 x corteiz.jpg","Air max 95 x Corteiz",349.90],
     ["nike DN white.jpg","Nike DN white",354.90],
     ["nike-dn-preto.jpg","Nike DN black",354.90],
@@ -251,36 +241,26 @@ const products = [
     ["bota timberland.jpg","Bota Timberland",359.90],
     ["Asics gel NYC.jpg","Asics gel NYC",449.90],
     ["Nike TN.jpg","Nike TN",329.90],
-
-    // CALÇAS E SHORTS
     ["calça cargo corteiz 1.jpg","calça cargo corteiz",249.90],
     ["calça cargo corteiz 2.jpg","calça cargo corteiz grey",249.90],
     ["shorts cargo corteiz 1.jpg","shorts cargo corteiz",199.90],
     ["shorts cargo corteiz 2.jpg","shorts cargo corteiz green",199.90],
     ["shorts cargo corteiz 3.jpg","shorts cargo corteiz blue",199.90],
-
-    // MARCAS STREET
     ["hellstar 1.jpg","hellstar black",285.90],
     ["hellstar 2.jpg","hellstar white",285.90],
     ["hellstar 3.jpg","hellstar red",285.90],
-
     ["minus two1.jpg","minus two blue",225.90],
     ["minus two 2.jpg","minus two yellow",225.90],
     ["minus two 3.jpg","minus two pink",225.90],
     ["minus two 4.jpg","minus two red",225.90],
-
-    // NIKE TECH FLEECE
     ["nike tech flecee branca 1.jpg","nike tech flecee branca",384.90],
     ["nike tech flecee branca 2.jpg","nike tech flecee calça branca",325.90],
     ["nike tech flecee gray 1.jpg","nike tech flecee cinza",384.90],
     ["nike tech flecee gray 2.jpg","nike tech flecee calça cinza",325.90],
     ["nike tech flecee preta 1.jpg","nike tech flecee preta",384.90],
     ["nike tech flecee preta 2.jpg","nike tech flecee calça preta",325.90],
-
-    // DENIM TEARS E SYNA
     ["denim tears 1.jpg","denim tears black",269.90],
     ["denim tears 2.jpg","denim tears grey",269.90],
-
     ["syna shorts 1.jpg","syna shorts pink",284.90],
     ["syna shorts 2.jpg","syna shorts black",284.90],
     ["syna kit1.jpg","syna kit blue",539.90],
@@ -316,10 +296,7 @@ function toggleCart(){
 function addToCart(i){
     cart.push(products[i]);
     renderCart();
-    // Feedback visual opcional
-    if(!document.getElementById("cart").classList.contains("show")) {
-        toggleCart();
-    }
+    if(!document.getElementById("cart").classList.contains("show")) toggleCart();
 }
 
 function removeItem(i){
@@ -340,19 +317,28 @@ function renderCart(){
     document.getElementById("count").innerText = cart.length;
 }
 
+/* ✅ WHATSAPP CORRIGIDO */
 function checkout(){
     if(cart.length === 0){alert("Carrinho vazio"); return;}
-    let msg = "Olá, quero pedir:%0A";
-    cart.forEach(item => { msg += `• ${item[1]} - R$ ${item[2].toFixed(2)}%0A`; });
+
+    let msg = "Olá, quero pedir:\n\n";
+
+    cart.forEach(item => {
+        msg += "• " + item[1] + " - R$ " + item[2].toFixed(2) + "\n";
+    });
+
     window.open(`https://wa.me/${WHATS}?text=${encodeURIComponent(msg)}`, "_blank");
 }
 
 function buyNow(i){
-    let msg = `Olá, quero comprar: ${products[i][1]} (R$ ${products[i][2].toFixed(2)})`;
+    let msg =
+"Olá, quero comprar:\n\n" +
+products[i][1] +
+"\nValor: R$ " + products[i][2].toFixed(2);
+
     window.open(`https://wa.me/${WHATS}?text=${encodeURIComponent(msg)}`, "_blank");
 }
 
-// Inicializar a loja
 renderProducts();
 </script>
 
