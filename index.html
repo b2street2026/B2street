@@ -267,6 +267,9 @@ const products = [
     ["syna kit2.jpg","syna kit green",539.90],
     ["syna x nike tech fleece 1.jpg","syna x nike tech fleece 1",389.90],
     ["syna x nike tech fleece 2.jpg","syna x nike tech fleece calça",329.90],
+
+    /* ✅ PRODUTO ADICIONADO */
+    ["IMG_9167.jpeg","Regatas Corteiz",94.90]
 ];
 
 const grid = document.getElementById("products");
@@ -317,7 +320,6 @@ function renderCart(){
     document.getElementById("count").innerText = cart.length;
 }
 
-/* ✅ WHATSAPP CORRIGIDO */
 function checkout(){
     if(cart.length === 0){alert("Carrinho vazio"); return;}
 
