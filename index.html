@@ -267,14 +267,19 @@ const products = [
     ["syna kit2.jpg","syna kit green",539.90],
     ["syna x nike tech fleece 1.jpg","syna x nike tech fleece 1",389.90],
     ["syna x nike tech fleece 2.jpg","syna x nike tech fleece calça",329.90],
-
     ["IMG_9167.jpeg","Regatas Corteiz",94.90],
-
     ["camisa corteiz basica.jpg","Camisa Corteiz Básica",89.90],
     ["camisa corteiz brasil.jpg","Camisa Corteiz Brasil",89.90],
     ["camisa corteiz oversized.jpg","Camisa Corteiz Oversized",89.90],
     ["corteiz rules the world.jpg","Corteiz Rules The World",76.90],
-    ["shorts corteiz moletom basico.jpg","Shorts Corteiz Moletom Básico",74.90]
+    ["shorts corteiz moletom basico.jpg","Shorts Corteiz Moletom Básico",74.90],
+
+    // ✅ NOVOS PRODUTOS ADICIONADOS
+    ["conjunto syna amarelo.png","conjunto syna amarelo",129.90],
+    ["conjunto denim tears preto.jpg","conjunto denim tears preto",119.90],
+    ["conjunto denim tears cinza.jpg","conjunto denim tears cinza",119.90],
+    ["moletom nocta.png","moletom nocta",94.90],
+    ["moletom syna.png","moletom syna",129.90]
 ];
 
 const grid = document.getElementById("products");
@@ -328,26 +333,24 @@ function renderCart(){
 function checkout(){
     if(cart.length === 0){alert("Carrinho vazio"); return;}
 
-    let msg = "Olá, quero pedir:\n\n";
+    let msg = "Olá, quero pedir:%0A%0A";
 
     cart.forEach(item => {
-        msg += "• " + item[1] + " - R$ " + item[2].toFixed(2) + "\n";
+        msg += "• " + item[1] + " - R$ " + item[2].toFixed(2) + "%0A";
     });
 
-    window.open(`https://wa.me/${WHATS}?text=${encodeURIComponent(msg)}`, "_blank");
+    window.open(`https://wa.me/${WHATS}?text=${msg}`, "_blank");
 }
 
 function buyNow(i){
     let msg =
-"Olá, quero comprar:\n\n" +
+"Olá, quero comprar:%0A%0A" +
 products[i][1] +
-"\nValor: R$ " + products[i][2].toFixed(2);
+"%0AValor: R$ " + products[i][2].toFixed(2);
 
-    window.open(`https://wa.me/${WHATS}?text=${encodeURIComponent(msg)}`, "_blank");
+    window.open(`https://wa.me/${WHATS}?text=${msg}`, "_blank");
 }
 
+// 🔥 ISSO QUE FAZ OS PRODUTOS APARECEREM
 renderProducts();
 </script>
-
-</body>
-</html>
