@@ -65,9 +65,40 @@
             width:90%;
         }
 
+        /* ESTILO DOS BOTÕES DE FILTRO */
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            width: 120px;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.3s;
+        }
+        .filter-btn:hover { transform: scale(1.1); }
+        .filter-btn img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #fff;
+            margin-bottom: 8px;
+        }
+        .filter-btn span {
+            color: #fff;
+            display: block;
+            font-weight: 800;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
         .section{
             max-width:1350px;
-            margin:80px auto;
+            margin:40px auto;
             padding:0 30px;
         }
         .section h2{
@@ -215,6 +246,25 @@
     <img src="b2street.jpg.PNG" alt="B2 Street">
 </section>
 
+<div class="filters">
+    <div class="filter-btn" onclick="filterProducts('tenis')">
+        <img src="tenis.webp" alt="Tênis">
+        <span>Tênis</span>
+    </div>
+    <div class="filter-btn" onclick="filterProducts('roupas')">
+        <img src="roupas.jfif" alt="Roupas">
+        <span>Roupas</span>
+    </div>
+    <div class="filter-btn" onclick="filterProducts('relogios')">
+        <img src="relogios.jfif" alt="Relógios">
+        <span>Relógios</span>
+    </div>
+    <div class="filter-btn" onclick="renderProducts(products)">
+        <div style="width:80px; height:80px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; margin:0 auto 8px; border:3px solid #fff; color:#000; font-weight:900;">ALL</div>
+        <span>Todos</span>
+    </div>
+</div>
+
 <div class="cart" id="cart">
     <button class="cart-close" onclick="toggleCart()">✕</button>
 
@@ -224,80 +274,88 @@
 </div>
 
 <section class="section">
-    <h2>PRODUTOS</h2>
+    <h2 id="sectionTitle">PRODUTOS</h2>
     <div class="grid" id="products"></div>
 </section>
 
 <script>
 const WHATS = "5519989620949";
 
+// Organizei as categorias para o filtro funcionar
 const products = [
-    ["IMG_9064.JPG","Nike NOCTA Hot Step 2 White",630.00],
-    ["air max95 x corteiz.jpg","Air max 95 x Corteiz",349.90],
-    ["nike DN white.jpg","Nike DN white",354.90],
-    ["nike-dn-preto.jpg","Nike DN black",354.90],
-    ["nocta glide.jpg","Nike nocta glide",359.90],
-    ["nike-air-force.jpg","Nike air force black",249.90],
-    ["bota timberland.jpg","Bota Timberland",359.90],
-    ["Asics gel NYC.jpg","Asics gel NYC",449.90],
-    ["Nike TN.jpg","Nike TN",329.90],
-    ["calça cargo corteiz 1.jpg","calça cargo corteiz",249.90],
-    ["calça cargo corteiz 2.jpg","calça cargo corteiz grey",249.90],
-    ["shorts cargo corteiz 1.jpg","shorts cargo corteiz",199.90],
-    ["shorts cargo corteiz 2.jpg","shorts cargo corteiz green",199.90],
-    ["shorts cargo corteiz 3.jpg","shorts cargo corteiz blue",199.90],
-    ["hellstar 1.jpg","hellstar black",285.90],
-    ["hellstar 2.jpg","hellstar white",285.90],
-    ["hellstar 3.jpg","hellstar red",285.90],
-    ["minus two1.jpg","minus two blue",225.90],
-    ["minus two 2.jpg","minus two yellow",225.90],
-    ["minus two 3.jpg","minus two pink",225.90],
-    ["minus two 4.jpg","minus two red",225.90],
-    ["nike tech flecee branca 1.jpg","nike tech flecee branca",384.90],
-    ["nike tech flecee branca 2.jpg","nike tech flecee calça branca",325.90],
-    ["nike tech flecee gray 1.jpg","nike tech flecee cinza",384.90],
-    ["nike tech flecee gray 2.jpg","nike tech flecee calça cinza",325.90],
-    ["nike tech flecee preta 1.jpg","nike tech flecee preta",384.90],
-    ["nike tech flecee preta 2.jpg","nike tech flecee calça preta",325.90],
-    ["denim tears 1.jpg","denim tears black",269.90],
-    ["denim tears 2.jpg","denim tears grey",269.90],
-    ["syna shorts 1.jpg","syna shorts pink",284.90],
-    ["syna shorts 2.jpg","syna shorts black",284.90],
-    ["syna kit1.jpg","syna kit blue",539.90],
-    ["syna kit2.jpg","syna kit green",539.90],
-    ["syna x nike tech fleece 1.jpg","syna x nike tech fleece 1",389.90],
-    ["syna x nike tech fleece 2.jpg","syna x nike tech fleece calça",329.90],
-    ["IMG_9167.jpeg","Regatas Corteiz",94.90],
-    ["camisa corteiz basica.jpg","Camisa Corteiz Básica",89.90],
-    ["camisa corteiz brasil.jpg","Camisa Corteiz Brasil",89.90],
-    ["camisa corteiz oversized.jpg","Camisa Corteiz Oversized",89.90],
-    ["corteiz rules the world.jpg","Corteiz Rules The World",76.90],
-    ["shorts corteiz moletom basico.jpg","Shorts Corteiz Moletom Básico",74.90],
-
-    // ✅ NOVOS PRODUTOS ADICIONADOS
-    ["conjunto syna amarelo.png","conjunto syna amarelo",129.90],
-    ["conjunto denim tears preto.jpg","conjunto denim tears preto",119.90],
-    ["conjunto denim tears cinza.jpg","conjunto denim tears cinza",119.90],
-    ["moletom nocta.png","moletom nocta",94.90],
-    ["moletom syna.png","moletom syna",129.90]
+    ["IMG_9064.JPG","Nike NOCTA Hot Step 2 White",630.00, "tenis"],
+    ["air max95 x corteiz.jpg","Air max 95 x Corteiz",349.90, "tenis"],
+    ["nike DN white.jpg","Nike DN white",354.90, "tenis"],
+    ["nike-dn-preto.jpg","Nike DN black",354.90, "tenis"],
+    ["nocta glide.jpg","Nike nocta glide",359.90, "tenis"],
+    ["nike-air-force.jpg","Nike air force black",249.90, "tenis"],
+    ["bota timberland.jpg","Bota Timberland",359.90, "tenis"],
+    ["Asics gel NYC.jpg","Asics gel NYC",449.90, "tenis"],
+    ["Nike TN.jpg","Nike TN",329.90, "tenis"],
+    ["calça cargo corteiz 1.jpg","calça cargo corteiz",249.90, "roupas"],
+    ["calça cargo corteiz 2.jpg","calça cargo corteiz grey",249.90, "roupas"],
+    ["shorts cargo corteiz 1.jpg","shorts cargo corteiz",199.90, "roupas"],
+    ["shorts cargo corteiz 2.jpg","shorts cargo corteiz green",199.90, "roupas"],
+    ["shorts cargo corteiz 3.jpg","shorts cargo corteiz blue",199.90, "roupas"],
+    ["hellstar 1.jpg","hellstar black",285.90, "roupas"],
+    ["hellstar 2.jpg","hellstar white",285.90, "roupas"],
+    ["hellstar 3.jpg","hellstar red",285.90, "roupas"],
+    ["minus two1.jpg","minus two blue",225.90, "roupas"],
+    ["minus two 2.jpg","minus two yellow",225.90, "roupas"],
+    ["minus two 3.jpg","minus two pink",225.90, "roupas"],
+    ["minus two 4.jpg","minus two red",225.90, "roupas"],
+    ["nike tech flecee branca 1.jpg","nike tech flecee branca",384.90, "roupas"],
+    ["nike tech flecee branca 2.jpg","nike tech flecee calça branca",325.90, "roupas"],
+    ["nike tech flecee gray 1.jpg","nike tech flecee cinza",384.90, "roupas"],
+    ["nike tech flecee gray 2.jpg","nike tech flecee calça cinza",325.90, "roupas"],
+    ["nike tech flecee preta 1.jpg","nike tech flecee preta",384.90, "roupas"],
+    ["nike tech flecee preta 2.jpg","nike tech flecee calça preta",325.90, "roupas"],
+    ["denim tears 1.jpg","denim tears black",269.90, "roupas"],
+    ["denim tears 2.jpg","denim tears grey",269.90, "roupas"],
+    ["syna shorts 1.jpg","syna shorts pink",284.90, "roupas"],
+    ["syna shorts 2.jpg","syna shorts black",284.90, "roupas"],
+    ["syna kit1.jpg","syna kit blue",539.90, "roupas"],
+    ["syna kit2.jpg","syna kit green",539.90, "roupas"],
+    ["syna x nike tech fleece 1.jpg","syna x nike tech fleece 1",389.90, "roupas"],
+    ["syna x nike tech fleece 2.jpg","syna x nike tech fleece calça",329.90, "roupas"],
+    ["IMG_9167.jpeg","Regatas Corteiz",94.90, "roupas"],
+    ["camisa corteiz basica.jpg","Camisa Corteiz Básica",89.90, "roupas"],
+    ["camisa corteiz brasil.jpg","Camisa Corteiz Brasil",89.90, "roupas"],
+    ["camisa corteiz oversized.jpg","Camisa Corteiz Oversized",89.90, "roupas"],
+    ["corteiz rules the world.jpg","Corteiz Rules The World",76.90, "roupas"],
+    ["shorts corteiz moletom basico.jpg","Shorts Corteiz Moletom Básico",74.90, "roupas"],
+    ["conjunto syna amarelo.png","conjunto syna amarelo",129.90, "roupas"],
+    ["conjunto denim tears preto.jpg","conjunto denim tears preto",119.90, "roupas"],
+    ["conjunto denim tears cinza.jpg","conjunto denim tears cinza",119.90, "roupas"],
+    ["moletom nocta.png","moletom nocta",94.90, "roupas"],
+    ["moletom syna.png","moletom syna",129.90, "roupas"]
 ];
 
 const grid = document.getElementById("products");
 
-function renderProducts() {
+function renderProducts(productsList) {
     grid.innerHTML = "";
-    products.forEach((p, i) => {
+    productsList.forEach((p) => {
+        // Encontrar o index original para o addToCart e buyNow funcionarem
+        const originalIndex = products.findIndex(item => item[1] === p[1]);
+        
         grid.innerHTML += `
         <div class="product">
             <img src="${p[0]}" alt="${p[1]}">
             <h3>${p[1]}</h3>
             <p class="price">R$ ${p[2].toFixed(2).replace('.', ',')}</p>
             <div class="actions">
-                <button class="add" onclick="addToCart(${i})">Adicionar</button>
-                <button class="buy" onclick="buyNow(${i})">Comprar</button>
+                <button class="add" onclick="addToCart(${originalIndex})">Adicionar</button>
+                <button class="buy" onclick="buyNow(${originalIndex})">Comprar</button>
             </div>
         </div>`;
     });
+}
+
+function filterProducts(category) {
+    const filtered = products.filter(p => p[3] === category);
+    renderProducts(filtered);
+    window.scrollTo({ top: document.querySelector('.section').offsetTop - 100, behavior: 'smooth' });
 }
 
 let cart = [];
@@ -351,6 +409,8 @@ products[i][1] +
     window.open(`https://wa.me/${WHATS}?text=${msg}`, "_blank");
 }
 
-// 🔥 ISSO QUE FAZ OS PRODUTOS APARECEREM
-renderProducts();
+renderProducts(products);
 </script>
+
+</body>
+</html>
