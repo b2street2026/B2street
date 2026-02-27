@@ -14,177 +14,100 @@
             --accent: #25D366;
             --bg-dark: #000;
             --card-bg: #1a1a1a;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.3s ease;
         }
 
         *{margin:0;padding:0;box-sizing:border-box;font-family: 'Plus Jakarta Sans', sans-serif}
+        body{ background: var(--bg-dark); color: #fff; overflow-x: hidden; }
+        body::before{ content:""; position:fixed; inset:0; background: url('fundo.jpg') center/cover no-repeat; filter: brightness(0.15); z-index:-1; }
 
-        body{
-            background: var(--bg-dark);
-            color: #fff;
-            overflow-x: hidden;
-        }
+        header { background: rgba(0,0,0,0.95); backdrop-filter: blur(15px); padding: 12px 5%; border-bottom: 1px solid rgba(255,255,255,0.1); position: sticky; top: 0; z-index: 1000; }
+        .header-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        header img { height: 26px; }
+        .search-box { position: relative; width: 100%; }
+        .search-box input { width: 100%; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 10px 15px 10px 40px; border-radius: 10px; color: #fff; outline: none; font-size: 0.9rem; }
+        .search-box::before { content: '🔍'; position: absolute; left: 15px; top: 50%; transform: translateY(-50%); opacity: 0.4; }
+        .cart-btn { background: var(--primary); color: #000; border:none; padding: 6px 12px; font-weight:800; border-radius:8px; font-size: 0.75rem; cursor: pointer;}
 
-        body::before{
-            content:"";
-            position:fixed;
-            inset:0;
-            background: url('fundo.jpg') center/cover no-repeat;
-            filter: brightness(0.2);
-            z-index:-1;
-        }
-
-        /* HEADER RESPONSIVO */
-        header {
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(15px);
-            padding: 15px 5%;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .header-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        
-        header img { height: 30px; }
-
-        /* BUSCA SEMPRE VISÍVEL */
-        .search-box {
-            position: relative;
-            width: 100%;
-        }
-        .search-box input {
-            width: 100%;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 12px 15px 12px 45px;
-            border-radius: 12px;
-            color: #fff;
-            outline: none;
-            font-size: 0.9rem;
-        }
-        .search-box::before { 
-            content: '🔍'; 
-            position: absolute; left: 15px; top: 50%; 
-            transform: translateY(-50%); opacity: 0.5; 
-        }
-
-        .cart-btn {
-            background: var(--primary);
-            color: #000;
-            border:none;
-            padding: 8px 15px;
-            font-weight:800;
-            border-radius:10px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.8rem;
-        }
-
-        /* FILTROS COM SCROLL NO MOBILE */
-        .filters {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            padding: 20px 5%;
-            overflow-x: auto;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-        }
+        .filters { display: flex; justify-content: center; gap: 12px; padding: 15px 5%; overflow-x: auto; scrollbar-width: none; }
         .filters::-webkit-scrollbar { display: none; }
+        .filter-btn { flex: 0 0 70px; cursor: pointer; text-align: center; }
+        .filter-btn img, .filter-all-icon { width: 52px; height: 52px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); margin-bottom: 5px; object-fit: cover; }
+        .filter-all-icon { display: flex; align-items: center; justify-content: center; background: #fff; color: #000; font-weight: 900; font-size: 0.7rem; margin: 0 auto 5px auto; }
+        .filter-btn span { font-size: 0.55rem; text-transform: uppercase; color: #fff; font-weight: 700; display: block; }
 
-        .filter-btn {
-            flex: 0 0 auto;
-            cursor: pointer;
-            text-align: center;
-            width: 80px;
+        .category-row { margin-bottom: 40px; position: relative; }
+        .category-title { font-size: 1rem; font-weight: 800; margin: 0 5% 15px 5%; border-left: 3px solid var(--accent); padding-left: 10px; text-transform: uppercase; color: #fff; }
+        
+        .scroll-wrapper { position: relative; display: flex; align-items: center; }
+        
+        /* GRID PARA SCROLL LATERAL */
+        .grid-scroll { 
+            display: flex; 
+            overflow-x: auto; 
+            gap: 15px; 
+            padding: 0 5% 15px 5%; 
+            scrollbar-width: none; 
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
         }
-        .filter-btn img, .filter-all-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            border: 2px solid rgba(255,255,255,0.2);
-            margin-bottom: 5px;
-        }
-        .filter-all-icon {
-            display: flex; align-items: center; justify-content: center;
-            background: #fff; color: #000; font-weight: 900;
-        }
-        .filter-btn span { font-size: 0.6rem; text-transform: uppercase; color: #ccc; }
+        .grid-scroll::-webkit-scrollbar { display: none; }
 
-        /* GRID E CARDS */
-        .section { max-width: 1400px; margin: 0 auto; padding: 20px 5%; }
-        .grid { 
+        /* GRID PARA FILTROS (FIXO) */
+        .grid-fixed { 
             display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-            gap: 20px; 
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
+            gap: 15px; 
+            padding: 0 5%; 
+            width: 100%;
         }
 
-        .product { 
-            background: var(--card-bg); 
-            padding: 12px; 
-            border-radius: 20px; 
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.05);
+        .nav-arrow {
+            position: absolute; top: 40%; transform: translateY(-50%);
+            background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
+            color: #fff; width: 40px; height: 40px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 10; backdrop-filter: blur(5px); transition: 0.3s;
         }
+        .nav-arrow:hover { background: #fff; color: #000; }
+        .arrow-left { left: 15px; }
+        .arrow-right { right: 15px; }
 
-        .product img { width: 100%; height: 250px; object-fit: cover; border-radius: 15px; margin-bottom: 12px; }
-        .product h3 { font-size: 0.9rem; margin-bottom: 5px; height: 35px; overflow: hidden; }
-        .price { font-weight: 800; font-size: 1.2rem; margin-bottom: 12px; display: block; }
+        .product { background: var(--card-bg); padding: 10px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; transition: 0.3s; }
+        .grid-scroll .product { flex: 0 0 200px; scroll-snap-align: start; }
+        .product:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-5px); }
 
-        /* TAMANHOS */
-        .size-selector { display: flex; gap: 4px; margin-bottom: 12px; }
-        .size-selector div { flex: 1; }
-        .size-selector label {
-            display: block; text-align: center; padding: 6px 0;
-            border: 1px solid #333; border-radius: 8px;
-            font-size: 0.65rem; background: #222;
-        }
+        .product-img-container { width: 100%; height: 200px; border-radius: 12px; overflow: hidden; margin-bottom: 10px; background: #222; }
+        .product img { width: 100%; height: 100%; object-fit: cover; }
+
+        .product h3 { font-size: 0.75rem; margin-bottom: 4px; height: 32px; overflow: hidden; color: #eee; }
+        .price { font-weight: 800; font-size: 1rem; margin-bottom: 10px; display: block; color: #fff; }
+        
+        .size-selector { display: flex; gap: 3px; margin-bottom: 10px; }
+        .size-selector label { flex: 1; text-align: center; padding: 5px 0; border: 1px solid #333; border-radius: 6px; font-size: 0.55rem; background: #222; cursor: pointer; color: #fff; }
+        .size-selector input { display: none; }
         .size-selector input:checked + label { background: #fff; color: #000; }
 
-        /* BOTÕES */
-        .actions { display: flex; gap: 5px; }
-        .actions button { 
-            flex: 1; padding: 12px 5px; border: none; 
-            font-weight: 800; border-radius: 10px; font-size: 0.7rem; 
-        }
+        .actions { display: flex; gap: 4px; margin-top: auto; }
+        .actions button { flex: 1; padding: 9px 0; border: none; font-weight: 800; border-radius: 8px; font-size: 0.6rem; cursor: pointer; }
         .add { background: #333; color: #fff; }
         .buy { background: #fff; color: #000; }
 
-        /* WHATSAPP FLOAT */
-        .whats-float {
-            position: fixed; bottom: 20px; right: 20px;
-            background: #25D366; width: 55px; height: 55px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            z-index: 999; color: white; font-size: 28px; text-decoration: none;
-        }
-
-        /* AJUSTES ESPECÍFICOS PARA MOBILE */
-        @media (max-width: 600px) {
-            .grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-            .product { padding: 8px; border-radius: 15px; }
-            .product img { height: 160px; border-radius: 10px; }
-            .product h3 { font-size: 0.75rem; height: 30px; }
-            .price { font-size: 1rem; }
-            .size-selector label { padding: 4px 0; font-size: 0.6rem; }
-            .actions button { padding: 10px 2px; font-size: 0.6rem; }
-            .filters { justify-content: flex-start; }
-            header img { height: 25px; }
-        }
-
-        /* CARRINHO */
-        .cart {
-            position: fixed; right: -100%; top: 0; width: 100%; max-width: 350px; height: 100%;
-            background: #000; padding: 30px 20px; transition: var(--transition); z-index: 2000;
-        }
+        .whats-float { position: fixed; bottom: 20px; left: 20px; background: #25D366; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 999; color: white; font-size: 24px; text-decoration: none; }
+        .cart { position: fixed; right: -100%; top: 0; width: 100%; max-width: 350px; height: 100%; background: #000; padding: 25px; transition: var(--transition); z-index: 2000; border-left: 1px solid #333; }
         .cart.show { right: 0; }
+
+        @media (max-width: 600px) {
+            .nav-arrow { display: none; }
+            .grid-fixed { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .grid-scroll .product { flex: 0 0 170px; }
+            .product-img-container { height: 170px; }
+        }
+        @media (min-width: 1024px) {
+            .grid-scroll .product { flex: 0 0 240px; }
+            .product-img-container { height: 260px; }
+            .grid-fixed { grid-template-columns: repeat(5, 1fr); }
+        }
     </style>
 </head>
 <body>
@@ -192,55 +115,44 @@
 <header>
     <div class="header-top">
         <img src="logo.jpg" alt="B2 STREET">
-        <button class="cart-btn" onclick="toggleCart()">
-            🛒 <span id="count">0</span>
-        </button>
+        <button class="cart-btn" onclick="toggleCart()">🛒 <span id="count">0</span></button>
     </div>
     <div class="search-box">
-        <input type="text" id="searchInput" placeholder="O que você está procurando?" onkeyup="search()">
+        <input type="text" id="searchInput" placeholder="O que você procura?" onkeyup="search()">
     </div>
 </header>
 
-<a href="https://wa.me/5519989620949" class="whats-float" target="_blank">
-    <i class="fab fa-whatsapp"></i>
-</a>
+<a href="https://wa.me/5519989620949" class="whats-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
 <div class="filters">
-    <div class="filter-btn" onclick="filterProducts('tenis')">
-        <img src="tenis.webp" alt="Tênis">
-        <span>Tênis</span>
+    <div class="filter-btn" onclick="renderByCategory('tenis')">
+        <img src="tenis.webp"><span>Tênis</span>
     </div>
-    <div class="filter-btn" onclick="filterProducts('roupas')">
-        <img src="roupas.jfif" alt="Roupas">
-        <span>Roupas</span>
+    <div class="filter-btn" onclick="renderByCategory('roupas')">
+        <img src="roupas.jfif"><span>Roupas</span>
     </div>
-    <div class="filter-btn" onclick="filterProducts('relogios')">
-        <img src="relogios.jfif" alt="Relógios">
-        <span>Relógios</span>
+    <div class="filter-btn" onclick="renderByCategory('relogios')">
+        <img src="relogios.jfif"><span>Relógios</span>
     </div>
-    <div class="filter-btn" onclick="renderProducts(products)">
-        <div class="filter-all-icon">ALL</div>
-        <span>Todos</span>
+    <div class="filter-btn" onclick="renderAll()">
+        <div class="filter-all-icon">ALL</div><span>Todos</span>
     </div>
 </div>
 
 <div class="cart" id="cart">
-    <button onclick="toggleCart()" style="background:none; border:none; color:#fff; font-size:1.5rem; float:right;">✕</button>
+    <button onclick="toggleCart()" style="background:none; border:none; color:#fff; font-size:1.5rem; float:right; cursor:pointer;">✕</button>
     <h2 style="margin-bottom:20px;">Carrinho</h2>
-    <div id="cartItems" style="max-height: 70vh; overflow-y: auto;"></div>
+    <div id="cartItems"></div>
     <div style="position: absolute; bottom: 20px; left: 20px; right: 20px;">
         <h3 id="cartTotal" style="margin-bottom:15px;">Total: R$ 0,00</h3>
-        <button onclick="checkout()" style="width:100%; padding:15px; background:var(--accent); border:none; color:#fff; font-weight:800; border-radius:10px;">Finalizar via WhatsApp</button>
+        <button onclick="checkout()" style="width:100%; padding:15px; background:var(--accent); border:none; color:#fff; font-weight:800; border-radius:10px; cursor:pointer;">Finalizar Pedido</button>
     </div>
 </div>
 
-<section class="section">
-    <div class="grid" id="products"></div>
-</section>
+<div id="main-content"></div>
 
 <script>
 const WHATS = "5519989620949";
-// Lista de produtos simplificada para o exemplo, mantenha a sua lista original completa aqui
 const products = [
     ["IMG_9064.JPG","Nike NOCTA Hot Step 2 White",630.00, "tenis", "🔥 Hype"],
     ["air max95 x corteiz.jpg","Air max 95 x Corteiz",349.90, "tenis", ""],
@@ -253,36 +165,36 @@ const products = [
     ["Nike TN.jpg","Nike TN",329.90, "tenis", ""],
     ["calça cargo corteiz 1.jpg","calça cargo corteiz",249.90, "roupas", ""],
     ["calça cargo corteiz 2.jpg","calça cargo corteiz grey",249.90, "roupas", ""],
+    ["nike tech flecee branca 2.jpg","nike tech flecee calça branca",325.90, "roupas", ""],
+    ["nike tech flecee gray 2.jpg","nike tech flecee calça cinza",325.90, "roupas", ""],
+    ["nike tech flecee preta 2.jpg","nike tech flecee calça preta",325.90, "roupas", ""],
+    ["syna x nike tech fleece 2.jpg","syna x nike tech fleece calça",329.90, "roupas", ""],
     ["shorts cargo corteiz 1.jpg","shorts cargo corteiz",199.90, "roupas", ""],
     ["shorts cargo corteiz 2.jpg","shorts cargo corteiz green",199.90, "roupas", ""],
     ["shorts cargo corteiz 3.jpg","shorts cargo corteiz blue",199.90, "roupas", ""],
-    ["hellstar 1.jpg","hellstar black",285.90, "roupas", ""],
-    ["hellstar 2.jpg","hellstar white",285.90, "roupas", ""],
-    ["hellstar 3.jpg","hellstar red",285.90, "roupas", ""],
+    ["syna shorts 1.jpg","syna shorts pink",284.90, "roupas", ""],
+    ["syna shorts 2.jpg","syna shorts black",284.90, "roupas", ""],
+    ["shorts corteiz moletom basico.jpg","Shorts Corteiz Moletom Básico",74.90, "roupas", ""],
+    ["hellstar 1.jpg","hellstar black tshirt",285.90, "roupas", ""],
+    ["hellstar 2.jpg","hellstar white tshirt",285.90, "roupas", ""],
+    ["hellstar 3.jpg","hellstar red tshirt",285.90, "roupas", ""],
     ["minus two1.jpg","minus two blue",225.90, "roupas", ""],
     ["minus two 2.jpg","minus two yellow",225.90, "roupas", ""],
     ["minus two 3.jpg","minus two pink",225.90, "roupas", ""],
     ["minus two 4.jpg","minus two red",225.90, "roupas", ""],
     ["nike tech flecee branca 1.jpg","nike tech flecee branca",384.90, "roupas", ""],
-    ["nike tech flecee branca 2.jpg","nike tech flecee calça branca",325.90, "roupas", ""],
     ["nike tech flecee gray 1.jpg","nike tech flecee cinza",384.90, "roupas", ""],
-    ["nike tech flecee gray 2.jpg","nike tech flecee calça cinza",325.90, "roupas", ""],
     ["nike tech flecee preta 1.jpg","nike tech flecee preta",384.90, "roupas", ""],
-    ["nike tech flecee preta 2.jpg","nike tech flecee calça preta",325.90, "roupas", ""],
     ["denim tears 1.jpg","denim tears black",269.90, "roupas", ""],
     ["denim tears 2.jpg","denim tears grey",269.90, "roupas", ""],
-    ["syna shorts 1.jpg","syna shorts pink",284.90, "roupas", ""],
-    ["syna shorts 2.jpg","syna shorts black",284.90, "roupas", ""],
     ["syna kit1.jpg","syna kit blue",539.90, "roupas", ""],
     ["syna kit2.jpg","syna kit green",539.90, "roupas", ""],
     ["syna x nike tech fleece 1.jpg","syna x nike tech fleece 1",389.90, "roupas", ""],
-    ["syna x nike tech fleece 2.jpg","syna x nike tech fleece calça",329.90, "roupas", ""],
     ["IMG_9167.jpeg","Regatas Corteiz",94.90, "roupas", ""],
     ["camisa corteiz basica.jpg","Camisa Corteiz Básica",89.90, "roupas", ""],
     ["camisa corteiz brasil.jpg","Camisa Corteiz Brasil",89.90, "roupas", ""],
     ["camisa corteiz oversized.jpg","Camisa Corteiz Oversized",89.90, "roupas", ""],
     ["corteiz rules the world.jpg","Corteiz Rules The World",76.90, "roupas", ""],
-    ["shorts corteiz moletom basico.jpg","Shorts Corteiz Moletom Básico",74.90, "roupas", ""],
     ["conjunto syna amarelo.png","conjunto syna amarelo",129.90, "roupas", ""],
     ["conjunto denim tears preto.jpg","conjunto denim tears preto",119.90, "roupas", ""],
     ["conjunto denim tears cinza.jpg","conjunto denim tears cinza",119.90, "roupas", ""],
@@ -292,49 +204,100 @@ const products = [
 
 let cart = [];
 
-function renderProducts(list) {
-    const grid = document.getElementById("products");
-    grid.innerHTML = "";
-    list.forEach((p) => {
-        const originalIdx = products.findIndex(item => item[1] === p[1]);
-        const sizes = p[3] === 'tenis' ? ['38','40','42','44'] : ['P','M','G','GG'];
-        grid.innerHTML += `
-        <div class="product">
-            ${p[4] ? `<div class="badge" style="background:#fff; color:#000; position:absolute; top:15px; left:15px; padding:3px 8px; border-radius:5px; font-size:0.6rem; font-weight:800;">${p[4]}</div>` : ''}
-            <img src="${p[0]}" loading="lazy">
-            <h3>${p[1]}</h3>
-            <span class="price">R$ ${p[2].toFixed(2).replace('.',',')}</span>
-            <div class="size-selector">
-                ${sizes.map(s => `
-                    <div>
-                        <input type="radio" name="size-${originalIdx}" id="s-${originalIdx}-${s}" value="${s}">
-                        <label for="s-${originalIdx}-${s}">${s}</label>
-                    </div>
-                `).join('')}
-            </div>
-            <div class="actions">
-                <button class="add" onclick="addToCart(${originalIdx})">Carrinho</button>
-                <button class="buy" onclick="buyNow(${originalIdx})">Comprar</button>
-            </div>
-        </div>`;
-    });
+function createProductCard(p) {
+    const originalIdx = products.findIndex(item => item[1] === p[1]);
+    const sizes = p[3] === 'tenis' ? ['38','40','42','44'] : ['P','M','G','GG'];
+    return `
+    <div class="product">
+        <div class="product-img-container"><img src="${p[0]}" loading="lazy"></div>
+        <h3>${p[1]}</h3>
+        <span class="price">R$ ${p[2].toFixed(2).replace('.',',')}</span>
+        <div class="size-selector">
+            ${sizes.map(s => `
+                <input type="radio" name="sz-${originalIdx}" id="sz-${originalIdx}-${s}" value="${s}">
+                <label for="sz-${originalIdx}-${s}">${s}</label>
+            `).join('')}
+        </div>
+        <div class="actions">
+            <button class="add" onclick="addToCart(${originalIdx})">ADD</button>
+            <button class="buy" onclick="buyNow(${originalIdx})">BUY</button>
+        </div>
+    </div>`;
+}
+
+function scrollCat(btn, direction) {
+    const grid = btn.parentElement.querySelector('.grid-scroll');
+    grid.scrollBy({ left: direction * (window.innerWidth < 600 ? 200 : 400), behavior: 'smooth' });
+}
+
+function renderSection(title, list, isScroll) {
+    if (list.length === 0) return;
+    const container = document.getElementById("main-content");
+    container.innerHTML += `
+    <div class="category-row">
+        <h2 class="category-title">${title}</h2>
+        <div class="scroll-wrapper">
+            ${isScroll ? `
+                <button class="nav-arrow arrow-left" onclick="scrollCat(this, -1)">❮</button>
+                <div class="grid-scroll">${list.map(p => createProductCard(p)).join('')}</div>
+                <button class="nav-arrow arrow-right" onclick="scrollCat(this, 1)">❯</button>
+            ` : `
+                <div class="grid-fixed">${list.map(p => createProductCard(p)).join('')}</div>
+            `}
+        </div>
+    </div>`;
+}
+
+function renderAll() {
+    const container = document.getElementById("main-content");
+    container.innerHTML = "";
+    
+    renderSection("Tênis", products.filter(p => p[3] === 'tenis'), true);
+
+    const roupas = products.filter(p => p[3] === 'roupas');
+    const calcas = roupas.filter(p => p[1].toLowerCase().includes('calça') || p[1].toLowerCase().includes('minus two'));
+    const shorts = roupas.filter(p => p[1].toLowerCase().includes('shorts') || p[1].toLowerCase().includes('hellstar'));
+    const camisas = roupas.filter(p => 
+        !p[1].toLowerCase().includes('calça') && !p[1].toLowerCase().includes('minus two') && 
+        !p[1].toLowerCase().includes('shorts') && !p[1].toLowerCase().includes('hellstar')
+    );
+
+    renderSection("Camisas e Conjuntos", camisas, true);
+    renderSection("Calças", calcas, true);
+    renderSection("Shorts", shorts, true);
+    renderSection("Relógios", products.filter(p => p[3] === 'relogios'), true);
+}
+
+function renderByCategory(cat) {
+    const container = document.getElementById("main-content");
+    container.innerHTML = "";
+    const filtered = products.filter(p => p[3] === cat);
+    
+    if (cat === 'roupas') {
+        const calcas = filtered.filter(p => p[1].toLowerCase().includes('calça') || p[1].toLowerCase().includes('minus two'));
+        const shorts = filtered.filter(p => p[1].toLowerCase().includes('shorts') || p[1].toLowerCase().includes('hellstar'));
+        const camisas = filtered.filter(p => !p[1].toLowerCase().includes('calça') && !p[1].toLowerCase().includes('minus two') && !p[1].toLowerCase().includes('shorts') && !p[1].toLowerCase().includes('hellstar'));
+        
+        renderSection("Camisas e Conjuntos", camisas, false);
+        renderSection("Calças", calcas, false);
+        renderSection("Shorts", shorts, false);
+    } else {
+        renderSection(cat.toUpperCase(), filtered, false);
+    }
 }
 
 function search() {
     const term = document.getElementById("searchInput").value.toLowerCase();
     const filtered = products.filter(p => p[1].toLowerCase().includes(term));
-    renderProducts(filtered);
-}
-
-function filterProducts(category) {
-    const filtered = products.filter(p => p[3] === category);
-    renderProducts(filtered);
+    const container = document.getElementById("main-content");
+    container.innerHTML = "";
+    renderSection(term ? "Resultados para: " + term : "Todos os Produtos", filtered, false);
 }
 
 function toggleCart() { document.getElementById("cart").classList.toggle("show"); }
 
 function addToCart(i) {
-    const radio = document.querySelector(`input[name="size-${i}"]:checked`);
+    const radio = document.querySelector(`input[name="sz-${i}"]:checked`);
     if(!radio) { alert("Escolha o tamanho!"); return; }
     cart.push({ nome: products[i][1], preco: products[i][2], tamanho: radio.value });
     renderCart();
@@ -343,35 +306,32 @@ function addToCart(i) {
 
 function renderCart() {
     const box = document.getElementById("cartItems");
-    const totalBox = document.getElementById("cartTotal");
-    box.innerHTML = "";
-    let total = 0;
+    let total = 0; box.innerHTML = "";
     cart.forEach((item, idx) => {
         total += item.preco;
-        box.innerHTML += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; padding-bottom:10px; border-bottom:1px solid #222;">
-            <div><p style="font-size:0.8rem;"><b>${item.nome}</b></p><small>Tam: ${item.tamanho} | R$ ${item.preco.toFixed(2)}</small></div>
-            <button onclick="cart.splice(${idx},1); renderCart();" style="background:none; border:none; color:red; font-weight:800;">X</button>
+        box.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:15px; border-bottom:1px solid #222; padding-bottom:10px;">
+            <div><p style="font-size:0.85rem;"><b>${item.nome}</b></p><small>Tam: ${item.tamanho} | R$ ${item.preco.toFixed(2)}</small></div>
+            <button onclick="cart.splice(${idx},1); renderCart();" style="background:none; border:none; color:red; font-weight:800; cursor:pointer;">X</button>
         </div>`;
     });
     document.getElementById("count").innerText = cart.length;
-    totalBox.innerText = `Total: R$ ${total.toFixed(2).replace('.',',')}`;
+    document.getElementById("cartTotal").innerText = `Total: R$ ${total.toFixed(2).replace('.',',')}`;
 }
 
 function checkout() {
     if(cart.length === 0) return;
-    let msg = "🚀 *PEDIDO B2 STREET*:%0A%0A";
+    let msg = "🚀 *PEDIDO B2 STREET*:%0A";
     cart.forEach(item => msg += `• ${item.nome} (${item.tamanho})%0A`);
-    msg += `%0A💰 *TOTAL: R$ ${cart.reduce((a,b)=>a+b.preco,0).toFixed(2)}*`;
     window.open(`https://wa.me/${WHATS}?text=${msg}`, "_blank");
 }
 
 function buyNow(i) {
-    const radio = document.querySelector(`input[name="size-${i}"]:checked`);
-    const tam = radio ? radio.value : "Não selecionado";
-    window.open(`https://wa.me/${WHATS}?text=Olá! Gostaria de comprar o produto: ${products[i][1]} (Tamanho: ${tam})`, "_blank");
+    const radio = document.querySelector(`input[name="sz-${i}"]:checked`);
+    const tam = radio ? radio.value : "N/A";
+    window.open(`https://wa.me/${WHATS}?text=Quero comprar: ${products[i][1]} (Tam: ${tam})`, "_blank");
 }
 
-renderProducts(products);
+renderAll();
 </script>
 </body>
 </html>
