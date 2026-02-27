@@ -3,247 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>B2 Street</title>
+    <title>B2 Street | Urban Premium</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif}
+        :root {
+            --primary: #fff;
+            --accent: #25D366;
+            --bg-dark: #000;
+            --card-bg: #1a1a1a; /* CINZA GRAFITE */
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        *{margin:0;padding:0;box-sizing:border-box;font-family: 'Plus Jakarta Sans', sans-serif}
 
         body{
-            background:#000;
-            color:#111;
+            background: var(--bg-dark);
+            color: #fff;
+            overflow-x: hidden;
         }
+
         body::before{
             content:"";
             position:fixed;
             inset:0;
-            background:url('fundo.jpg') center/cover no-repeat;
-            filter:brightness(.18);
+            background: url('fundo.jpg') center/cover no-repeat;
+            filter: brightness(0.2);
             z-index:-1;
         }
 
         header{
-            height:90px;
-            background:rgba(0,0,0,.85);
-            backdrop-filter:blur(6px);
+            height:85px;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(15px);
             display:flex;
             align-items:center;
             justify-content:space-between;
-            padding:0 40px;
-            border-bottom:1px solid #111;
+            padding:0 5%;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
         }
-        header img{height:48px}
+        header img{ height:35px; }
+
+        .search-box {
+            flex: 1;
+            max-width: 350px;
+            margin: 0 20px;
+            position: relative;
+        }
+        .search-box input {
+            width: 100%;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 12px 15px 12px 45px;
+            border-radius: 14px;
+            color: #fff;
+            outline: none;
+        }
+        .search-box::before { content: '🔍'; position: absolute; left: 15px; top: 50%; transform: translateY(-50%); opacity: 0.5; }
 
         .cart-btn{
-            background:#fff;
-            color:#000;
+            background: var(--primary);
+            color: #000;
             border:none;
-            padding:12px 22px;
+            padding:12px 20px;
             font-weight:800;
             cursor:pointer;
-            border-radius:40px;
-            letter-spacing:.5px;
-            transition:.3s;
-        }
-        .cart-btn:hover{ transform:scale(1.05); }
-
-        .hero{
-            height:340px;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            text-align:center;
-            color:#fff;
+            border-radius:14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
         }
 
-        .hero img{
-            max-width:320px;
-            width:90%;
-        }
-
-        /* ESTILO DOS BOTÕES DE FILTRO */
+        /* FILTROS */
         .filters {
             display: flex;
             justify-content: center;
             gap: 20px;
             padding: 20px;
             flex-wrap: wrap;
+            margin-bottom: 20px;
         }
         .filter-btn {
-            width: 120px;
             cursor: pointer;
             text-align: center;
             transition: 0.3s;
+            width: 90px;
         }
-        .filter-btn:hover { transform: scale(1.1); }
-        .filter-btn img {
-            width: 80px;
-            height: 80px;
+        .filter-btn:hover { transform: translateY(-5px); }
+        .filter-btn img, .filter-all-icon {
+            width: 65px;
+            height: 65px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid #fff;
+            border: 2px solid rgba(255,255,255,0.2);
             margin-bottom: 8px;
+            background: #fff;
+        }
+        .filter-all-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: 900;
         }
         .filter-btn span {
-            color: #fff;
+            color: #ccc;
             display: block;
-            font-weight: 800;
-            font-size: 0.8rem;
+            font-weight: 600;
+            font-size: 0.65rem;
             text-transform: uppercase;
         }
 
-        .section{
-            max-width:1350px;
-            margin:40px auto;
-            padding:0 30px;
+        /* CARDS */
+        .section{ max-width:1400px; margin:20px auto; padding:0 5%; }
+        .grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:25px; }
+
+        .product{ 
+            background: var(--card-bg); 
+            padding: 15px; 
+            border-radius: 24px; 
+            display: flex; 
+            flex-direction: column; 
+            transition: var(--transition);
+            position: relative;
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.05);
         }
-        .section h2{
-            color:#fff;
-            margin-bottom:35px;
-            font-size:2.4rem;
-            font-weight:900;
-            letter-spacing:2px;
+        .product:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.8); border-color: rgba(255,255,255,0.1); }
+
+        .badge {
+            position: absolute; top: 25px; left: 25px;
+            background: #fff; color: #000;
+            padding: 5px 12px; border-radius: 8px;
+            font-size: 0.65rem; font-weight: 800; text-transform: uppercase;
+            z-index: 10;
         }
 
-        .grid{
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-            gap:30px;
-        }
+        .product img{ width:100%; height:280px; object-fit:cover; border-radius:18px; margin-bottom: 15px; background: #222; }
+        .product h3{ font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; height: 40px; color: #eee; }
+        
+        /* PREÇO EM BRANCO */
+        .price{ font-weight: 800; font-size: 1.3rem; margin-bottom: 15px; display: block; color: #fff; }
 
-        .product{
-            background:#fff;
-            padding:20px;
-            border-radius:16px;
-            display:flex;
-            flex-direction:column;
-            transition:.35s;
+        .size-selector { display: flex; gap: 5px; margin-bottom: 15px; }
+        .size-selector div { flex: 1; }
+        .size-selector label {
+            display: block; text-align: center; padding: 8px;
+            border: 1px solid #333; border-radius: 10px;
+            font-size: 0.7rem; cursor: pointer; font-weight: 700;
+            transition: 0.2s; background: #222; color: #fff;
         }
-        .product:hover{
-            transform:translateY(-10px);
-            box-shadow:0 30px 60px rgba(0,0,0,.6);
-        }
-        .product img{
-            width:100%;
-            height:250px;
-            object-fit:cover;
-            border-radius:12px;
-            margin-bottom:10px;
-        }
-        .product h3{
-            font-size:1rem;
-            font-weight:600;
-            margin:10px 0;
-            min-height:40px;
-        }
-        .price{
-            font-weight:900;
-            font-size:1.1rem;
-            margin-bottom:12px;
-        }
+        .size-selector input:checked + label { background: #fff; color: #000; border-color: #fff; }
 
-        .actions{
-            display:flex;
-            gap:10px;
-            margin-top:auto;
-        }
-        .actions button{
-            flex:1;
-            padding:13px;
-            border:none;
-            font-weight:800;
-            cursor:pointer;
-            border-radius:30px;
-            transition:.3s;
-        }
+        .actions{ display:flex; gap:8px; }
+        .actions button{ flex:1; padding: 14px; border:none; font-weight:800; cursor:pointer; border-radius:12px; transition: var(--transition); }
+        .add { background: #333; color: #fff; }
+        .buy { background: #fff; color: #000; }
 
-        .add{ background:#000;color:#fff; }
-        .add:hover{ background:#222; }
-
-        .buy{ background:#25D366;color:#fff; }
-        .buy:hover{ transform:scale(1.05); }
-
+        /* CARRINHO */
         .cart{
-            position:fixed;
-            right:-380px;
-            top:0;
-            width:350px;
-            height:100%;
-            background:#fff;
-            padding:25px;
-            transition:.4s;
-            overflow:auto;
-            z-index:999;
-            box-shadow:-10px 0 40px rgba(0,0,0,.5);
+            position:fixed; right:-100%; top:0; width: 100%; max-width: 400px; height:100%;
+            background: #000; color: #fff; padding:40px 30px; transition: var(--transition);
+            z-index:2000; border-left: 1px solid #222;
         }
         .cart.show{ right:0; }
-
-        .cart-close{
-            position:absolute;
-            top:15px;
-            right:15px;
-            background:#000;
-            color:#fff;
-            border:none;
-            width:32px;
-            height:32px;
-            border-radius:50%;
-            font-weight:900;
-            cursor:pointer;
+        .cart-close{ position:absolute; top:20px; right:20px; background:#222; border:none; color:#fff; width:35px; height:35px; border-radius:50%; cursor:pointer; }
+        
+        .whats-float {
+            position: fixed; bottom: 30px; left: 30px;
+            background: #25D366; width: 60px; height: 60px;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            z-index: 900; color: white; font-size: 32px; text-decoration: none;
         }
 
-        .cart h2{
-            font-size:1.6rem;
-            margin-bottom:20px;
-        }
-
-        .cart-item{
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            margin:12px 0;
-            font-size:.95rem;
-            border-bottom:1px solid #eee;
-            padding-bottom:8px;
-        }
-
-        .remove{
-            background:#ff4444;
-            color:#fff;
-            border:none;
-            padding:5px 9px;
-            cursor:pointer;
-            border-radius:4px;
-        }
-
-        .checkout{
-            margin-top:25px;
-            width:100%;
-            padding:16px;
-            background:#25D366;
-            border:none;
-            color:#fff;
-            font-weight:900;
-            cursor:pointer;
-            border-radius:40px;
-            font-size:1rem;
+        @media (max-width: 768px) {
+            .search-box { display: none; }
+            .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+            .product img { height: 180px; }
         }
     </style>
 </head>
-
 <body>
 
 <header>
-    <img src="logo.jpg">
-    <button class="cart-btn" onclick="toggleCart()">Carrinho (<span id="count">0</span>)</button>
+    <img src="logo.jpg" alt="B2 STREET">
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Buscar no Drop..." onkeyup="search()">
+    </div>
+    <button class="cart-btn" onclick="toggleCart()">
+        🛒 (<span id="count">0</span>)
+    </button>
 </header>
 
-<section class="hero">
-    <img src="b2street.jpg.PNG" alt="B2 Street">
+<a href="https://wa.me/5519989620949" class="whats-float" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+<section class="section" style="text-align:center; padding-top: 20px;">
+    <img src="b2street.jpg.PNG" style="max-width: 180px; margin-bottom: 20px;">
 </section>
 
 <div class="filters">
@@ -260,157 +223,161 @@
         <span>Relógios</span>
     </div>
     <div class="filter-btn" onclick="renderProducts(products)">
-        <div style="width:80px; height:80px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; margin:0 auto 8px; border:3px solid #fff; color:#000; font-weight:900;">ALL</div>
+        <div class="filter-all-icon">ALL</div>
         <span>Todos</span>
     </div>
 </div>
 
 <div class="cart" id="cart">
     <button class="cart-close" onclick="toggleCart()">✕</button>
-
     <h2>Seu Carrinho</h2>
-    <div id="cartItems"></div>
-    <button class="checkout" onclick="checkout()">Finalizar no WhatsApp</button>
+    <div id="cartItems" style="margin-top: 20px;"></div>
+    <div style="position: absolute; bottom: 30px; left: 30px; right: 30px;">
+        <div id="cartTotal" style="font-size: 1.3rem; font-weight: 800; margin-bottom: 15px;">Total: R$ 0,00</div>
+        <button onclick="checkout()" style="width:100%; padding:18px; background:var(--accent); border:none; color:#fff; font-weight:800; border-radius:15px; cursor:pointer;">Finalizar Pedido</button>
+    </div>
 </div>
 
 <section class="section">
-    <h2 id="sectionTitle">PRODUTOS</h2>
+    <h2 id="sectionTitle">DROP DISPONÍVEL</h2>
     <div class="grid" id="products"></div>
 </section>
 
 <script>
 const WHATS = "5519989620949";
-
-// Organizei as categorias para o filtro funcionar
+// Lista de produtos mantida conforme original
 const products = [
-    ["IMG_9064.JPG","Nike NOCTA Hot Step 2 White",630.00, "tenis"],
-    ["air max95 x corteiz.jpg","Air max 95 x Corteiz",349.90, "tenis"],
-    ["nike DN white.jpg","Nike DN white",354.90, "tenis"],
-    ["nike-dn-preto.jpg","Nike DN black",354.90, "tenis"],
-    ["nocta glide.jpg","Nike nocta glide",359.90, "tenis"],
-    ["nike-air-force.jpg","Nike air force black",249.90, "tenis"],
-    ["bota timberland.jpg","Bota Timberland",359.90, "tenis"],
-    ["Asics gel NYC.jpg","Asics gel NYC",449.90, "tenis"],
-    ["Nike TN.jpg","Nike TN",329.90, "tenis"],
-    ["calça cargo corteiz 1.jpg","calça cargo corteiz",249.90, "roupas"],
-    ["calça cargo corteiz 2.jpg","calça cargo corteiz grey",249.90, "roupas"],
-    ["shorts cargo corteiz 1.jpg","shorts cargo corteiz",199.90, "roupas"],
-    ["shorts cargo corteiz 2.jpg","shorts cargo corteiz green",199.90, "roupas"],
-    ["shorts cargo corteiz 3.jpg","shorts cargo corteiz blue",199.90, "roupas"],
-    ["hellstar 1.jpg","hellstar black",285.90, "roupas"],
-    ["hellstar 2.jpg","hellstar white",285.90, "roupas"],
-    ["hellstar 3.jpg","hellstar red",285.90, "roupas"],
-    ["minus two1.jpg","minus two blue",225.90, "roupas"],
-    ["minus two 2.jpg","minus two yellow",225.90, "roupas"],
-    ["minus two 3.jpg","minus two pink",225.90, "roupas"],
-    ["minus two 4.jpg","minus two red",225.90, "roupas"],
-    ["nike tech flecee branca 1.jpg","nike tech flecee branca",384.90, "roupas"],
-    ["nike tech flecee branca 2.jpg","nike tech flecee calça branca",325.90, "roupas"],
-    ["nike tech flecee gray 1.jpg","nike tech flecee cinza",384.90, "roupas"],
-    ["nike tech flecee gray 2.jpg","nike tech flecee calça cinza",325.90, "roupas"],
-    ["nike tech flecee preta 1.jpg","nike tech flecee preta",384.90, "roupas"],
-    ["nike tech flecee preta 2.jpg","nike tech flecee calça preta",325.90, "roupas"],
-    ["denim tears 1.jpg","denim tears black",269.90, "roupas"],
-    ["denim tears 2.jpg","denim tears grey",269.90, "roupas"],
-    ["syna shorts 1.jpg","syna shorts pink",284.90, "roupas"],
-    ["syna shorts 2.jpg","syna shorts black",284.90, "roupas"],
-    ["syna kit1.jpg","syna kit blue",539.90, "roupas"],
-    ["syna kit2.jpg","syna kit green",539.90, "roupas"],
-    ["syna x nike tech fleece 1.jpg","syna x nike tech fleece 1",389.90, "roupas"],
-    ["syna x nike tech fleece 2.jpg","syna x nike tech fleece calça",329.90, "roupas"],
-    ["IMG_9167.jpeg","Regatas Corteiz",94.90, "roupas"],
-    ["camisa corteiz basica.jpg","Camisa Corteiz Básica",89.90, "roupas"],
-    ["camisa corteiz brasil.jpg","Camisa Corteiz Brasil",89.90, "roupas"],
-    ["camisa corteiz oversized.jpg","Camisa Corteiz Oversized",89.90, "roupas"],
-    ["corteiz rules the world.jpg","Corteiz Rules The World",76.90, "roupas"],
-    ["shorts corteiz moletom basico.jpg","Shorts Corteiz Moletom Básico",74.90, "roupas"],
-    ["conjunto syna amarelo.png","conjunto syna amarelo",129.90, "roupas"],
-    ["conjunto denim tears preto.jpg","conjunto denim tears preto",119.90, "roupas"],
-    ["conjunto denim tears cinza.jpg","conjunto denim tears cinza",119.90, "roupas"],
-    ["moletom nocta.png","moletom nocta",94.90, "roupas"],
-    ["moletom syna.png","moletom syna",129.90, "roupas"]
+    ["IMG_9064.JPG","Nike NOCTA Hot Step 2 White",630.00, "tenis", "🔥 Hype"],
+    ["air max95 x corteiz.jpg","Air max 95 x Corteiz",349.90, "tenis", ""],
+    ["nike DN white.jpg","Nike DN white",354.90, "tenis", ""],
+    ["nike-dn-preto.jpg","Nike DN black",354.90, "tenis", ""],
+    ["nocta glide.jpg","Nike nocta glide",359.90, "tenis", ""],
+    ["nike-air-force.jpg","Nike air force black",249.90, "tenis", ""],
+    ["bota timberland.jpg","Bota Timberland",359.90, "tenis", ""],
+    ["Asics gel NYC.jpg","Asics gel NYC",449.90, "tenis", "⭐ Luxo"],
+    ["Nike TN.jpg","Nike TN",329.90, "tenis", ""],
+    ["calça cargo corteiz 1.jpg","calça cargo corteiz",249.90, "roupas", ""],
+    ["calça cargo corteiz 2.jpg","calça cargo corteiz grey",249.90, "roupas", ""],
+    ["shorts cargo corteiz 1.jpg","shorts cargo corteiz",199.90, "roupas", ""],
+    ["shorts cargo corteiz 2.jpg","shorts cargo corteiz green",199.90, "roupas", ""],
+    ["shorts cargo corteiz 3.jpg","shorts cargo corteiz blue",199.90, "roupas", ""],
+    ["hellstar 1.jpg","hellstar black",285.90, "roupas", ""],
+    ["hellstar 2.jpg","hellstar white",285.90, "roupas", ""],
+    ["hellstar 3.jpg","hellstar red",285.90, "roupas", ""],
+    ["minus two1.jpg","minus two blue",225.90, "roupas", ""],
+    ["minus two 2.jpg","minus two yellow",225.90, "roupas", ""],
+    ["minus two 3.jpg","minus two pink",225.90, "roupas", ""],
+    ["minus two 4.jpg","minus two red",225.90, "roupas", ""],
+    ["nike tech flecee branca 1.jpg","nike tech flecee branca",384.90, "roupas", ""],
+    ["nike tech flecee branca 2.jpg","nike tech flecee calça branca",325.90, "roupas", ""],
+    ["nike tech flecee gray 1.jpg","nike tech flecee cinza",384.90, "roupas", ""],
+    ["nike tech flecee gray 2.jpg","nike tech flecee calça cinza",325.90, "roupas", ""],
+    ["nike tech flecee preta 1.jpg","nike tech flecee preta",384.90, "roupas", ""],
+    ["nike tech flecee preta 2.jpg","nike tech flecee calça preta",325.90, "roupas", ""],
+    ["denim tears 1.jpg","denim tears black",269.90, "roupas", ""],
+    ["denim tears 2.jpg","denim tears grey",269.90, "roupas", ""],
+    ["syna shorts 1.jpg","syna shorts pink",284.90, "roupas", ""],
+    ["syna shorts 2.jpg","syna shorts black",284.90, "roupas", ""],
+    ["syna kit1.jpg","syna kit blue",539.90, "roupas", ""],
+    ["syna kit2.jpg","syna kit green",539.90, "roupas", ""],
+    ["syna x nike tech fleece 1.jpg","syna x nike tech fleece 1",389.90, "roupas", ""],
+    ["syna x nike tech fleece 2.jpg","syna x nike tech fleece calça",329.90, "roupas", ""],
+    ["IMG_9167.jpeg","Regatas Corteiz",94.90, "roupas", ""],
+    ["camisa corteiz basica.jpg","Camisa Corteiz Básica",89.90, "roupas", ""],
+    ["camisa corteiz brasil.jpg","Camisa Corteiz Brasil",89.90, "roupas", ""],
+    ["camisa corteiz oversized.jpg","Camisa Corteiz Oversized",89.90, "roupas", ""],
+    ["corteiz rules the world.jpg","Corteiz Rules The World",76.90, "roupas", ""],
+    ["shorts corteiz moletom basico.jpg","Shorts Corteiz Moletom Básico",74.90, "roupas", ""],
+    ["conjunto syna amarelo.png","conjunto syna amarelo",129.90, "roupas", ""],
+    ["conjunto denim tears preto.jpg","conjunto denim tears preto",119.90, "roupas", ""],
+    ["conjunto denim tears cinza.jpg","conjunto denim tears cinza",119.90, "roupas", ""],
+    ["moletom nocta.png","moletom nocta",94.90, "roupas", ""],
+    ["moletom syna.png","moletom syna",129.90, "roupas", ""]
 ];
 
-const grid = document.getElementById("products");
+let cart = [];
 
-function renderProducts(productsList) {
+function renderProducts(list) {
+    const grid = document.getElementById("products");
     grid.innerHTML = "";
-    productsList.forEach((p) => {
-        // Encontrar o index original para o addToCart e buyNow funcionarem
-        const originalIndex = products.findIndex(item => item[1] === p[1]);
-        
+    list.forEach((p) => {
+        const originalIdx = products.findIndex(item => item[1] === p[1]);
+        const sizes = p[3] === 'tenis' ? ['38','40','42','44'] : ['P','M','G','GG'];
         grid.innerHTML += `
         <div class="product">
-            <img src="${p[0]}" alt="${p[1]}">
+            ${p[4] ? `<div class="badge">${p[4]}</div>` : ''}
+            <img src="${p[0]}" loading="lazy">
             <h3>${p[1]}</h3>
-            <p class="price">R$ ${p[2].toFixed(2).replace('.', ',')}</p>
+            <span class="price">R$ ${p[2].toFixed(2).replace('.',',')}</span>
+            <div class="size-selector">
+                ${sizes.map(s => `
+                    <div>
+                        <input type="radio" name="size-${originalIdx}" id="s-${originalIdx}-${s}" value="${s}">
+                        <label for="s-${originalIdx}-${s}">${s}</label>
+                    </div>
+                `).join('')}
+            </div>
             <div class="actions">
-                <button class="add" onclick="addToCart(${originalIndex})">Adicionar</button>
-                <button class="buy" onclick="buyNow(${originalIndex})">Comprar</button>
+                <button class="add" onclick="addToCart(${originalIdx})">Adicionar</button>
+                <button class="buy" onclick="buyNow(${originalIdx})">Comprar</button>
             </div>
         </div>`;
     });
 }
 
+function search() {
+    const term = document.getElementById("searchInput").value.toLowerCase();
+    const filtered = products.filter(p => p[1].toLowerCase().includes(term));
+    renderProducts(filtered);
+}
+
 function filterProducts(category) {
     const filtered = products.filter(p => p[3] === category);
     renderProducts(filtered);
-    window.scrollTo({ top: document.querySelector('.section').offsetTop - 100, behavior: 'smooth' });
 }
 
-let cart = [];
+function toggleCart() { document.getElementById("cart").classList.toggle("show"); }
 
-function toggleCart(){
-    document.getElementById("cart").classList.toggle("show");
-}
-
-function addToCart(i){
-    cart.push(products[i]);
+function addToCart(i) {
+    const radio = document.querySelector(`input[name="size-${i}"]:checked`);
+    if(!radio) { alert("Selecione um tamanho!"); return; }
+    cart.push({ nome: products[i][1], preco: products[i][2], tamanho: radio.value });
     renderCart();
     if(!document.getElementById("cart").classList.contains("show")) toggleCart();
 }
 
-function removeItem(i){
-    cart.splice(i,1);
-    renderCart();
-}
-
-function renderCart(){
+function renderCart() {
     const box = document.getElementById("cartItems");
+    const totalBox = document.getElementById("cartTotal");
     box.innerHTML = "";
-    cart.forEach((item, i) => {
-        box.innerHTML += `
-        <div class="cart-item">
-            <span>${item[1]}</span>
-            <button class="remove" onclick="removeItem(${i})">X</button>
+    let total = 0;
+    cart.forEach((item, idx) => {
+        total += item.preco;
+        box.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #222; padding-bottom:10px;">
+            <div><p><b>${item.nome}</b></p><small>Tam: ${item.tamanho} | R$ ${item.preco.toFixed(2)}</small></div>
+            <button onclick="cart.splice(${idx},1); renderCart();" style="background:none; border:none; color:#ff4444; cursor:pointer; font-weight:800;">REMOVER</button>
         </div>`;
     });
     document.getElementById("count").innerText = cart.length;
+    totalBox.innerText = `Total: R$ ${total.toFixed(2).replace('.',',')}`;
 }
 
-function checkout(){
-    if(cart.length === 0){alert("Carrinho vazio"); return;}
-
-    let msg = "Olá, quero pedir:%0A%0A";
-
-    cart.forEach(item => {
-        msg += "• " + item[1] + " - R$ " + item[2].toFixed(2) + "%0A";
-    });
-
+function checkout() {
+    if(cart.length === 0) return;
+    let msg = "🚀 *NOVO PEDIDO B2 STREET*:%0A%0A";
+    cart.forEach(item => msg += `✅ ${item.nome} - Tam: ${item.tamanho}%0A`);
+    msg += `%0A💰 *TOTAL: R$ ${cart.reduce((a,b)=>a+b.preco,0).toFixed(2)}*`;
     window.open(`https://wa.me/${WHATS}?text=${msg}`, "_blank");
 }
 
-function buyNow(i){
-    let msg =
-"Olá, quero comprar:%0A%0A" +
-products[i][1] +
-"%0AValor: R$ " + products[i][2].toFixed(2);
-
+function buyNow(i) {
+    const radio = document.querySelector(`input[name="size-${i}"]:checked`);
+    const tam = radio ? radio.value : "Não selecionado";
+    let msg = `🔥 *COMPRA DIRETA*%0AProduto: ${products[i][1]}%0ATamanho: ${tam}`;
     window.open(`https://wa.me/${WHATS}?text=${msg}`, "_blank");
 }
 
 renderProducts(products);
 </script>
-
 </body>
 </html>
