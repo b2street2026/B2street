@@ -13,7 +13,7 @@
             --primary: #fff;
             --accent: #25D366;
             --bg-dark: #000;
-            --card-bg: #1a1a1a; /* CINZA GRAFITE */
+            --card-bg: #1a1a1a;
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -34,180 +34,176 @@
             z-index:-1;
         }
 
-        header{
-            height:85px;
-            background: rgba(0,0,0,0.85);
+        /* HEADER RESPONSIVO */
+        header {
+            background: rgba(0,0,0,0.9);
             backdrop-filter: blur(15px);
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            padding:0 5%;
+            padding: 15px 5%;
             border-bottom: 1px solid rgba(255,255,255,0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
-        header img{ height:35px; }
 
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        header img { height: 30px; }
+
+        /* BUSCA SEMPRE VISÍVEL */
         .search-box {
-            flex: 1;
-            max-width: 350px;
-            margin: 0 20px;
             position: relative;
+            width: 100%;
         }
         .search-box input {
             width: 100%;
             background: rgba(255,255,255,0.1);
             border: 1px solid rgba(255,255,255,0.2);
             padding: 12px 15px 12px 45px;
-            border-radius: 14px;
+            border-radius: 12px;
             color: #fff;
             outline: none;
+            font-size: 0.9rem;
         }
-        .search-box::before { content: '🔍'; position: absolute; left: 15px; top: 50%; transform: translateY(-50%); opacity: 0.5; }
+        .search-box::before { 
+            content: '🔍'; 
+            position: absolute; left: 15px; top: 50%; 
+            transform: translateY(-50%); opacity: 0.5; 
+        }
 
-        .cart-btn{
+        .cart-btn {
             background: var(--primary);
             color: #000;
             border:none;
-            padding:12px 20px;
+            padding: 8px 15px;
             font-weight:800;
-            cursor:pointer;
-            border-radius:14px;
+            border-radius:10px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            transition: var(--transition);
+            gap: 5px;
+            font-size: 0.8rem;
         }
 
-        /* FILTROS */
+        /* FILTROS COM SCROLL NO MOBILE */
         .filters {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            padding: 20px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
+            gap: 15px;
+            padding: 20px 5%;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
         }
+        .filters::-webkit-scrollbar { display: none; }
+
         .filter-btn {
+            flex: 0 0 auto;
             cursor: pointer;
             text-align: center;
-            transition: 0.3s;
-            width: 90px;
+            width: 80px;
         }
-        .filter-btn:hover { transform: translateY(-5px); }
         .filter-btn img, .filter-all-icon {
-            width: 65px;
-            height: 65px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
-            object-fit: cover;
             border: 2px solid rgba(255,255,255,0.2);
-            margin-bottom: 8px;
-            background: #fff;
+            margin-bottom: 5px;
         }
         .filter-all-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #000;
-            font-weight: 900;
+            display: flex; align-items: center; justify-content: center;
+            background: #fff; color: #000; font-weight: 900;
         }
-        .filter-btn span {
-            color: #ccc;
-            display: block;
-            font-weight: 600;
-            font-size: 0.65rem;
-            text-transform: uppercase;
+        .filter-btn span { font-size: 0.6rem; text-transform: uppercase; color: #ccc; }
+
+        /* GRID E CARDS */
+        .section { max-width: 1400px; margin: 0 auto; padding: 20px 5%; }
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 20px; 
         }
 
-        /* CARDS */
-        .section{ max-width:1400px; margin:20px auto; padding:0 5%; }
-        .grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:25px; }
-
-        .product{ 
+        .product { 
             background: var(--card-bg); 
-            padding: 15px; 
-            border-radius: 24px; 
-            display: flex; 
-            flex-direction: column; 
-            transition: var(--transition);
-            position: relative;
+            padding: 12px; 
+            border-radius: 20px; 
             color: #fff;
             border: 1px solid rgba(255,255,255,0.05);
         }
-        .product:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.8); border-color: rgba(255,255,255,0.1); }
 
-        .badge {
-            position: absolute; top: 25px; left: 25px;
-            background: #fff; color: #000;
-            padding: 5px 12px; border-radius: 8px;
-            font-size: 0.65rem; font-weight: 800; text-transform: uppercase;
-            z-index: 10;
-        }
+        .product img { width: 100%; height: 250px; object-fit: cover; border-radius: 15px; margin-bottom: 12px; }
+        .product h3 { font-size: 0.9rem; margin-bottom: 5px; height: 35px; overflow: hidden; }
+        .price { font-weight: 800; font-size: 1.2rem; margin-bottom: 12px; display: block; }
 
-        .product img{ width:100%; height:280px; object-fit:cover; border-radius:18px; margin-bottom: 15px; background: #222; }
-        .product h3{ font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; height: 40px; color: #eee; }
-        
-        /* PREÇO EM BRANCO */
-        .price{ font-weight: 800; font-size: 1.3rem; margin-bottom: 15px; display: block; color: #fff; }
-
-        .size-selector { display: flex; gap: 5px; margin-bottom: 15px; }
+        /* TAMANHOS */
+        .size-selector { display: flex; gap: 4px; margin-bottom: 12px; }
         .size-selector div { flex: 1; }
         .size-selector label {
-            display: block; text-align: center; padding: 8px;
-            border: 1px solid #333; border-radius: 10px;
-            font-size: 0.7rem; cursor: pointer; font-weight: 700;
-            transition: 0.2s; background: #222; color: #fff;
+            display: block; text-align: center; padding: 6px 0;
+            border: 1px solid #333; border-radius: 8px;
+            font-size: 0.65rem; background: #222;
         }
-        .size-selector input:checked + label { background: #fff; color: #000; border-color: #fff; }
+        .size-selector input:checked + label { background: #fff; color: #000; }
 
-        .actions{ display:flex; gap:8px; }
-        .actions button{ flex:1; padding: 14px; border:none; font-weight:800; cursor:pointer; border-radius:12px; transition: var(--transition); }
+        /* BOTÕES */
+        .actions { display: flex; gap: 5px; }
+        .actions button { 
+            flex: 1; padding: 12px 5px; border: none; 
+            font-weight: 800; border-radius: 10px; font-size: 0.7rem; 
+        }
         .add { background: #333; color: #fff; }
         .buy { background: #fff; color: #000; }
 
-        /* CARRINHO */
-        .cart{
-            position:fixed; right:-100%; top:0; width: 100%; max-width: 400px; height:100%;
-            background: #000; color: #fff; padding:40px 30px; transition: var(--transition);
-            z-index:2000; border-left: 1px solid #222;
-        }
-        .cart.show{ right:0; }
-        .cart-close{ position:absolute; top:20px; right:20px; background:#222; border:none; color:#fff; width:35px; height:35px; border-radius:50%; cursor:pointer; }
-        
+        /* WHATSAPP FLOAT */
         .whats-float {
-            position: fixed; bottom: 30px; left: 30px;
-            background: #25D366; width: 60px; height: 60px;
+            position: fixed; bottom: 20px; right: 20px;
+            background: #25D366; width: 55px; height: 55px;
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            z-index: 900; color: white; font-size: 32px; text-decoration: none;
+            z-index: 999; color: white; font-size: 28px; text-decoration: none;
         }
 
-        @media (max-width: 768px) {
-            .search-box { display: none; }
-            .grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-            .product img { height: 180px; }
+        /* AJUSTES ESPECÍFICOS PARA MOBILE */
+        @media (max-width: 600px) {
+            .grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .product { padding: 8px; border-radius: 15px; }
+            .product img { height: 160px; border-radius: 10px; }
+            .product h3 { font-size: 0.75rem; height: 30px; }
+            .price { font-size: 1rem; }
+            .size-selector label { padding: 4px 0; font-size: 0.6rem; }
+            .actions button { padding: 10px 2px; font-size: 0.6rem; }
+            .filters { justify-content: flex-start; }
+            header img { height: 25px; }
         }
+
+        /* CARRINHO */
+        .cart {
+            position: fixed; right: -100%; top: 0; width: 100%; max-width: 350px; height: 100%;
+            background: #000; padding: 30px 20px; transition: var(--transition); z-index: 2000;
+        }
+        .cart.show { right: 0; }
     </style>
 </head>
 <body>
 
 <header>
-    <img src="logo.jpg" alt="B2 STREET">
-    <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Buscar no Drop..." onkeyup="search()">
+    <div class="header-top">
+        <img src="logo.jpg" alt="B2 STREET">
+        <button class="cart-btn" onclick="toggleCart()">
+            🛒 <span id="count">0</span>
+        </button>
     </div>
-    <button class="cart-btn" onclick="toggleCart()">
-        🛒 (<span id="count">0</span>)
-    </button>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="O que você está procurando?" onkeyup="search()">
+    </div>
 </header>
 
 <a href="https://wa.me/5519989620949" class="whats-float" target="_blank">
     <i class="fab fa-whatsapp"></i>
 </a>
-
-<section class="section" style="text-align:center; padding-top: 20px;">
-    <img src="b2street.jpg.PNG" style="max-width: 180px; margin-bottom: 20px;">
-</section>
 
 <div class="filters">
     <div class="filter-btn" onclick="filterProducts('tenis')">
@@ -229,23 +225,22 @@
 </div>
 
 <div class="cart" id="cart">
-    <button class="cart-close" onclick="toggleCart()">✕</button>
-    <h2>Seu Carrinho</h2>
-    <div id="cartItems" style="margin-top: 20px;"></div>
-    <div style="position: absolute; bottom: 30px; left: 30px; right: 30px;">
-        <div id="cartTotal" style="font-size: 1.3rem; font-weight: 800; margin-bottom: 15px;">Total: R$ 0,00</div>
-        <button onclick="checkout()" style="width:100%; padding:18px; background:var(--accent); border:none; color:#fff; font-weight:800; border-radius:15px; cursor:pointer;">Finalizar Pedido</button>
+    <button onclick="toggleCart()" style="background:none; border:none; color:#fff; font-size:1.5rem; float:right;">✕</button>
+    <h2 style="margin-bottom:20px;">Carrinho</h2>
+    <div id="cartItems" style="max-height: 70vh; overflow-y: auto;"></div>
+    <div style="position: absolute; bottom: 20px; left: 20px; right: 20px;">
+        <h3 id="cartTotal" style="margin-bottom:15px;">Total: R$ 0,00</h3>
+        <button onclick="checkout()" style="width:100%; padding:15px; background:var(--accent); border:none; color:#fff; font-weight:800; border-radius:10px;">Finalizar via WhatsApp</button>
     </div>
 </div>
 
 <section class="section">
-    <h2 id="sectionTitle">DROP DISPONÍVEL</h2>
     <div class="grid" id="products"></div>
 </section>
 
 <script>
 const WHATS = "5519989620949";
-// Lista de produtos mantida conforme original
+// Lista de produtos simplificada para o exemplo, mantenha a sua lista original completa aqui
 const products = [
     ["IMG_9064.JPG","Nike NOCTA Hot Step 2 White",630.00, "tenis", "🔥 Hype"],
     ["air max95 x corteiz.jpg","Air max 95 x Corteiz",349.90, "tenis", ""],
@@ -305,7 +300,7 @@ function renderProducts(list) {
         const sizes = p[3] === 'tenis' ? ['38','40','42','44'] : ['P','M','G','GG'];
         grid.innerHTML += `
         <div class="product">
-            ${p[4] ? `<div class="badge">${p[4]}</div>` : ''}
+            ${p[4] ? `<div class="badge" style="background:#fff; color:#000; position:absolute; top:15px; left:15px; padding:3px 8px; border-radius:5px; font-size:0.6rem; font-weight:800;">${p[4]}</div>` : ''}
             <img src="${p[0]}" loading="lazy">
             <h3>${p[1]}</h3>
             <span class="price">R$ ${p[2].toFixed(2).replace('.',',')}</span>
@@ -318,7 +313,7 @@ function renderProducts(list) {
                 `).join('')}
             </div>
             <div class="actions">
-                <button class="add" onclick="addToCart(${originalIdx})">Adicionar</button>
+                <button class="add" onclick="addToCart(${originalIdx})">Carrinho</button>
                 <button class="buy" onclick="buyNow(${originalIdx})">Comprar</button>
             </div>
         </div>`;
@@ -340,10 +335,10 @@ function toggleCart() { document.getElementById("cart").classList.toggle("show")
 
 function addToCart(i) {
     const radio = document.querySelector(`input[name="size-${i}"]:checked`);
-    if(!radio) { alert("Selecione um tamanho!"); return; }
+    if(!radio) { alert("Escolha o tamanho!"); return; }
     cart.push({ nome: products[i][1], preco: products[i][2], tamanho: radio.value });
     renderCart();
-    if(!document.getElementById("cart").classList.contains("show")) toggleCart();
+    toggleCart();
 }
 
 function renderCart() {
@@ -353,9 +348,9 @@ function renderCart() {
     let total = 0;
     cart.forEach((item, idx) => {
         total += item.preco;
-        box.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #222; padding-bottom:10px;">
-            <div><p><b>${item.nome}</b></p><small>Tam: ${item.tamanho} | R$ ${item.preco.toFixed(2)}</small></div>
-            <button onclick="cart.splice(${idx},1); renderCart();" style="background:none; border:none; color:#ff4444; cursor:pointer; font-weight:800;">REMOVER</button>
+        box.innerHTML += `<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px; padding-bottom:10px; border-bottom:1px solid #222;">
+            <div><p style="font-size:0.8rem;"><b>${item.nome}</b></p><small>Tam: ${item.tamanho} | R$ ${item.preco.toFixed(2)}</small></div>
+            <button onclick="cart.splice(${idx},1); renderCart();" style="background:none; border:none; color:red; font-weight:800;">X</button>
         </div>`;
     });
     document.getElementById("count").innerText = cart.length;
@@ -364,8 +359,8 @@ function renderCart() {
 
 function checkout() {
     if(cart.length === 0) return;
-    let msg = "🚀 *NOVO PEDIDO B2 STREET*:%0A%0A";
-    cart.forEach(item => msg += `✅ ${item.nome} - Tam: ${item.tamanho}%0A`);
+    let msg = "🚀 *PEDIDO B2 STREET*:%0A%0A";
+    cart.forEach(item => msg += `• ${item.nome} (${item.tamanho})%0A`);
     msg += `%0A💰 *TOTAL: R$ ${cart.reduce((a,b)=>a+b.preco,0).toFixed(2)}*`;
     window.open(`https://wa.me/${WHATS}?text=${msg}`, "_blank");
 }
@@ -373,8 +368,7 @@ function checkout() {
 function buyNow(i) {
     const radio = document.querySelector(`input[name="size-${i}"]:checked`);
     const tam = radio ? radio.value : "Não selecionado";
-    let msg = `🔥 *COMPRA DIRETA*%0AProduto: ${products[i][1]}%0ATamanho: ${tam}`;
-    window.open(`https://wa.me/${WHATS}?text=${msg}`, "_blank");
+    window.open(`https://wa.me/${WHATS}?text=Olá! Gostaria de comprar o produto: ${products[i][1]} (Tamanho: ${tam})`, "_blank");
 }
 
 renderProducts(products);
