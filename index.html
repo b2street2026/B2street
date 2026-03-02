@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -29,60 +29,37 @@
         .search-box::before { content: '🔍'; position: absolute; left: 15px; top: 50%; transform: translateY(-50%); opacity: 0.4; }
         .cart-btn { background: var(--primary); color: #000; border:none; padding: 6px 12px; font-weight:800; border-radius:8px; font-size: 0.75rem; cursor: pointer;}
 
+        /* --- BANNER --- */
+        .featured-container { width: 90%; max-width: 1100px; margin: 25px auto; position: relative; overflow: hidden; border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); }
+        .banner-track { display: flex; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
+        .banner-slide { min-width: 100%; height: 380px; display: flex; background: #111; align-items: center; }
+        .banner-info { flex: 1; padding: 40px; z-index: 2; }
+        .banner-info h2 { font-size: 2rem; font-weight: 800; text-transform: uppercase; line-height: 1.1; margin-bottom: 10px; }
+        .banner-info .b-price { font-size: 1.6rem; color: var(--accent); font-weight: 800; margin-bottom: 20px; display: block; }
+        .b-btn { background: #fff; color: #000; padding: 12px 25px; border-radius: 12px; text-decoration: none; font-weight: 800; transition: 0.3s; display: inline-block; }
+        .banner-slide img { flex: 1; width: 50%; height: 100%; object-fit: cover; }
+        .b-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; z-index: 10; }
+        .b-prev { left: 15px; } .b-next { right: 15px; }
+
+        /* --- FILTROS E GRIDS --- */
         .filters { display: flex; justify-content: center; gap: 12px; padding: 15px 5%; overflow-x: auto; scrollbar-width: none; }
-        .filters::-webkit-scrollbar { display: none; }
         .filter-btn { flex: 0 0 70px; cursor: pointer; text-align: center; }
         .filter-btn img, .filter-all-icon { width: 52px; height: 52px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); margin-bottom: 5px; object-fit: cover; }
         .filter-all-icon { display: flex; align-items: center; justify-content: center; background: #fff; color: #000; font-weight: 900; font-size: 0.7rem; margin: 0 auto 5px auto; }
         .filter-btn span { font-size: 0.55rem; text-transform: uppercase; color: #fff; font-weight: 700; display: block; }
 
-        .category-row { margin-bottom: 40px; position: relative; }
-        .category-title { font-size: 1rem; font-weight: 800; margin: 0 5% 15px 5%; border-left: 3px solid var(--accent); padding-left: 10px; text-transform: uppercase; color: #fff; }
-        
-        .scroll-wrapper { position: relative; display: flex; align-items: center; }
-        
-        /* GRID PARA SCROLL LATERAL */
-        .grid-scroll { 
-            display: flex; 
-            overflow-x: auto; 
-            gap: 15px; 
-            padding: 0 5% 15px 5%; 
-            scrollbar-width: none; 
-            scroll-snap-type: x mandatory;
-            scroll-behavior: smooth;
-        }
-        .grid-scroll::-webkit-scrollbar { display: none; }
+        .category-row { margin-bottom: 40px; }
+        .category-title { font-size: 1rem; font-weight: 800; margin: 0 5% 15px 5%; border-left: 3px solid var(--accent); padding-left: 10px; text-transform: uppercase; }
+        .grid-scroll { display: flex; overflow-x: auto; gap: 15px; padding: 0 5% 15px 5%; scrollbar-width: none; scroll-snap-type: x mandatory; }
+        .grid-fixed { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; padding: 0 5%; }
 
-        /* GRID PARA FILTROS (FIXO) */
-        .grid-fixed { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
-            gap: 15px; 
-            padding: 0 5%; 
-            width: 100%;
-        }
-
-        .nav-arrow {
-            position: absolute; top: 40%; transform: translateY(-50%);
-            background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2);
-            color: #fff; width: 40px; height: 40px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; z-index: 10; backdrop-filter: blur(5px); transition: 0.3s;
-        }
-        .nav-arrow:hover { background: #fff; color: #000; }
-        .arrow-left { left: 15px; }
-        .arrow-right { right: 15px; }
-
-        .product { background: var(--card-bg); padding: 10px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; transition: 0.3s; }
-        .grid-scroll .product { flex: 0 0 200px; scroll-snap-align: start; }
-        .product:hover { border-color: rgba(255,255,255,0.2); transform: translateY(-5px); }
-
-        .product-img-container { width: 100%; height: 200px; border-radius: 12px; overflow: hidden; margin-bottom: 10px; background: #222; }
+        .product { background: var(--card-bg); padding: 10px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; scroll-snap-align: start; }
+        .grid-scroll .product { flex: 0 0 200px; }
+        .product-img-container { width: 100%; height: 200px; border-radius: 12px; overflow: hidden; margin-bottom: 10px; }
         .product img { width: 100%; height: 100%; object-fit: cover; }
 
         .product h3 { font-size: 0.75rem; margin-bottom: 4px; height: 32px; overflow: hidden; color: #eee; }
-        .price { font-weight: 800; font-size: 1rem; margin-bottom: 10px; display: block; color: #fff; }
-        
+        .price { font-weight: 800; font-size: 1rem; margin-bottom: 10px; display: block; }
         .size-selector { display: flex; gap: 3px; margin-bottom: 10px; }
         .size-selector label { flex: 1; text-align: center; padding: 5px 0; border: 1px solid #333; border-radius: 6px; font-size: 0.55rem; background: #222; cursor: pointer; color: #fff; }
         .size-selector input { display: none; }
@@ -94,19 +71,15 @@
         .buy { background: #fff; color: #000; }
 
         .whats-float { position: fixed; bottom: 20px; left: 20px; background: #25D366; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 999; color: white; font-size: 24px; text-decoration: none; }
-        .cart { position: fixed; right: -100%; top: 0; width: 100%; max-width: 350px; height: 100%; background: #000; padding: 25px; transition: var(--transition); z-index: 2000; border-left: 1px solid #333; }
+        .cart { position: fixed; right: -100%; top: 0; width: 100%; max-width: 350px; height: 100%; background: #000; padding: 25px; transition: 0.4s; z-index: 2000; border-left: 1px solid #333; }
         .cart.show { right: 0; }
 
         @media (max-width: 600px) {
-            .nav-arrow { display: none; }
-            .grid-fixed { grid-template-columns: 1fr 1fr; gap: 10px; }
-            .grid-scroll .product { flex: 0 0 170px; }
-            .product-img-container { height: 170px; }
-        }
-        @media (min-width: 1024px) {
-            .grid-scroll .product { flex: 0 0 240px; }
-            .product-img-container { height: 260px; }
-            .grid-fixed { grid-template-columns: repeat(5, 1fr); }
+            .banner-slide { height: 400px; flex-direction: column; text-align: center; }
+            .banner-slide img { width: 100%; height: 60%; order: 1; }
+            .banner-info { width: 100%; height: 40%; order: 2; padding: 20px; }
+            .banner-info h2 { font-size: 1.4rem; }
+            .grid-fixed { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
@@ -117,51 +90,61 @@
         <img src="logo.jpg" alt="B2 STREET">
         <button class="cart-btn" onclick="toggleCart()">🛒 <span id="count">0</span></button>
     </div>
-    <div class="search-box">
-        <input type="text" id="searchInput" placeholder="O que você procura?" onkeyup="search()">
-    </div>
+    <div class="search-box"><input type="text" id="searchInput" placeholder="Buscar..." onkeyup="search()"></div>
 </header>
 
-<a href="https://wa.me/5519989620949" class="whats-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
-
-<div class="filters">
-    <div class="filter-btn" onclick="renderByCategory('tenis')">
-        <img src="tenis.webp"><span>Tênis</span>
-    </div>
-    <div class="filter-btn" onclick="renderByCategory('roupas')">
-        <img src="roupas.jfif"><span>Roupas</span>
-    </div>
-    <div class="filter-btn" onclick="renderByCategory('relogios')">
-        <img src="relogios.jfif"><span>Relógios</span>
-    </div>
-    <div class="filter-btn" onclick="renderAll()">
-        <div class="filter-all-icon">ALL</div><span>Todos</span>
+<div class="featured-container">
+    <button class="b-nav b-prev" onclick="moveSlide(-1)">❮</button>
+    <button class="b-nav b-next" onclick="moveSlide(1)">❯</button>
+    <div class="banner-track" id="bannerTrack">
+        <div class="banner-slide">
+            <div class="banner-info"><h2>Nocta Glide<br></h2><span class="b-price">R$ 359,90</span><a href="#" class="b-btn" onclick="buyNowByName('Nike nocta glide')">COMPRAR AGORA</a></div>
+            <img src="nocta glide.jpg">
+        </div>
+        <div class="banner-slide">
+            <div class="banner-info"><h2>Lacoste Slide<br>Sport Green</h2><span class="b-price">R$ 189,90</span><a href="#" class="b-btn" onclick="buyNowByName('Lacoste Slide Sport')">COMPRAR AGORA</a></div>
+            <img src="lacosteslide.jpg">
+        </div>
+        <div class="banner-slide">
+            <div class="banner-info"><h2>Conjunto Syna<br>Amarelo</h2><span class="b-price">R$ 129,90</span><a href="#" class="b-btn" onclick="buyNowByName('conjunto syna amarelo')">COMPRAR AGORA</a></div>
+            <img src="conjunto syna amarelo.png">
+        </div>
     </div>
 </div>
 
-<div class="cart" id="cart">
-    <button onclick="toggleCart()" style="background:none; border:none; color:#fff; font-size:1.5rem; float:right; cursor:pointer;">✕</button>
-    <h2 style="margin-bottom:20px;">Carrinho</h2>
-    <div id="cartItems"></div>
-    <div style="position: absolute; bottom: 20px; left: 20px; right: 20px;">
-        <h3 id="cartTotal" style="margin-bottom:15px;">Total: R$ 0,00</h3>
-        <button onclick="checkout()" style="width:100%; padding:15px; background:var(--accent); border:none; color:#fff; font-weight:800; border-radius:10px; cursor:pointer;">Finalizar Pedido</button>
-    </div>
+<div class="filters">
+    <div class="filter-btn" onclick="renderByCategory('tenis')"><img src="tenis.webp"><span>Tênis</span></div>
+    <div class="filter-btn" onclick="renderByCategory('roupas')"><img src="roupas.jfif"><span>Roupas</span></div>
+    <div class="filter-btn" onclick="renderByCategory('relogios')"><img src="relogios.jfif"><span>Relógios</span></div>
+    <div class="filter-btn" onclick="renderAll()"><div class="filter-all-icon">ALL</div><span>Todos</span></div>
 </div>
 
 <div id="main-content"></div>
 
+<a href="https://wa.me/5519989620949" class="whats-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+<div class="cart" id="cart">
+    <button onclick="toggleCart()" style="background:none; border:none; color:#fff; font-size:1.5rem; float:right;">✕</button>
+    <h2 style="margin-bottom:20px;">Carrinho</h2>
+    <div id="cartItems"></div>
+    <div style="position: absolute; bottom: 20px; left: 20px; right: 20px;">
+        <h3 id="cartTotal" style="margin-bottom:15px;">Total: R$ 0,00</h3>
+        <button onclick="checkout()" style="width:100%; padding:15px; background:var(--accent); border:none; color:#fff; font-weight:800; border-radius:10px;">Finalizar Pedido</button>
+    </div>
+</div>
+
 <script>
 const WHATS = "5519989620949";
 const products = [
-    ["IMG_9064.JPG","Nike NOCTA Hot Step 2 White",630.00, "tenis", "🔥 Hype"],
+    ["IMG_9064.JPG","Nike NOCTA Hot Step 2 White",630.00, "tenis", ""],
     ["air max95 x corteiz.jpg","Air max 95 x Corteiz",349.90, "tenis", ""],
     ["nike DN white.jpg","Nike DN white",354.90, "tenis", ""],
     ["nike-dn-preto.jpg","Nike DN black",354.90, "tenis", ""],
     ["nocta glide.jpg","Nike nocta glide",359.90, "tenis", ""],
+    ["lacosteslide.jpg","Lacoste Slide Sport",199.90, "tenis", ""],
     ["nike-air-force.jpg","Nike air force black",249.90, "tenis", ""],
     ["bota timberland.jpg","Bota Timberland",359.90, "tenis", ""],
-    ["Asics gel NYC.jpg","Asics gel NYC",449.90, "tenis", "⭐ Luxo"],
+    ["Asics gel NYC.jpg","Asics gel NYC",449.90, "tenis", ""],
     ["Nike TN.jpg","Nike TN",329.90, "tenis", ""],
     ["calça cargo corteiz 1.jpg","calça cargo corteiz",249.90, "roupas", ""],
     ["calça cargo corteiz 2.jpg","calça cargo corteiz grey",249.90, "roupas", ""],
@@ -203,87 +186,68 @@ const products = [
 ];
 
 let cart = [];
+let currentSlide = 0;
+
+function moveSlide(dir) {
+    const track = document.getElementById('bannerTrack');
+    currentSlide = (currentSlide + dir + 3) % 3;
+    track.style.transform = `translateX(-${currentSlide * 100}%)`;
+}
+setInterval(() => moveSlide(1), 6000);
 
 function createProductCard(p) {
     const originalIdx = products.findIndex(item => item[1] === p[1]);
     const sizes = p[3] === 'tenis' ? ['38','40','42','44'] : ['P','M','G','GG'];
-    return `
-    <div class="product">
+    return `<div class="product">
         <div class="product-img-container"><img src="${p[0]}" loading="lazy"></div>
-        <h3>${p[1]}</h3>
-        <span class="price">R$ ${p[2].toFixed(2).replace('.',',')}</span>
-        <div class="size-selector">
-            ${sizes.map(s => `
-                <input type="radio" name="sz-${originalIdx}" id="sz-${originalIdx}-${s}" value="${s}">
-                <label for="sz-${originalIdx}-${s}">${s}</label>
-            `).join('')}
-        </div>
-        <div class="actions">
-            <button class="add" onclick="addToCart(${originalIdx})">ADD</button>
-            <button class="buy" onclick="buyNow(${originalIdx})">BUY</button>
-        </div>
+        <h3>${p[1]}</h3><span class="price">R$ ${p[2].toFixed(2).replace('.',',')}</span>
+        <div class="size-selector">${sizes.map(s => `<input type="radio" name="sz-${originalIdx}" id="sz-${originalIdx}-${s}" value="${s}"><label for="sz-${originalIdx}-${s}">${s}</label>`).join('')}</div>
+        <div class="actions"><button class="add" onclick="addToCart(${originalIdx})">ADD</button><button class="buy" onclick="buyNow(${originalIdx})">BUY</button></div>
     </div>`;
-}
-
-function scrollCat(btn, direction) {
-    const grid = btn.parentElement.querySelector('.grid-scroll');
-    grid.scrollBy({ left: direction * (window.innerWidth < 600 ? 200 : 400), behavior: 'smooth' });
 }
 
 function renderSection(title, list, isScroll) {
     if (list.length === 0) return;
     const container = document.getElementById("main-content");
-    container.innerHTML += `
-    <div class="category-row">
-        <h2 class="category-title">${title}</h2>
-        <div class="scroll-wrapper">
-            ${isScroll ? `
-                <button class="nav-arrow arrow-left" onclick="scrollCat(this, -1)">❮</button>
-                <div class="grid-scroll">${list.map(p => createProductCard(p)).join('')}</div>
-                <button class="nav-arrow arrow-right" onclick="scrollCat(this, 1)">❯</button>
-            ` : `
-                <div class="grid-fixed">${list.map(p => createProductCard(p)).join('')}</div>
-            `}
-        </div>
-    </div>`;
+    container.innerHTML += `<div class="category-row"><h2 class="category-title">${title}</h2><div class="${isScroll ? 'grid-scroll' : 'grid-fixed'}">${list.map(p => createProductCard(p)).join('')}</div></div>`;
 }
 
 function renderAll() {
     const container = document.getElementById("main-content");
     container.innerHTML = "";
-    
     renderSection("Tênis", products.filter(p => p[3] === 'tenis'), true);
-
+    
     const roupas = products.filter(p => p[3] === 'roupas');
-    const calcas = roupas.filter(p => p[1].toLowerCase().includes('calça') || p[1].toLowerCase().includes('minus two'));
-    const shorts = roupas.filter(p => p[1].toLowerCase().includes('shorts') || p[1].toLowerCase().includes('hellstar'));
+    
+    // Camisas (Remove Hellstar e Denim Tears daqui)
     const camisas = roupas.filter(p => 
-        !p[1].toLowerCase().includes('calça') && !p[1].toLowerCase().includes('minus two') && 
-        !p[1].toLowerCase().includes('shorts') && !p[1].toLowerCase().includes('hellstar')
+        !p[1].toLowerCase().includes('calça') && 
+        !p[1].toLowerCase().includes('shorts') && 
+        !p[1].toLowerCase().includes('minus two') && 
+        !p[1].toLowerCase().includes('hellstar') && 
+        !p[1].toLowerCase().includes('denim tears')
+    );
+    
+    // Calças
+    const calcas = roupas.filter(p => p[1].toLowerCase().includes('calça') || p[1].toLowerCase().includes('minus two'));
+    
+    // Shorts (Adicionado Hellstar e Denim Tears)
+    const shorts = roupas.filter(p => 
+        p[1].toLowerCase().includes('shorts') || 
+        p[1].toLowerCase().includes('hellstar') || 
+        p[1].toLowerCase().includes('denim tears')
     );
 
     renderSection("Camisas e Conjuntos", camisas, true);
     renderSection("Calças", calcas, true);
     renderSection("Shorts", shorts, true);
-    renderSection("Relógios", products.filter(p => p[3] === 'relogios'), true);
 }
 
 function renderByCategory(cat) {
     const container = document.getElementById("main-content");
     container.innerHTML = "";
-    const filtered = products.filter(p => p[3] === cat);
-    
-    if (cat === 'roupas') {
-        const calcas = filtered.filter(p => p[1].toLowerCase().includes('calça') || p[1].toLowerCase().includes('minus two'));
-        const shorts = filtered.filter(p => p[1].toLowerCase().includes('shorts') || p[1].toLowerCase().includes('hellstar'));
-        const camisas = filtered.filter(p => !p[1].toLowerCase().includes('calça') && !p[1].toLowerCase().includes('minus two') && !p[1].toLowerCase().includes('shorts') && !p[1].toLowerCase().includes('hellstar'));
-        
-        renderSection("Camisas e Conjuntos", camisas, false);
-        renderSection("Calças", calcas, false);
-        renderSection("Shorts", shorts, false);
-    } else {
-        renderSection(cat.toUpperCase(), filtered, false);
-    }
+    if(cat === 'roupas') { renderAll(); } 
+    else { renderSection(cat.toUpperCase(), products.filter(p => p[3] === cat), false); }
 }
 
 function search() {
@@ -291,17 +255,15 @@ function search() {
     const filtered = products.filter(p => p[1].toLowerCase().includes(term));
     const container = document.getElementById("main-content");
     container.innerHTML = "";
-    renderSection(term ? "Resultados para: " + term : "Todos os Produtos", filtered, false);
+    renderSection("Resultados", filtered, false);
 }
 
 function toggleCart() { document.getElementById("cart").classList.toggle("show"); }
-
 function addToCart(i) {
     const radio = document.querySelector(`input[name="sz-${i}"]:checked`);
     if(!radio) { alert("Escolha o tamanho!"); return; }
     cart.push({ nome: products[i][1], preco: products[i][2], tamanho: radio.value });
-    renderCart();
-    toggleCart();
+    renderCart(); toggleCart();
 }
 
 function renderCart() {
@@ -311,7 +273,7 @@ function renderCart() {
         total += item.preco;
         box.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:15px; border-bottom:1px solid #222; padding-bottom:10px;">
             <div><p style="font-size:0.85rem;"><b>${item.nome}</b></p><small>Tam: ${item.tamanho} | R$ ${item.preco.toFixed(2)}</small></div>
-            <button onclick="cart.splice(${idx},1); renderCart();" style="background:none; border:none; color:red; font-weight:800; cursor:pointer;">X</button>
+            <button onclick="cart.splice(${idx},1); renderCart();" style="background:none; border:none; color:red; font-weight:800;">X</button>
         </div>`;
     });
     document.getElementById("count").innerText = cart.length;
@@ -329,6 +291,11 @@ function buyNow(i) {
     const radio = document.querySelector(`input[name="sz-${i}"]:checked`);
     const tam = radio ? radio.value : "N/A";
     window.open(`https://wa.me/${WHATS}?text=Quero comprar: ${products[i][1]} (Tam: ${tam})`, "_blank");
+}
+
+function buyNowByName(name) {
+    const pIndex = products.findIndex(p => p[1].includes(name));
+    if(pIndex !== -1) buyNow(pIndex);
 }
 
 renderAll();
