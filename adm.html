@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ADM | B2 STREET</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background: #000; color: #fff; font-family: sans-serif; padding: 20px; }
+        .header-adm { text-align: center; margin-bottom: 40px; }
+        .logo-adm { width: 120px; }
+        .card { background: #0a0a0a; border: 1px solid #1a1a1a; padding: 20px; border-radius: 15px; margin-bottom: 25px; }
+        h2 { font-size: 0.9rem; letter-spacing: 2px; color: #555; margin-bottom: 20px; }
+        input, select { width: 100%; padding: 12px; margin-bottom: 15px; background: #111; border: 1px solid #222; color: #fff; border-radius: 8px; }
+        button { width: 100%; padding: 15px; background: #fff; color: #000; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; }
+        .item-list { display: flex; align-items: center; gap: 10px; background: #111; padding: 10px; border-radius: 8px; margin-bottom: 10px; font-size: 0.8rem; }
+        .btn-del { background: #ff4444; color: #fff; padding: 5px 10px; width: auto; font-size: 0.7rem; }
+    </style>
+</head>
+<body>
+
+    <div class="header-adm">
+        <img src="logo.jpg" class="logo-adm">
+        <p style="font-size: 0.7rem; color: #25D366; margin-top: 10px;">PAINEL DE CONTROLE PREMIUM</p>
+    </div>
+
+    <div class="card">
+        <h2><i class="fas fa-image"></i> GERENCIAR BANNERS</h2>
+        <input type="text" id="b-url" placeholder="Link da imagem do banner">
+        <button onclick="addBanner()">ADICIONAR BANNER</button>
+        <div id="lista-banners" style="margin-top: 20px;"></div>
+    </div>
+
+    <div class="card">
+        <h2><i class="fas fa-box"></i> NOVO PRODUTO</h2>
+        <input type="text" id="p-nome" placeholder="Nome do Produto">
+        <input type="text" id="p-preco" placeholder="Preco (Ex: 199,90)">
+        <select id="p-cat">
+            <option value="tenis">Tenis</option>
+            <option value="camisas">Camisas</option>
+            <option value="conjuntos">Conjuntos</option>
+            <option value="shorts">Shorts</option>
+            <option value="joias">Joias</option>
+        </select>
+        <input type="text" id="p-img" placeholder="Link da Imagem do Produto">
+        <button onclick="addProduto()" style="background: #25D366; color: #000;">CADASTRAR PRODUTO</button>
+    </div>
+
+    <div class="card">
+        <h2><i class="fas fa-list"></i> PRODUTOS CADASTRADOS</h2>
+        <div id="lista-produtos"></div>
+    </div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<script>
+// (Sua Configuração do Firebase aqui...)
+const firebaseConfig = {
+    apiKey: "AIzaSyD1Phuyxe5du5aMPG3rn4BxAiKdYp0uFuI",
+    authDomain: "b2-street-501f4.firebaseapp.com",
+    projectId: "b2-street-501f4",
+    storageBucket: "b2-street-501f4.firebasestorage.app",
+    messagingSenderId: "975888104452",
+    appId: "1:975888104452:web:1d02d83e0155c67a3fc951",
+    databaseURL: "https://b2-street-501f4-default-rtdb.firebaseio.com"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+function addBanner() {
+    const url = document.getElementById('b-url').value;
+    if(url) db.ref('banners').push({ url }).then(() => {
+        document.getElementById('b-url').value = "";
+        alert("Banner Adicionado!");
+    });
+}
+
+function addProduto() {
+    const nome = document.getElementById('p-nome').value;
+    const preco = document.getElementById('p-preco').value;
+    const categoria = document.getElementById('p-cat').value;
+    const imagem = document.getElementById('p-img').value;
+    if(nome && preco) {
+        db.ref('produtos').push({ nome, preco, categoria, imagem }).then(() => {
+            alert("Produto Cadastrado!");
+            location.reload();
+        });
+    }
+}
+
+// Listar Banners para remover
+db.ref('banners').on('value', snap => {
+    const div = document.getElementById('lista-banners');
+    div.innerHTML = "";
+    snap.forEach(c => {
+        div.innerHTML += `
+        <div class="item-list">
+            <img src="${c.val().url}" style="width:40px; height:40px; object-fit:cover; border-radius:4px">
+            <span style="flex:1">Banner</span>
+            <button class="btn-del" onclick="db.ref('banners/${c.key}').remove()">Excluir</button>
+        </div>`;
+    });
+});
+
+// Listar Produtos para remover
+db.ref('produtos').on('value', snap => {
+    const div = document.getElementById('lista-produtos');
+    div.innerHTML = "";
+    snap.forEach(c => {
+        div.innerHTML += `
+        <div class="item-list">
+            <img src="${c.val().imagem}" style="width:40px; height:40px; object-fit:cover; border-radius:4px">
+            <div style="flex:1">
+                <b>${c.val().nome}</b><br><small>${c.val().categoria}</small>
+            </div>
+            <button class="btn-del" onclick="db.ref('produtos/${c.key}').remove()">Excluir</button>
+        </div>`;
+    });
+});
+</script>
+</body>
+</html>
