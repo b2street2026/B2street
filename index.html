@@ -34,8 +34,8 @@
         .container { padding: 25px 4%; }
         .cat-title { font-size: 1rem; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; color: #fff; }
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-        .product-card { background: var(--card); border-radius: 10px; padding: 8px; border: 1px solid #111; cursor: pointer; }
-        .img-container { width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 6px; }
+        .product-card { background: var(--card); border-radius: 0px; padding: 8px; border: 1px solid #111; cursor: pointer; } /* Quadrado */
+        .img-container { width: 100%; aspect-ratio: 1/1; overflow: hidden; border-radius: 0px; }
         .product-card img { width: 100%; height: 100%; object-fit: cover; }
         .product-card h3 { font-size: 0.75rem; margin: 10px 0 4px; color: #bbb; }
         .product-card .price { font-weight: 800; color: #fff; font-size: 0.9rem; }
@@ -45,7 +45,7 @@
         .modal-content { background: #000; width: 100%; max-width: 380px; border-radius: 20px; padding: 25px; border: 1px solid #222; position: relative; }
         .cart-sidebar { position: fixed; right: -100%; top: 0; width: 320px; height: 100%; background: #000; z-index: 2000; transition: 0.5s; padding: 30px 20px; border-left: 1px solid var(--gray); display: flex; flex-direction: column; }
         .cart-sidebar.open { right: 0; }
-        .btn-action { width: 100%; padding: 14px; margin: 5px 0; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; }
+        .btn-action { width: 100%; padding: 14px; margin: 5px 0; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; color: #000 !important; }
         
         #menu-sidebar { position: fixed; left: -280px; top: 0; width: 280px; height: 100%; background: #000; z-index: 2000; transition: 0.4s; padding: 40px 20px; border-right: 1px solid var(--gray); }
         #menu-sidebar.open { left: 0; }
@@ -55,6 +55,9 @@
         .modal-title { font-weight: 800; text-transform: uppercase; margin-bottom: 15px; text-align: center; display: block; }
         .qr-container { text-align: center; padding: 10px; }
         .qr-img { width: 200px; height: 200px; border-radius: 10px; margin: 15px 0; }
+        
+        .cart-item { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid #111; padding-bottom: 10px; }
+        .cart-item img { width: 50px; height: 50px; object-fit: cover; border-radius: 4px; }
     </style>
 </head>
 <body>
@@ -88,8 +91,8 @@
     <button onclick="toggleCart()" style="background:none; border:1px solid #333; color:#fff; padding:5px 10px; border-radius:50px; margin-bottom:20px">FECHAR</button>
     <div id="cart-list" style="flex:1; overflow-y:auto;"></div>
     <div id="cart-total" style="margin:20px 0; font-weight:800">Total: R$ 0,00</div>
-    <button class="btn-action" style="background:#fff; color:#000" onclick="abrirModalDados()">Finalizar pelo Site</button>
-    <button class="btn-action" style="background:var(--accent); color:#000" onclick="finalizarWhatsApp()">Finalizar via WhatsApp</button>
+    <button class="btn-action" style="background:#fff;" onclick="abrirModalDados()">Finalizar pelo Site</button>
+    <button class="btn-action" style="background:var(--accent);" onclick="finalizarWhatsApp()">Finalizar via WhatsApp</button>
 </div>
 
 <div id="main-content"></div>
@@ -114,7 +117,7 @@
         <input type="email" id="checkout-email" class="checkout-input" placeholder="E-mail">
         <input type="tel" id="checkout-tel" class="checkout-input" placeholder="Telefone">
         <input type="text" id="checkout-end" class="checkout-input" placeholder="Endereço de Recebimento">
-        <button class="btn-action" style="background:#fff; color:#000" onclick="processarPedido()">Fazer Pedido</button>
+        <button class="btn-action" style="background:#fff;" onclick="processarPedido()">Fazer Pedido</button>
         <p onclick="closeModals()" style="text-align:center; cursor:pointer; margin-top:10px; font-size:0.7rem; color:#555">CANCELAR</p>
     </div>
 </div>
@@ -129,7 +132,7 @@
             <span id="chave-pix">5519989620949</span>
             <i class="fas fa-copy" onclick="copiarChave()" style="cursor: pointer; color: var(--accent);"></i>
         </div>
-        <button class="btn-action" style="background:var(--accent); color:#000" onclick="confirmarPagamento()">Já Paguei</button>
+        <button class="btn-action" style="background:var(--accent);" onclick="confirmarPagamento()">Já Paguei</button>
     </div>
 </div>
 
@@ -138,8 +141,8 @@
         <img src="logo.jpg" style="height: 30px; margin-bottom: 20px;">
         <h2 style="font-size: 1.2rem; margin-bottom: 10px;">OBRIGADO PELA COMPRA!</h2>
         <p style="font-size: 0.8rem; color: #888; margin-bottom: 20px;">Seu pedido foi recebido com sucesso e está sendo processado.</p>
-        <button class="btn-action" style="background:#fff; color:#000" onclick="location.reload()">Continuar Comprando</button>
-        <button class="btn-action" style="background:var(--accent); color:#000" onclick="zapDireto()">Suporte WhatsApp</button>
+        <button class="btn-action" style="background:#fff;" onclick="location.reload()">Continuar Comprando</button>
+        <button class="btn-action" style="background:var(--accent);" onclick="zapDireto()">Suporte WhatsApp</button>
     </div>
 </div>
 
@@ -229,11 +232,25 @@ function openProduct(id) {
     document.getElementById('m-img').src = SELECTED_PROD.imagem;
     document.getElementById('m-nome').innerText = SELECTED_PROD.nome;
     document.getElementById('m-preco').innerText = `R$ ${SELECTED_PROD.preco}`;
-    let isTenis = SELECTED_PROD.categoria.toLowerCase() === 'tenis';
-    let sizes = isTenis ? ['39','40','41','42'] : ['P','M','G','GG'];
+    
+    let cat = SELECTED_PROD.categoria.toLowerCase();
+    let sizes = [];
+
+    // Lógica de tamanhos por categoria
+    if (cat === 'tenis') {
+        sizes = ['38', '39', '40', '41', '42', '43'];
+    } else if (cat === 'joias') {
+        // Aqui você define os tamanhos de anéis ou correntes (ex: 18, 20, 22 ou Único)
+        sizes = ['único']; 
+    } else {
+        // Roupas (Camisas, Conjuntos, Shorts)
+        sizes = ['P', 'M', 'G', 'GG'];
+    }
+
     document.getElementById('m-sizes').innerHTML = sizes.map(s => 
         `<button onclick="SELECTED_SIZE='${s}'; Array.from(this.parentNode.children).forEach(b=>b.style.border='1px solid #333'); this.style.border='1px solid var(--accent)'" style="padding:8px; background:#111; color:#fff; border:1px solid #333; border-radius:5px; cursor:pointer">${s}</button>`
     ).join('');
+    
     document.getElementById('modal-produto').classList.add('active');
 }
 
@@ -253,7 +270,15 @@ function updateCart() {
     list.innerHTML = CART.map(i => {
         let p = parseFloat(String(i.preco).replace(',','.'));
         total += p;
-        return `<div style="margin-bottom:10px; border-bottom:1px solid #111; padding:5px; font-size:0.8rem;">${i.nome} (${i.tamanho}) - R$ ${i.preco}</div>`;
+        return `
+        <div class="cart-item">
+            <img src="${i.imagem}">
+            <div style="font-size:0.8rem;">
+                <div>${i.nome}</div>
+                <div style="color:#888">Tamanho: ${i.tamanho}</div>
+                <div style="font-weight:800">R$ ${i.preco}</div>
+            </div>
+        </div>`;
     }).join('');
     document.getElementById('cart-total').innerText = `Total: R$ ${total.toFixed(2).replace('.',',')}`;
 }
