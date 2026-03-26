@@ -22,9 +22,23 @@
 
         #user-menu { display: none; align-items: center; gap: 10px; cursor: pointer; }
         #user-pic { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--accent); object-fit: cover; }
+        
         .auth-container { text-align: center; }
         .auth-input { width: 100%; padding: 12px; margin: 8px 0; background: #111; border: 1px solid #333; color: #fff; border-radius: 8px; }
-        .btn-google { background: #fff !important; color: #000 !important; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 15px; }
+        
+        /* Estilo Botão Google */
+        .btn-google { 
+            background: #fff !important; 
+            color: #000 !important; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 10px; 
+            margin-top: 15px; 
+            border: none;
+        }
+        .btn-google img { width: 18px; }
+
         .auth-switch { font-size: 0.75rem; color: #888; margin-top: 15px; cursor: pointer; text-decoration: underline; }
 
         .hero-video { width: 100%; height: 75vh; position: relative; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; }
@@ -37,14 +51,12 @@
         .brand-btn img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #333; margin-bottom: 5px; }
         .brand-btn span { display: block; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
 
-        /* Ajuste do Slider: Mais alto para PC */
         .slider-section { padding: 10px 0; background: #000; margin: 20px 0; position: relative; }
         .slider-container { width: 92%; margin: auto; height: 500px; overflow: hidden; border-radius: 0px; position: relative; }
         .slider-track { display: flex; transition: transform 0.8s ease-in-out; height: 100%; }
         .slide { min-width: 100%; height: 100%; }
         .slide img { width: 100%; height: 100%; object-fit: cover; }
         
-        /* Botões do Banner */
         .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); color: #fff; border: none; padding: 15px; cursor: pointer; z-index: 10; font-size: 1.2rem; }
         .prev-btn { left: 5%; } .next-btn { right: 5%; }
 
@@ -75,7 +87,6 @@
         .cart-item img { width: 50px; height: 50px; object-fit: cover; }
         .remove-item { color: #ff4444; cursor: pointer; font-size: 0.8rem; margin-left: auto; }
 
-        /* Estilo da Busca */
         #search-box { display: none; width: 100%; background: #111; padding: 15px; border-bottom: 1px solid #333; }
         #search-box input { width: 100%; background: none; border: none; color: #fff; font-size: 1rem; outline: none; }
     </style>
@@ -85,7 +96,9 @@
 <header>
     <div style="display: flex; align-items: center; gap: 15px;">
         <i class="fas fa-bars" onclick="toggleMenu()" style="cursor:pointer"></i>
+        <!-- Ícone de Login -->
         <div id="login-trigger" onclick="openAuth()" style="cursor:pointer; font-size: 1.1rem;"><i class="far fa-user"></i></div>
+        <!-- Menu do Usuário (Foto) -->
         <div id="user-menu" onclick="logoutUser()">
             <img id="user-pic" src="">
         </div>
@@ -114,7 +127,6 @@
     </video>
 </section>
 
-<!-- Botões de Filtragem com Imagem -->
 <div class="brand-filters" id="brand-filters">
     <div class="brand-btn" onclick="filterCat('syna')">
         <img src="logo_syna.jpg.JPG">
@@ -166,13 +178,20 @@
     </div>
 </div>
 
-<!-- Modal Auth e outros ocultos -->
+<!-- Modal Auth Atualizado com Google -->
 <div class="modal-overlay" id="modal-auth">
     <div class="modal-content auth-container">
         <h2 id="auth-title" class="modal-title">Entrar</h2>
         <input type="email" id="auth-email" class="auth-input" placeholder="E-mail">
         <input type="password" id="auth-pass" class="auth-input" placeholder="Senha">
         <button class="btn-action" style="background:var(--accent)" onclick="handleAuth()">Confirmar</button>
+        
+        <!-- Botão Google -->
+        <button class="btn-action btn-google" onclick="loginGoogle()">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg">
+            Entrar com Google
+        </button>
+
         <p class="auth-switch" id="auth-toggle" onclick="toggleAuthMode()">Não tem conta? Cadastre-se</p>
         <p onclick="closeModals()" style="text-align:center; cursor:pointer; margin-top:15px; font-size:0.7rem; color:#555">FECHAR</p>
     </div>
@@ -242,18 +261,19 @@ function buscarProduto() {
     renderFull(filtrados);
 }
 
-// Slider com Botões e Auto-play
+// Slider
 function moveSlide(dir) {
     if (ALL_BANNERS.length <= 1) return;
     currentSlide = (currentSlide + dir + ALL_BANNERS.length) % ALL_BANNERS.length;
-    document.getElementById('slider-track').style.transform = `translateX(-${currentSlide * 100}%)`;
+    const track = document.getElementById('slider-track');
+    if(track) track.style.transform = `translateX(-${currentSlide * 100}%)`;
 }
 
 db.ref('banners').on('value', snap => {
     ALL_BANNERS = [];
     snap.forEach(c => { ALL_BANNERS.push(c.val().url); });
     renderFull();
-    setInterval(() => moveSlide(1), 5000);
+    if(ALL_BANNERS.length > 1) setInterval(() => moveSlide(1), 5000);
 });
 
 db.ref('produtos').on('value', snap => {
@@ -264,6 +284,7 @@ db.ref('produtos').on('value', snap => {
 
 function renderFull(filtered = null) {
     const main = document.getElementById('main-content');
+    if(!main) return;
     main.innerHTML = "";
     const data = filtered || ALL_PRODUCTS;
     const cats = ["tenis", "camisas", "conjuntos", "shorts", "joias"];
@@ -304,7 +325,6 @@ function filterCat(c) {
     } else {
         hero.style.display = 'none';
         brands.style.display = 'none';
-        // Filtra por Categoria OU por Nome (ex: se o nome contiver 'corteiz')
         const filtrados = ALL_PRODUCTS.filter(p => 
             (p.categoria && p.categoria.toLowerCase() === c) || 
             (p.nome && p.nome.toLowerCase().includes(c))
@@ -349,6 +369,42 @@ function updateCart() {
     document.getElementById('cart-total').innerText = `Total: R$ ${total.toFixed(2).replace('.',',')}`;
 }
 
+// Funções de Autenticação Atualizadas
+function loginGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+    auth.signInWithPopup(provider)
+        .then(() => closeModals())
+        .catch(err => alert("Erro Google: " + err.message));
+}
+
+function logoutUser() {
+    if(confirm("Deseja sair da conta?")) {
+        auth.signOut().then(() => location.reload());
+    }
+}
+
+function handleAuth() {
+    const e = document.getElementById('auth-email').value, p = document.getElementById('auth-pass').value;
+    if(isSignUp) auth.createUserWithEmailAndPassword(e, p).then(()=>closeModals()).catch(err => alert(err.message));
+    else auth.signInWithEmailAndPassword(e, p).then(()=>closeModals()).catch(err => alert(err.message));
+}
+
+auth.onAuthStateChanged(u => {
+    const tr = document.getElementById('login-trigger'), me = document.getElementById('user-menu'), pi = document.getElementById('user-pic');
+    if(u) { 
+        tr.style.display='none'; 
+        me.style.display='flex'; 
+        pi.src = u.photoURL || 'https://cdn-icons-png.flaticon.com/512/149/149071.png'; 
+        // Preenche dados de checkout automaticamente se logado
+        document.getElementById('checkout-email').value = u.email;
+        document.getElementById('checkout-nome').value = u.displayName || "";
+    } else { 
+        tr.style.display='block'; 
+        me.style.display='none'; 
+    }
+});
+
 function toggleMenu() { document.getElementById('menu-sidebar').classList.toggle('open'); }
 function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('open'); }
 function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); }
@@ -364,16 +420,7 @@ function copiarChave() { navigator.clipboard.writeText("5519989620949"); alert("
 function confirmarPagamento() { closeModals(); document.getElementById('modal-obrigado').classList.add('active'); }
 function openAuth() { document.getElementById('modal-auth').classList.add('active'); }
 function toggleAuthMode() { isSignUp = !isSignUp; document.getElementById('auth-title').innerText = isSignUp ? "Cadastre-se" : "Entrar"; }
-function handleAuth() {
-    const e = document.getElementById('auth-email').value, p = document.getElementById('auth-pass').value;
-    if(isSignUp) auth.createUserWithEmailAndPassword(e, p).then(()=>closeModals());
-    else auth.signInWithEmailAndPassword(e, p).then(()=>closeModals());
-}
-auth.onAuthStateChanged(u => {
-    const tr = document.getElementById('login-trigger'), me = document.getElementById('user-menu'), pi = document.getElementById('user-pic');
-    if(u) { tr.style.display='none'; me.style.display='flex'; pi.src = u.photoURL || 'https://cdn-icons-png.flaticon.com/512/149/149071.png'; }
-    else { tr.style.display='block'; me.style.display='none'; }
-});
+
 </script>
 </body>
 </html>
