@@ -12,7 +12,14 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 
     <style>
-        :root { --accent: #25D366; --bg: #000; --card: #0d0d0d; --gray: #1a1a1a; }
+        :root { 
+            /* Paleta Metalizada baseada na foto */
+            --accent: #e0e0e0; 
+            --silver-btn: linear-gradient(145deg, #bdc3c7, #ffffff, #8e9eab);
+            --bg: #000; 
+            --card: #0d0d0d; 
+            --gray: #1a1a1a; 
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         body { background: var(--bg); color: #fff; overflow-x: hidden; }
 
@@ -33,12 +40,13 @@
 
         .hero-video { width: 100%; height: 75vh; position: relative; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; }
         .hero-video video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
-        .logo-overlay { position: absolute; width: 200px; z-index: 10; filter: drop-shadow(0 0 15px rgba(0,0,0,0.8)); }
+        .logo-overlay { position: absolute; width: 200px; z-index: 10; filter: drop-shadow(0 0 20px rgba(255,255,255,0.2)); }
         .hero-gradient { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 60%, #000 100%); z-index: 5; }
 
         .brand-filters { display: flex; justify-content: center; gap: 15px; padding: 20px; background: #000; }
         .brand-btn { text-align: center; cursor: pointer; }
         .brand-btn img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #333; margin-bottom: 5px; }
+        .brand-btn:hover img { border-color: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.3); }
         .brand-btn span { display: block; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
 
         .slider-section { padding: 10px 0; background: #000; margin: 20px 0; position: relative; }
@@ -55,7 +63,7 @@
         @media (min-width: 768px) { .grid { grid-template-columns: repeat(4, 1fr); } }
         
         .product-card { background: var(--card); border-radius: 0px; padding: 8px; border: 1px solid #111; cursor: pointer; }
-        .product-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .product-card:hover { transform: translateY(-5px); border-color: #fff; }
         .img-container { width: 100%; aspect-ratio: 1/1; overflow: hidden; }
         .product-card img { width: 100%; height: 100%; object-fit: cover; }
         .product-card h3 { font-size: 0.75rem; margin: 10px 0 4px; color: #bbb; }
@@ -68,7 +76,7 @@
         #m-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; margin-bottom: 0; display: block; }
         .modal-body { padding: 25px; }
         
-        .cart-sidebar { position: fixed; right: -100%; top: 0; width: 320px; height: 100vh; background: #000; z-index: 2000; padding: 20px; border-left: 1px solid #222; display: flex; flex-direction: column; will-change: transform; }
+        .cart-sidebar { position: fixed; right: -100%; top: 0; width: 320px; height: 100vh; background: #000; z-index: 2000; padding: 20px; border-left: 1px solid #222; display: flex; flex-direction: column; will-change: transform; transition: right 0.4s ease; }
         .cart-sidebar.open { right: 0; }
         
         #cart-list { flex: 1; overflow-y: auto; padding-right: 5px; margin-bottom: 20px; }
@@ -78,10 +86,10 @@
         .coupon-box { display: flex; gap: 5px; background: #111; padding: 5px; border-radius: 8px; border: 1px solid #333; margin-bottom: 15px; }
         #input-cupom { flex: 1; background: transparent; border: none; color: #fff; padding: 8px; outline: none; text-transform: uppercase; }
 
-        .btn-action { width: 100%; padding: 14px; margin: 5px 0; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; color: #000 !important; }
-        .btn-action:hover { opacity: 0.8; transform: scale(0.98); }
+        .btn-action { width: 100%; padding: 14px; margin: 5px 0; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; color: #000 !important; background: var(--silver-btn); }
+        .btn-action:hover { opacity: 0.8; transform: scale(0.98); box-shadow: 0 0 15px rgba(255,255,255,0.2); }
         
-        #menu-sidebar { position: fixed; left: -280px; top: 0; width: 280px; height: 100%; background: #000; z-index: 2000; padding: 40px 20px; border-right: 1px solid var(--gray); overflow-y: auto; }
+        #menu-sidebar { position: fixed; left: -280px; top: 0; width: 280px; height: 100%; background: #000; z-index: 2000; padding: 40px 20px; border-right: 1px solid var(--gray); overflow-y: auto; transition: left 0.4s ease; }
         #menu-sidebar.open { left: 0; }
         .menu-link { display: block; color: #fff; font-weight: 800; margin-bottom: 25px; text-transform: uppercase; cursor: pointer; }
 
@@ -91,10 +99,9 @@
 
         #search-box { display: none; width: 100%; background: #111; padding: 15px; border-bottom: 1px solid #333; }
         #search-box input { width: 100%; background: none; border: none; color: #fff; font-size: 1rem; outline: none; }
-        .loader-spinner { border: 4px solid #333; border-top: 4px solid var(--accent); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
+        .loader-spinner { border: 4px solid #333; border-top: 4px solid #fff; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
 
-        /* Botão Flutuante */
-        .float-zap { position: fixed; bottom: 25px; right: 25px; background: #25D366; color: #fff; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; z-index: 9999; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .float-zap { position: fixed; bottom: 25px; right: 25px; background: var(--silver-btn); color: #000; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; z-index: 9999; box-shadow: 0 4px 15px rgba(255,255,255,0.2); text-decoration: none; }
         .float-zap:hover { transform: scale(1.1); }
     </style>
 </head>
@@ -115,7 +122,7 @@
         <i class="fas fa-search" onclick="toggleSearch()" style="cursor:pointer"></i>
         <div onclick="toggleCart()" style="position:relative; cursor:pointer">
             <i class="fas fa-shopping-bag"></i>
-            <span id="cart-count" style="position:absolute; top:-8px; right:-8px; background:var(--accent); color:#000; font-size:0.6rem; font-weight:800; padding:2px 5px; border-radius:50%">0</span>
+            <span id="cart-count" style="position:absolute; top:-8px; right:-8px; background:var(--silver-btn); color:#000; font-size:0.6rem; font-weight:800; padding:2px 5px; border-radius:50%; box-shadow: 0 0 5px #fff;">0</span>
         </div>
     </div>
 </header>
@@ -167,18 +174,15 @@
         <h3 style="font-size: 1rem;">SEU CARRINHO</h3>
         <i class="fas fa-times" onclick="toggleCart()" style="cursor:pointer; padding:5px;"></i>
     </div>
-    
     <div id="cart-list"></div>
-    
     <div class="coupon-box">
         <input type="text" id="input-cupom" placeholder="CUPOM">
         <button onclick="aplicarCupom()" style="padding: 0 15px; background: #fff; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; color: #000;">OK</button>
     </div>
-    <div id="desconto-info" style="color: var(--accent); font-size: 0.8rem; margin-bottom: 10px; display: none;"></div>
-
+    <div id="desconto-info" style="color: #fff; font-size: 0.8rem; margin-bottom: 10px; display: none; font-weight: bold;"></div>
     <div id="cart-total" style="margin:10px 0; font-weight:800; font-size: 1.1rem;">Total: R$ 0,00</div>
-    <button class="btn-action" style="background:#fff;" onclick="abrirModalDados()">Finalizar pelo Site</button>
-    <button class="btn-action" style="background:var(--accent);" onclick="finalizarWhatsApp()"><i class="fab fa-whatsapp" style="margin-right:8px;"></i>Finalizar via WhatsApp</button>
+    <button class="btn-action" onclick="abrirModalDados()">Finalizar pelo Site</button>
+    <button class="btn-action" onclick="finalizarWhatsApp()"><i class="fab fa-whatsapp" style="margin-right:8px;"></i>Finalizar via WhatsApp</button>
 </div>
 
 <div id="main-content"></div>
@@ -190,8 +194,8 @@
             <h2 id="m-nome"></h2>
             <p id="m-preco" style="color:#fff; font-weight:800; font-size:1.1rem; margin:10px 0"></p>
             <div id="m-sizes" style="display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap"></div>
-            <button class="btn-action" style="background:#fff" onclick="addAoCarrinho()">Adicionar ao Carrinho</button>
-            <button class="btn-action" style="background:var(--accent)" onclick="zapDireto()"><i class="fab fa-whatsapp" style="margin-right:8px;"></i>WhatsApp</button>
+            <button class="btn-action" onclick="addAoCarrinho()">Adicionar ao Carrinho</button>
+            <button class="btn-action" onclick="zapDireto()"><i class="fab fa-whatsapp" style="margin-right:8px;"></i>WhatsApp</button>
             <p onclick="closeModals()" style="text-align:center; cursor:pointer; margin-top:10px; font-size:0.7rem; color:#555">FECHAR</p>
         </div>
     </div>
@@ -203,7 +207,7 @@
             <h2 id="auth-title" class="modal-title">Entrar</h2>
             <input type="email" id="auth-email" class="auth-input" placeholder="E-mail">
             <input type="password" id="auth-pass" class="auth-input" placeholder="Senha">
-            <button class="btn-action" style="background:var(--accent)" onclick="handleAuth()">Confirmar</button>
+            <button class="btn-action" onclick="handleAuth()">Confirmar</button>
             <button class="btn-action btn-google" onclick="loginGoogle()">
                 <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg">
                 Entrar com Google
@@ -222,7 +226,7 @@
             <input type="email" id="checkout-email" class="auth-input" placeholder="E-mail">
             <input type="tel" id="checkout-tel" class="auth-input" placeholder="Telefone">
             <input type="text" id="checkout-end" class="auth-input" placeholder="Endereço de Recebimento">
-            <button class="btn-action" style="background:#fff;" onclick="processarPedido()">Fazer Pedido</button>
+            <button class="btn-action" onclick="processarPedido()" style="background:#fff">Fazer Pedido</button>
             <p onclick="closeModals()" style="text-align:center; cursor:pointer; margin-top:10px; font-size:0.7rem; color:#555">CANCELAR</p>
         </div>
     </div>
@@ -237,13 +241,13 @@
             </div>
             <div id="pix-content-view" style="display:none">
                 <h2 style="margin-bottom:15px; font-size:1rem">Pagamento PIX</h2>
-                <div id="pix-valor-display" style="font-weight: 800; color: var(--accent); font-size: 1.2rem;"></div>
+                <div id="pix-valor-display" style="font-weight: 800; color: #fff; font-size: 1.2rem;"></div>
                 <img src="qrcode.jpg" style="width:200px; margin:15px 0; border-radius: 8px;">
                 <div style="margin-bottom:15px; background: #111; padding: 10px; border-radius: 5px;">
                     Chave: <span id="chave-pix">19989620949</span> 
-                    <i class="fas fa-copy" onclick="copiarChave()" style="cursor:pointer; margin-left:10px; color: var(--accent);"></i>
+                    <i class="fas fa-copy" onclick="copiarChave()" style="cursor:pointer; margin-left:10px; color: #fff;"></i>
                 </div>
-                <button class="btn-action" style="background:var(--accent);" onclick="confirmarPagamento()">Já efetuei o pagamento</button>
+                <button class="btn-action" onclick="confirmarPagamento()">Já efetuei o pagamento</button>
             </div>
         </div>
     </div>
@@ -254,13 +258,14 @@
         <div class="modal-body">
             <img src="logo.jpg" style="width: 80px; margin-bottom: 15px;">
             <p style="margin: 15px 0; color: #fff; line-height: 1.5;">Obrigado por confiar em nossa equipe, o pagamento será processado e enviaremos informações e código de rastreio do seu produto via whatsapp ou e-mail.</p>
-            <button class="btn-action" style="background:#fff;" onclick="location.reload()">Continuar Comprando</button>
-            <button class="btn-action" style="background:var(--accent); color:#000;" onclick="window.open('https://wa.me/5519989620949')"><i class="fab fa-whatsapp" style="margin-right:8px;"></i>Atendimento Whatsapp</button>
+            <button class="btn-action" onclick="location.reload()" style="background:#fff">Continuar Comprando</button>
+            <button class="btn-action" onclick="window.open('https://wa.me/5519989620949')"><i class="fab fa-whatsapp" style="margin-right:8px;"></i>Atendimento Whatsapp</button>
         </div>
     </div>
 </div>
 
 <script>
+// CONFIGURAÇÃO FIREBASE ORIGINAL
 const firebaseConfig = {
     apiKey: "AIzaSyD1Phuyxe5du5aMPG3rn4BxAiKdYp0uFuI",
     authDomain: "b2-street-501f4.firebaseapp.com",
@@ -284,13 +289,13 @@ let currentSlide = 0;
 let DESCONTO_FIXO = 0;
 let CUPOM_VALIDO = false;
 
+// FUNÇÕES DE CUPOM
 function aplicarCupom() {
     const cod = document.getElementById('input-cupom').value.toUpperCase().trim();
     db.ref('cupons/' + cod).once('value', snap => {
         if(snap.exists()) {
             const cupom = snap.val();
             const elegivel = (cupom.categoria === 'geral') || CART.some(item => item.categoria === cupom.categoria);
-            
             if(elegivel) {
                 DESCONTO_FIXO = parseFloat(cupom.valor);
                 CUPOM_VALIDO = true;
@@ -316,6 +321,7 @@ function resetarCupom() {
     updateCart();
 }
 
+// INTEGRAÇÃO SHEETS
 async function enviarParaGoogleSheets(dados) {
     const URL_GOOGLE_SHEETS = 'https://script.google.com/macros/s/AKfycbyieykVdEHMy5wwBAyGP1CIvb74yP3a-elasgyZBFIcJ8BZWqw5wKPDnpIGlcTfAj0y/exec'; 
     try {
@@ -328,6 +334,7 @@ async function enviarParaGoogleSheets(dados) {
     } catch (error) { console.error("Erro ao enviar para Sheets:", error); }
 }
 
+// BUSCA E MENU
 function toggleSearch() {
     const box = document.getElementById('search-box');
     box.style.display = box.style.display === 'block' ? 'none' : 'block';
@@ -340,6 +347,10 @@ function buscarProduto() {
     renderFull(filtrados);
 }
 
+function toggleMenu() { document.getElementById('menu-sidebar').classList.toggle('open'); }
+function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('open'); }
+
+// SLIDER
 function moveSlide(dir) {
     if (ALL_BANNERS.length <= 1) return;
     currentSlide = (currentSlide + dir + ALL_BANNERS.length) % ALL_BANNERS.length;
@@ -354,6 +365,7 @@ db.ref('banners').on('value', snap => {
     if(ALL_BANNERS.length > 1) setInterval(() => moveSlide(1), 5000);
 });
 
+// PRODUTOS E RENDERIZAÇÃO
 db.ref('produtos').on('value', snap => {
     ALL_PRODUCTS = [];
     snap.forEach(c => { ALL_PRODUCTS.push({id: c.key, ...c.val()}); });
@@ -408,6 +420,7 @@ function filterCat(c) {
     window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
+// CARRINHO E MODAIS
 function openProduct(id) {
     SELECTED_PROD = ALL_PRODUCTS.find(p => p.id === id);
     document.getElementById('m-img').src = SELECTED_PROD.imagem;
@@ -416,10 +429,12 @@ function openProduct(id) {
     let cat = SELECTED_PROD.categoria.toLowerCase();
     let sizes = (cat === 'tenis' || cat === 'chinelos') ? ['38','39','40','41','42','43'] : cat === 'joias' ? ['único'] : ['P','M','G','GG'];
     document.getElementById('m-sizes').innerHTML = sizes.map(s => 
-        `<button onclick="SELECTED_SIZE='${s}'; Array.from(this.parentNode.children).forEach(b=>b.style.border='1px solid #333'); this.style.border='1px solid var(--accent)'" style="padding:8px; background:#111; color:#fff; border:1px solid #333; cursor:pointer">${s}</button>`
+        `<button onclick="SELECTED_SIZE='${s}'; Array.from(this.parentNode.children).forEach(b=>b.style.border='1px solid #333'); this.style.border='1px solid #fff'" style="padding:8px; background:#111; color:#fff; border:1px solid #333; cursor:pointer">${s}</button>`
     ).join('');
     document.getElementById('modal-produto').classList.add('active');
 }
+
+function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); }
 
 function addAoCarrinho() {
     if(!SELECTED_SIZE) return alert("Selecione o tamanho!");
@@ -440,16 +455,12 @@ function updateCart() {
         subtotal += parseFloat(String(i.preco).replace(',','.'));
         return `<div class="cart-item"><img src="${i.imagem}"><div><div style="font-size:0.8rem">${i.nome}</div><div style="color:#888; font-size:0.7rem">${i.tamanho}</div><b>R$ ${i.preco}</b></div><i class="fas fa-trash remove-item" onclick="removerDoCarrinho(${i.cartId})"></i></div>`;
     }).join('');
-    
     let totalFinal = subtotal - DESCONTO_FIXO;
     if(totalFinal < 0) totalFinal = 0;
-    
     document.getElementById('cart-total').innerText = `Total: R$ ${totalFinal.toFixed(2).replace('.',',')}`;
 }
 
-function toggleMenu() { document.getElementById('menu-sidebar').classList.toggle('open'); }
-function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('open'); }
-function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); }
+// FINALIZAÇÃO
 function zapDireto() { window.open(`https://wa.me/5519989620949?text=Olá, vi o produto ${SELECTED_PROD.nome}`); }
 function finalizarWhatsApp() {
     let t = `*PEDIDO B2 STREET*%0A`;
@@ -486,6 +497,8 @@ function processarPedido() {
 }
 function copiarChave() { navigator.clipboard.writeText("19989620949"); alert("Chave copiada!"); }
 function confirmarPagamento() { closeModals(); document.getElementById('modal-obrigado').classList.add('active'); }
+
+// AUTH FIREBASE COMPLETO
 function openAuth() { document.getElementById('modal-auth').classList.add('active'); }
 function toggleAuthMode() { isSignUp = !isSignUp; document.getElementById('auth-title').innerText = isSignUp ? "Cadastre-se" : "Entrar"; }
 auth.onAuthStateChanged(u => {
