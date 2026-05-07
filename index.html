@@ -233,9 +233,12 @@
             <h2 style="margin-bottom:15px; font-size:1rem">Dados de Entrega</h2>
             <input type="text" id="checkout-nome" class="auth-input" placeholder="Nome Completo">
             <input type="email" id="checkout-email" class="auth-input" placeholder="E-mail">
-            <input type="tel" id="checkout-tel" class="auth-input" placeholder="Telefone">
+            <input type="tel" id="checkout-tel" class="auth-input" placeholder="Telefone (WhatsApp)">
+            <input type="text" id="checkout-cpf" class="auth-input" placeholder="CPF">
+            <input type="text" id="checkout-cep" class="auth-input" placeholder="CEP">
             <input type="text" id="checkout-end" class="auth-input" placeholder="Endereço de Recebimento">
-            <button class="btn-action" onclick="processarPedido()" style="background:#fff">Fazer Pedido</button>
+            
+            <button class="btn-action" onclick="processarPedido()" style="background:#fff; color:#000; font-weight:bold">Continuar para Pagamento</button>
             <p onclick="closeModals()" style="text-align:center; cursor:pointer; margin-top:10px; font-size:0.7rem; color:#555">CANCELAR</p>
         </div>
     </div>
@@ -246,17 +249,28 @@
         <div class="modal-body">
             <div id="pix-loading-view">
                 <div class="loader-spinner"></div>
-                <p>Gerando QR Code...</p>
+                <p>Processando...</p>
             </div>
             <div id="pix-content-view" style="display:none">
-                <h2 style="margin-bottom:15px; font-size:1rem">Pagamento PIX</h2>
-                <div id="pix-valor-display" style="font-weight: 800; color: #fff; font-size: 1.2rem;"></div>
-                <img src="qrcode.jpg" style="width:200px; margin:15px 0; border-radius: 8px;">
-                <div style="margin-bottom:15px; background: #111; padding: 10px; border-radius: 5px;">
-                    Chave: <span id="chave-pix">19989620949</span> 
-                    <i class="fas fa-copy" onclick="copiarChave()" style="cursor:pointer; margin-left:10px; color: #fff;"></i>
+                <h2 style="margin-bottom:15px; font-size:1rem">Método de pagamento disponível:</h2>
+                
+                <div style="border: 2px solid #32bcad; padding: 15px; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 10px; background: #000; margin-bottom: 20px;">
+                    <img src="logopix.png" width="100" alt="Logo Pix">
+                    <span style="color: #fff; font-weight: bold;">PIX</span>
                 </div>
-                <button class="btn-action" onclick="confirmarPagamento()">Já efetuei o pagamento</button>
+
+                <div id="pix-valor-display" style="font-weight: 800; color: #fff; font-size: 1.2rem; margin-bottom: 10px;"></div>
+                
+                <p style="font-size: 0.8rem; color: #ccc; margin-bottom: 10px;">Escaneie o QR Code ou copie a chave Nubank abaixo: Bruno Luis Furlan </p>
+                <img src="qrcode.jpg" style="width:180px; margin-bottom:15px; border-radius: 8px; border: 4px solid #fff;">
+                
+                <div style="margin-bottom:20px; background: #111; padding: 12px; border-radius: 5px; border: 1px dashed #32bcad;">
+                    <span style="font-size: 0.7rem; color: #888;">Chave Pix:</span><br>
+                    <span id="chave-pix" style="font-weight: bold; color:#fff">19989620949</span> 
+                    <i class="fas fa-copy" onclick="copiarChave()" style="cursor:pointer; margin-left:10px; color: #32bcad;"></i>
+                </div>
+
+                <button class="btn-action" onclick="confirmarPagamento()" style="background: #32bcad; color: #fff; font-weight:bold">Já efetuei o pagamento</button>
             </div>
         </div>
     </div>
@@ -266,8 +280,8 @@
     <div class="modal-content" style="text-align:center; padding: 20px;">
         <div class="modal-body">
             <img src="logo.png" style="width: 80px; margin-bottom: 15px;">
-            <p style="margin: 15px 0; color: #fff; line-height: 1.5;">Obrigado por confiar em nossa equipe, o pagamento será processado e enviaremos informações e código de rastreio do seu produto via whatsapp ou e-mail.</p>
-            <button class="btn-action" onclick="location.reload()" style="background:#fff">Continuar Comprando</button>
+            <p style="margin: 15px 0; color: #fff; line-height: 1.5;">O pagamento será processado e enviaremos informações sobre seu pedido via whatsapp ou e-mail.Você pode checar o código de rastreio e status do seu pedido na seção ´´ Meus pedidos``.</p>
+            <button class="btn-action" onclick="location.reload()" style="background:#fff; color:#000">Continuar Comprando</button>
             <button class="btn-action" onclick="window.open('https://wa.me/5519989620949')"><i class="fab fa-whatsapp" style="margin-right:8px;"></i>Atendimento Whatsapp</button>
         </div>
     </div>
@@ -298,7 +312,151 @@ let currentSlide = 0;
 let DESCONTO_FIXO = 0;
 let CUPOM_VALIDO = false;
 
-// FUNÇÕES DE CUPOM
+// --- FUNÇÕES DE PEDIDO E INTEGRAÇÃO ---
+
+async function enviarParaGoogleSheets(dados) {
+    const URL_GOOGLE_SHEETS = 'https://script.google.com/macros/s/AKfycbzAX52f-yQZXT1CpYPXky_WphyOius_LjExLcI98YLCuf74FID0MrfbZCzU5VVtSrag/exec'; 
+    
+    // Organizando os produtos em uma string legível para não bagunçar a planilha
+    const listaProdutos = dados.produtos.map(p => `${p.nome} (Tam: ${p.tamanho})`).join(' | ');
+
+    const payload = {
+        data: dados.data,
+        cliente: dados.cliente,
+        email: dados.email,
+        whatsapp: dados.whatsapp,
+        cpf: dados.cpf,
+        cep: dados.cep,
+        endereco: dados.endereco,
+        produtos: listaProdutos, // Agora os produtos vão em uma única célula organizada
+        total: dados.total,
+        status: dados.status
+    };
+
+    try {
+        await fetch(URL_GOOGLE_SHEETS, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+    } catch (error) { console.error("Erro ao enviar para Sheets:", error); }
+}
+
+function processarPedido() {
+    const nome = document.getElementById('checkout-nome').value;
+    const email = document.getElementById('checkout-email').value;
+    const tel = document.getElementById('checkout-tel').value;
+    const cpf = document.getElementById('checkout-cpf').value;
+    const cep = document.getElementById('checkout-cep').value;
+    const end = document.getElementById('checkout-end').value;
+    const total = document.getElementById('cart-total').innerText;
+    
+    if (!nome || !tel || !end || !cpf || !cep) { 
+        alert("Preencha todos os dados: Nome, WhatsApp, CPF, CEP e Endereço."); 
+        return; 
+    }
+
+    const pedidoData = {
+        data: new Date().toLocaleString('pt-BR'),
+        cliente: nome, 
+        email: email, 
+        whatsapp: tel, 
+        cpf: cpf,
+        cep: cep,
+        endereco: end,
+        produtos: CART, 
+        total: total,
+        status: '',
+        rastreio: '' // Campo vazio para você preencher no seu painel ADM
+    };
+
+    // 1. Envia para o Google Sheets (Corrigido)
+    enviarParaGoogleSheets(pedidoData);
+
+    // 2. Salva no Firebase para aparecer no seu Painel ADM
+    // Criamos uma referência única para o pedido
+    const novoPedidoRef = db.ref('todos_pedidos').push();
+    const pedidoId = novoPedidoRef.key;
+    
+    novoPedidoRef.set({ ...pedidoData, id: pedidoId });
+
+    // 3. Também salva no histórico do usuário logado
+    if(auth.currentUser) {
+        db.ref('pedidos/' + auth.currentUser.uid + '/' + pedidoId).set(pedidoData);
+    }
+
+    // Transição para tela de pagamento
+    document.getElementById('modal-dados').classList.remove('active'); 
+    document.getElementById('pix-valor-display').innerText = total; 
+    document.getElementById('pix-loading-view').style.display = 'block';
+    document.getElementById('pix-content-view').style.display = 'none';
+    document.getElementById('modal-pix').classList.add('active'); 
+    
+    setTimeout(() => {
+        document.getElementById('pix-loading-view').style.display = 'none';
+        document.getElementById('pix-content-view').style.display = 'block';
+    }, 2500);
+}
+
+// FUNÇÃO MEUS PEDIDOS (Para o cliente ver o status e rastreio que você colocar no ADM)
+function abrirMeusPedidos() {
+    if(!auth.currentUser) {
+        alert("Você precisa estar logado para ver seus pedidos.");
+        openAuth();
+        return;
+    }
+    
+    toggleMenu();
+    const lista = document.getElementById('lista-meus-pedidos');
+    lista.innerHTML = "Carregando...";
+    document.getElementById('modal-meus-pedidos').classList.add('active');
+
+    db.ref('pedidos/' + auth.currentUser.uid).on('value', snapshot => {
+        lista.innerHTML = "";
+        if(!snapshot.exists()) {
+            lista.innerHTML = "<p style='text-align:center'>Nenhum pedido encontrado.</p>";
+            return;
+        }
+
+        snapshot.forEach(child => {
+            const pedido = child.val();
+            const status = pedido.status || 'Pendente';
+            
+            // Lógica do rastreio
+            const rastreioHtml = pedido.rastreio 
+                ? `<div style="margin-top:10px; background:#32bcad; color:#fff; padding:8px; border-radius:4px; font-size:0.75rem; font-weight:bold; text-align:center;">
+                     <i class="fas fa-truck"></i> Rastreio: ${pedido.rastreio}
+                   </div>` 
+                : `<div style="margin-top:10px; background:#222; color:#888; padding:8px; border-radius:4px; font-size:0.75rem; text-align:center;">Rastreio em breve</div>`;
+
+            let prodsHtml = pedido.produtos.map(p => `
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px; border-bottom:1px solid #222; padding-bottom:5px;">
+                    <img src="${p.imagem}" style="width:40px; height:40px; object-fit:cover; border-radius:4px;">
+                    <div style="font-size:0.8rem">
+                        <div>${p.nome}</div>
+                        <div style="color:#888">Tam: ${p.tamanho} | R$ ${p.preco}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            lista.innerHTML += `
+                <div style="background:#111; padding:15px; border-radius:8px; margin-bottom:15px; border: 1px solid #333;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <div style="font-size:0.7rem; color:#888;">${pedido.data}</div>
+                        <div style="font-size:0.7rem; background:#32bcad; color:#fff; padding:2px 8px; border-radius:4px; font-weight:bold;">${status}</div>
+                    </div>
+                    ${prodsHtml}
+                    ${rastreioHtml}
+                    <div style="text-align:right; font-weight:bold; margin-top:10px; color:#32bcad;">${pedido.total}</div>
+                </div>
+            `;
+        });
+    });
+}
+
+// --- RESTANTE DAS FUNÇÕES (IGUAIS) ---
+
 function aplicarCupom() {
     const cod = document.getElementById('input-cupom').value.toUpperCase().trim();
     db.ref('cupons/' + cod).once('value', snap => {
@@ -330,20 +488,6 @@ function resetarCupom() {
     updateCart();
 }
 
-// INTEGRAÇÃO SHEETS
-async function enviarParaGoogleSheets(dados) {
-    const URL_GOOGLE_SHEETS = 'https://script.google.com/macros/s/AKfycbyieykVdEHMy5wwBAyGP1CIvb74yP3a-elasgyZBFIcJ8BZWqw5wKPDnpIGlcTfAj0y/exec'; 
-    try {
-        await fetch(URL_GOOGLE_SHEETS, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dados)
-        });
-    } catch (error) { console.error("Erro ao enviar para Sheets:", error); }
-}
-
-// BUSCA E MENU
 function toggleSearch() {
     const box = document.getElementById('search-box');
     box.style.display = box.style.display === 'block' ? 'none' : 'block';
@@ -359,7 +503,6 @@ function buscarProduto() {
 function toggleMenu() { document.getElementById('menu-sidebar').classList.toggle('open'); }
 function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('open'); }
 
-// SLIDER
 function moveSlide(dir) {
     if (ALL_BANNERS.length <= 1) return;
     currentSlide = (currentSlide + dir + ALL_BANNERS.length) % ALL_BANNERS.length;
@@ -374,7 +517,6 @@ db.ref('banners').on('value', snap => {
     if(ALL_BANNERS.length > 1) setInterval(() => moveSlide(1), 5000);
 });
 
-// PRODUTOS E RENDERIZAÇÃO
 db.ref('produtos').on('value', snap => {
     ALL_PRODUCTS = [];
     snap.forEach(c => { ALL_PRODUCTS.push({id: c.key, ...c.val()}); });
@@ -429,7 +571,6 @@ function filterCat(c) {
     window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
-// CARRINHO E MODAIS
 function openProduct(id) {
     SELECTED_PROD = ALL_PRODUCTS.find(p => p.id === id);
     document.getElementById('m-img').src = SELECTED_PROD.imagem;
@@ -469,13 +610,7 @@ function updateCart() {
     document.getElementById('cart-total').innerText = `Total: R$ ${totalFinal.toFixed(2).replace('.',',')}`;
 }
 
-// FINALIZAÇÃO
-function zapDireto() { window.open(`https://wa.me/5519989620949?text=Olá, vi o produto ${SELECTED_PROD.nome}`); }
-function finalizarWhatsApp() {
-    let t = `*PEDIDO B2 STREET*%0A`;
-    CART.forEach(i => t += `- ${i.nome} (${i.tamanho})%0A`);
-    window.open(`https://wa.me/5519989620949?text=${t}`);
-}
+function zapDireto() { window.open(`https://wa.me/5519989620949?text=Olá, este produto está disponivel? ${SELECTED_PROD.nome}`); }
 
 function abrirModalDados() { 
     if(!auth.currentUser) return openAuth(); 
@@ -483,114 +618,27 @@ function abrirModalDados() {
     document.getElementById('modal-dados').classList.add('active'); 
 }
 
-function processarPedido() {
-    const nome = document.getElementById('checkout-nome').value;
-    const tel = document.getElementById('checkout-tel').value;
-    const end = document.getElementById('checkout-end').value;
-    const total = document.getElementById('cart-total').innerText;
-    
-    if (!nome || !tel || !end) { alert("Preencha Nome, Telefone e Endereço."); return; }
-
-    const pedidoData = {
-        data: new Date().toLocaleString('pt-BR'),
-        cliente: nome, 
-        email: document.getElementById('checkout-email').value, 
-        whatsapp: tel, 
-        endereco: end,
-        produtos: CART, 
-        total: total,
-        status: 'Pendente'
-    };
-
-    enviarParaGoogleSheets(pedidoData);
-
-    if(auth.currentUser) {
-        db.ref('pedidos/' + auth.currentUser.uid).push(pedidoData);
-    }
-
-    document.getElementById('modal-dados').classList.remove('active'); 
-    document.getElementById('pix-valor-display').innerText = total; 
-    document.getElementById('pix-loading-view').style.display = 'block';
-    document.getElementById('pix-content-view').style.display = 'none';
-    document.getElementById('modal-pix').classList.add('active'); 
-    
-    setTimeout(() => {
-        document.getElementById('pix-loading-view').style.display = 'none';
-        document.getElementById('pix-content-view').style.display = 'block';
-    }, 3000);
-}
-
-// FUNÇÃO ATUALIZADA: Meus Pedidos com rastreio
-function abrirMeusPedidos() {
-    if(!auth.currentUser) {
-        alert("Você precisa estar logado para ver seus pedidos.");
-        openAuth();
-        return;
-    }
-    
-    toggleMenu();
-    const lista = document.getElementById('lista-meus-pedidos');
-    lista.innerHTML = "Carregando...";
-    document.getElementById('modal-meus-pedidos').classList.add('active');
-
-    db.ref('pedidos/' + auth.currentUser.uid).once('value', snapshot => {
-        lista.innerHTML = "";
-        if(!snapshot.exists()) {
-            lista.innerHTML = "<p style='text-align:center'>Nenhum pedido encontrado.</p>";
-            return;
-        }
-
-        snapshot.forEach(child => {
-            const pedido = child.val();
-            const status = pedido.status || '';
-            const statusColor = status === '' ? '#28a745' : '#ffc107'; 
-            
-            // Lógica do rastreio
-            const rastreioHtml = pedido.rastreio 
-                ? `<div style="margin-top:10px; background:#25D366; color:#000; padding:8px; border-radius:4px; font-size:0.75rem; font-weight:bold; text-align:center;">
-                     <i class="fas fa-truck"></i> Rastreio: ${pedido.rastreio}
-                   </div>` 
-                : '';
-
-            let prodsHtml = pedido.produtos.map(p => `
-                <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px; border-bottom:1px solid #222; padding-bottom:5px;">
-                    <img src="${p.imagem}" style="width:40px; height:40px; object-fit:cover;">
-                    <div style="font-size:0.8rem">
-                        <div>${p.nome}</div>
-                        <div style="color:#888">Tam: ${p.tamanho} | R$ ${p.preco}</div>
-                    </div>
-                </div>
-            `).join('');
-
-            lista.innerHTML += `
-                <div style="background:#111; padding:10px; border-radius:8px; margin-bottom:15px;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                        <div style="font-size:0.7rem; color:#888;">Data: ${pedido.data}</div>
-                        <div style="font-size:0.7rem; background:${statusColor}; color:#000; padding:2px 8px; border-radius:4px; font-weight:bold;">${status}</div>
-                    </div>
-                    ${prodsHtml}
-                    ${rastreioHtml}
-                    <div style="text-align:right; font-weight:bold; margin-top:10px;">${pedido.total}</div>
-                </div>
-            `;
-        });
-    });
-}
-
 function copiarChave() { navigator.clipboard.writeText("19989620949"); alert("Chave copiada!"); }
 function confirmarPagamento() { closeModals(); document.getElementById('modal-obrigado').classList.add('active'); }
 
-// AUTH FIREBASE
 function openAuth() { document.getElementById('modal-auth').classList.add('active'); }
 function toggleAuthMode() { isSignUp = !isSignUp; document.getElementById('auth-title').innerText = isSignUp ? "Cadastre-se" : "Entrar"; }
+
 auth.onAuthStateChanged(u => {
     const tr = document.getElementById('login-trigger'), me = document.getElementById('user-menu'), pi = document.getElementById('user-pic');
-    if(u) { tr.style.display='none'; me.style.display='flex'; pi.src = u.photoURL || 'https://cdn-icons-png.flaticon.com/512/149/149071.png'; document.getElementById('checkout-email').value = u.email; document.getElementById('checkout-nome').value = u.displayName || ""; } 
-    else { tr.style.display='block'; me.style.display='none'; }
+    if(u) { 
+        tr.style.display='none'; 
+        me.style.display='flex'; 
+        pi.src = u.photoURL || 'https://cdn-icons-png.flaticon.com/512/149/149071.png'; 
+        document.getElementById('checkout-email').value = u.email; 
+        document.getElementById('checkout-nome').value = u.displayName || ""; 
+    } else { 
+        tr.style.display='block'; 
+        me.style.display='none'; 
+    }
 });
+
 function loginGoogle() { const provider = new firebase.auth.GoogleAuthProvider(); auth.signInWithPopup(provider).then(() => closeModals()).catch(err => alert(err.message)); }
 function logoutUser() { if(confirm("Deseja sair da conta?")) auth.signOut().then(() => location.reload()); }
 function handleAuth() { const e = document.getElementById('auth-email').value, p = document.getElementById('auth-pass').value; if(isSignUp) auth.createUserWithEmailAndPassword(e, p).then(()=>closeModals()).catch(err => alert(err.message)); else auth.signInWithEmailAndPassword(e, p).then(()=>closeModals()).catch(err => alert(err.message)); }
 </script>
-</body>
-</html>
