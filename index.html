@@ -102,6 +102,105 @@
 
         .float-zap { position: fixed; bottom: 25px; right: 25px; background: var(--silver-btn); color: #000; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; z-index: 9999; box-shadow: 0 4px 15px rgba(255,255,255,0.2); text-decoration: none; }
         .float-zap:hover { transform: scale(1.1); }
+
+        /* --- Nova Seção: Quem Somos & Instagram Stories --- */
+        .about-section {
+            padding: 40px 20px 20px 20px;
+            text-align: center;
+            background: #000;
+            color: #fff;
+        }
+        .about-section h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .about-text {
+            max-width: 700px;
+            margin: 0 auto 35px auto;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #ccc;
+        }
+        .stories-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            max-width: 1000px;
+            margin: 0 auto 30px auto;
+        }
+        /* Card com borda degradê do Instagram */
+        .story-card {
+            width: 100%;
+            aspect-ratio: 9 / 16;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            border-radius: 16px;
+            padding: 3px; /* Espessura da mini borda */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+        /* Container interno para recortar a imagem com cantos arredondados */
+        .story-inner {
+            width: 100%;
+            height: 100%;
+            background: #111;
+            border-radius: 13px;
+            overflow: hidden;
+        }
+        .story-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        /* Animações dos Cards */
+        .story-card:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 8px 25px rgba(220, 39, 67, 0.4);
+        }
+        .story-card:hover .story-inner img {
+            transform: scale(1.03);
+        }
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.015); box-shadow: 0 4px 20px rgba(230, 104, 60, 0.2); }
+        }
+        
+        .instagram-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: #fff;
+            padding: 12px 35px;
+            border-radius: 30px; /* Pontas redondas */
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(220, 39, 67, 0.3);
+        }
+        .instagram-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(220, 39, 67, 0.5);
+        }
+
+        /* Ajuste responsivo para telas menores (celulares) */
+        @media (max-width: 768px) {
+            .stories-container {
+                grid-template-columns: repeat(2, 1fr); /* Vira 2x2 no celular para manter o aspecto 9:16 visível */
+                gap: 12px;
+            }
+            .about-text {
+                font-size: 0.95rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -136,6 +235,49 @@
     <video autoplay loop muted playsinline>
         <source src="video.mov" type="video/mp4">
     </video>
+</section>
+
+<section class="about-section">
+    <h2>Quem somos?</h2>
+    <p class="about-text">
+        Trabalhamos com peças selecionadas, qualidade premium e os modelos que fazem diferença no visual, sempre trazendo o melhor do streetwear e das tendências que dominam as ruas.
+
+Atendemos clientes de todo o Brasil com envios rápidos e seguros, e também oferecemos retirada em Paulínia para quem prefere receber de perto e sem espera.
+
+Mais do que uma loja, somos uma marca feita para quem vive o lifestyle urbano, valoriza exclusividade e sabe que estilo começa na forma de se apresentar ao mundo.
+
+🖤 Enviamos para todo o Brasil | 
+📍 Retirada disponível em Paulínia | 
+🚚 Entrega rápida e segura | 
+🔥 Streetwear, atitude e autenticidade em cada peça. Acompanhe os nossos bastidores e feedbacks reais abaixo!
+    </p>
+    
+    <div class="stories-container">
+        <div class="story-card">
+            <div class="story-inner">
+                <img src="story1.jpg" alt="Instagram Story 1">
+            </div>
+        </div>
+        <div class="story-card">
+            <div class="story-inner">
+                <img src="story2.jpg" alt="Instagram Story 2">
+            </div>
+        </div>
+        <div class="story-card">
+            <div class="story-inner">
+                <img src="story3.jpg" alt="Instagram Story 3">
+            </div>
+        </div>
+        <div class="story-card">
+            <div class="story-inner">
+                <img src="story4.jpg" alt="Instagram Story 4">
+            </div>
+        </div>
+    </div>
+
+    <a href="https://www.instagram.com/b2.street_/" target="_blank" class="instagram-btn">
+        <i class="fab fa-instagram" style="font-size: 1.3rem;"></i> Nosso Instagram !!
+    </a>
 </section>
 
 <div class="brand-filters" id="brand-filters">
