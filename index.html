@@ -96,7 +96,7 @@
         .cart-item img { width: 50px; height: 50px; object-fit: cover; }
         .remove-item { color: #ff4444; cursor: pointer; font-size: 0.8rem; margin-left: auto; }
 
-        #search-box { display: none; width: 100%; background: #111; padding: 15px; border-bottom: 1px solid #333; }
+       #search-box { display: none; width: 100%; background: #111; padding: 15px; border-bottom: 1px solid #333; }
         #search-box input { width: 100%; background: none; border: none; color: #fff; font-size: 1rem; outline: none; }
         .loader-spinner { border: 4px solid #333; border-top: 4px solid #fff; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
 
@@ -124,13 +124,59 @@
             line-height: 1.6;
             color: #ccc;
         }
+        
+        /* Wrapper do Carrossel para posicionar as setas */
+        .stories-wrapper {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto 30px auto;
+            display: flex;
+            align-items: center;
+        }
+
         .stories-container {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 16px;
-            max-width: 1000px;
-            margin: 0 auto 30px auto;
+            width: 100%;
+            overflow-x: auto;
+            scroll-behavior: smooth;
         }
+        
+        /* Ocultar barra de rolagem padrão para um visual mais limpo */
+        .stories-container::-webkit-scrollbar {
+            display: none;
+        }
+        .stories-container {
+            -ms-overflow-style: none;  /* IE e Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        /* Setas de Navegação */
+        .story-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #333;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .story-arrow:hover {
+            background: #fff;
+            color: #000;
+        }
+        .story-arrow.prev { left: -20px; }
+        .story-arrow.next { right: -20px; }
+
         /* Card com borda degradê do Instagram */
         .story-card {
             width: 100%;
@@ -191,15 +237,24 @@
             box-shadow: 0 6px 20px rgba(220, 39, 67, 0.5);
         }
 
-        /* Ajuste responsivo para telas menores (celulares) */
+        /* Ajuste responsivo para telas menores (celulares) - Carrossel em linha única */
         @media (max-width: 768px) {
+            .stories-wrapper {
+                padding: 0 10px;
+            }
             .stories-container {
-                grid-template-columns: repeat(2, 1fr); /* Vira 2x2 no celular para manter o aspecto 9:16 visível */
+                display: flex; /* Muda de grid para flex no mobile para forçar a linha única */
+                flex-wrap: nowrap;
                 gap: 12px;
+                scroll-snap-type: x mandatory; /* Efeito magnético suave ao arrastar */
             }
-            .about-text {
-                font-size: 0.95rem;
+            .story-card {
+                flex: 0 0 45%; /* Define que cada card ocupará 45% da largura da tela no mobile */
+                scroll-snap-align: start;
             }
+            /* Reposiciona as setas levemente para dentro da tela no mobile */
+            .story-arrow.prev { left: 5px; }
+            .story-arrow.next { right: 5px; }
         }
     </style>
 </head>
@@ -252,27 +307,34 @@ Mais do que uma loja, somos uma marca feita para quem vive o lifestyle urbano, v
 🔥 Streetwear, atitude e autenticidade em cada peça. Acompanhe os nossos bastidores e feedbacks reais abaixo!
     </p>
     
-    <div class="stories-container">
-        <div class="story-card">
-            <div class="story-inner">
-                <img src="story1.jpg" alt="Instagram Story 1">
+    <!-- Novo Wrapper contendo o container e as setinhas -->
+    <div class="stories-wrapper">
+        <button class="story-arrow prev" onclick="scrollStories(-1)"><i class="fas fa-chevron-left"></i></button>
+        
+        <div class="stories-container" id="storiesContainer">
+            <div class="story-card">
+                <div class="story-inner">
+                    <img src="story1.jpg" alt="Instagram Story 1">
+                </div>
+            </div>
+            <div class="story-card">
+                <div class="story-inner">
+                    <img src="story2.jpg" alt="Instagram Story 2">
+                </div>
+            </div>
+            <div class="story-card">
+                <div class="story-inner">
+                    <img src="story3.jpg" alt="Instagram Story 3">
+                </div>
+            </div>
+            <div class="story-card">
+                <div class="story-inner">
+                    <img src="story4.jpg" alt="Instagram Story 4">
+                </div>
             </div>
         </div>
-        <div class="story-card">
-            <div class="story-inner">
-                <img src="story2.jpg" alt="Instagram Story 2">
-            </div>
-        </div>
-        <div class="story-card">
-            <div class="story-inner">
-                <img src="story3.jpg" alt="Instagram Story 3">
-            </div>
-        </div>
-        <div class="story-card">
-            <div class="story-inner">
-                <img src="story4.jpg" alt="Instagram Story 4">
-            </div>
-        </div>
+        
+        <button class="story-arrow next" onclick="scrollStories(1)"><i class="fas fa-chevron-right"></i></button>
     </div>
 
     <a href="https://www.instagram.com/b2.street_/" target="_blank" class="instagram-btn">
@@ -294,6 +356,19 @@ Mais do que uma loja, somos uma marca feita para quem vive o lifestyle urbano, v
         <span>Nike</span>
     </div>
 </div>
+
+<!-- Script nativo para controle do clique nas setas -->
+<script>
+    function scrollStories(direction) {
+        const container = document.getElementById('storiesContainer');
+        // Calcula a largura de um card + o gap dinamicamente
+        const scrollAmount = container.clientWidth * 0.6; 
+        container.scrollBy({
+            left: direction * scrollAmount,
+            behavior: 'smooth'
+        });
+    }
+</script>
 
 <nav id="menu-sidebar">
     <i class="fas fa-times" onclick="toggleMenu()" style="margin-bottom:30px; cursor:pointer;"></i>
