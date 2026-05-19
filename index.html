@@ -37,9 +37,27 @@
         .btn-google img { width: 18px; }
         .auth-switch { font-size: 0.75rem; color: #888; margin-top: 15px; cursor: pointer; text-decoration: underline; }
 
-        .hero-video { width: 100%; height: 75vh; position: relative; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; }
-        .hero-video video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+        /* ALTERAÇÃO AQUI: Mudança para aspect-ratio para não cortar a imagem */
+        .hero-video { 
+            width: 100%; 
+            /* height: 75vh; REMOVIDO */
+            aspect-ratio: 16/9; /* ADICIONADO: Ajuste para a proporção da sua imagem (ex: 16/9, 4/3) */
+            position: relative; 
+            overflow: hidden; 
+            background: #000; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        .hero-video img.hero-bg-img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain; /* ALTERADO de cover para contain para mostrar a imagem inteira */
+            opacity: 0.7; 
+        }
         .logo-overlay { position: absolute; width: 200px; z-index: 10; filter: drop-shadow(0 0 20px rgba(255,255,255,0.2)); }
+        
+        /* O degradê foi MANTIDO e agora aparece sobre a imagem inteira */
         .hero-gradient { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 60%, #000 100%); z-index: 5; }
 
         .brand-filters { display: flex; justify-content: center; gap: 15px; padding: 20px; background: #000; }
@@ -88,7 +106,7 @@
         .btn-action { width: 100%; padding: 14px; margin: 5px 0; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; color: #000 !important; background: var(--silver-btn); }
         .btn-action:hover { opacity: 0.8; transform: scale(0.98); box-shadow: 0 0 15px rgba(255,255,255,0.2); }
         
-        #menu-sidebar { position: fixed; left: -280px; top: 0; width: 280px; height: 100%; background: #000; z-index: 2000; padding: 40px 20px; border-right: 1px solid #gray; overflow-y: auto; transition: left 0.4s ease; }
+        #menu-sidebar { position: fixed; left: -280px; top: 0; width: 280px; height: 100%; background: #000; z-index: 2000; padding: 40px 20px; border-right: 1px solid grey; overflow-y: auto; transition: left 0.4s ease; }
         #menu-sidebar.open { left: 0; }
         .menu-link { display: block; color: #fff; font-weight: 800; margin-bottom: 25px; text-transform: uppercase; cursor: pointer; }
 
@@ -136,11 +154,12 @@
 
         .stories-container {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(6, 1fr); /* Atualizado para 6 colunas para os 6 itens */
             gap: 16px;
             width: 100%;
             overflow-x: auto;
             scroll-behavior: smooth;
+            pointer-events: none; /* Desativa completamente o arraste com o dedo/mouse */
         }
         
         /* Ocultar barra de rolagem padrão para um visual mais limpo */
@@ -152,7 +171,7 @@
             scrollbar-width: none;  /* Firefox */
         }
 
-        /* Setas de Navegação */
+        /* Setas de Navegação - Deixamos pointer-events auto para que continuem clicáveis */
         .story-arrow {
             position: absolute;
             top: 50%;
@@ -169,6 +188,7 @@
             cursor: pointer;
             z-index: 10;
             transition: background 0.3s, transform 0.2s;
+            pointer-events: auto; 
         }
         .story-arrow:hover {
             background: #fff;
@@ -183,11 +203,12 @@
             aspect-ratio: 9 / 16;
             background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
             border-radius: 16px;
-            padding: 3px; /* Espessura da mini borda */
+            padding: 5px; /* Espessura da mini borda */
             box-shadow: 0 4px 15px rgba(0,0,0,0.6);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
             animation: pulseGlow 3s infinite ease-in-out;
+            pointer-events: auto; /* Permite clicar no card individualmente se necessário */
         }
         /* Container interno para recortar a imagem com cantos arredondados */
         .story-inner {
@@ -229,7 +250,7 @@
             text-decoration: none;
             font-size: 1rem;
             transition: transform 0.2s, box-shadow 0.2s;
-            margin-bottom: 20px;
+            margin-bottom: 40px;
             box-shadow: 0 4px 15px rgba(220, 39, 67, 0.3);
         }
         .instagram-btn:hover {
@@ -246,7 +267,7 @@
                 display: flex; /* Muda de grid para flex no mobile para forçar a linha única */
                 flex-wrap: nowrap;
                 gap: 12px;
-                scroll-snap-type: x mandatory; /* Efeito magnético suave ao arrastar */
+                scroll-snap-type: x mandatory; /* Efeito magnético suave ao usar as setas */
             }
             .story-card {
                 flex: 0 0 45%; /* Define que cada card ocupará 45% da largura da tela no mobile */
@@ -287,18 +308,15 @@
 <section id="hero-section" class="hero-video">
     <div class="hero-gradient"></div>
     <img src="logo3.png" class="logo-overlay">
-    <video autoplay loop muted playsinline>
-        <source src="video.mov" type="video/mp4">
-    </video>
+    <img src="fundo.jpg" alt="Fundo" class="hero-bg-img">
 </section>
 
 <section class="about-section">
-    <h2></h2>
+    <h2>CONFIRA NOSSOS CLIENTES </h2>
     <p class="about-text">
         
     </p>
     
-    <!-- Novo Wrapper contendo o container e as setinhas -->
     <div class="stories-wrapper">
         <button class="story-arrow prev" onclick="scrollStories(-1)"><i class="fas fa-chevron-left"></i></button>
         
@@ -323,6 +341,16 @@
                     <img src="story4.jpg" alt="Instagram Story 4">
                 </div>
             </div>
+            <div class="story-card">
+                <div class="story-inner">
+                    <img src="story5.jpg" alt="Instagram Story 5">
+                </div>
+            </div>
+            <div class="story-card">
+                <div class="story-inner">
+                    <img src="story6.jpg" alt="Instagram Story 6">
+                </div>
+            </div>
         </div>
         
         <button class="story-arrow next" onclick="scrollStories(1)"><i class="fas fa-chevron-right"></i></button>
@@ -332,6 +360,20 @@
         <i class="fab fa-instagram" style="font-size: 1.3rem;"></i> Nosso Instagram !!
     </a>
 </section>
+
+<script>
+    function scrollStories(direction) {
+        const container = document.getElementById('storiesContainer');
+        // Calcula dinamicamente a largura de um card para mover com precisão
+        const scrollAmount = container.clientWidth / 2; 
+        container.scrollBy({
+            left: direction * scrollAmount,
+            behavior: 'smooth'
+        });
+    }
+</script>
+</body>
+</html>
 
 <div class="brand-filters" id="brand-filters">
     <div class="brand-btn" onclick="filterCat('syna')">
