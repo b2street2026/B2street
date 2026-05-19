@@ -418,7 +418,7 @@
             <input type="text" id="checkout-cpf" class="auth-input" placeholder="CPF">
             <input type="text" id="checkout-cep" class="auth-input" placeholder="CEP">
             <input type="text" id="checkout-end" class="auth-input" placeholder="Endereço de Recebimento">
-            
+             
             <button class="btn-action" onclick="processarPedido()" style="background:#fff; color:#000; font-weight:bold">Continuar para Pagamento</button>
             <p onclick="closeModals()" style="text-align:center; cursor:pointer; margin-top:10px; font-size:0.7rem; color:#555">CANCELAR</p>
         </div>
@@ -434,17 +434,17 @@
             </div> 
             <div id="pix-content-view" style="display:none">
                 <h2 style="margin-bottom:15px; font-size:1rem">Método de pagamento disponível:</h2>
-                
+                 
                 <div style="border: 2px solid #32bcad; padding: 15px; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 10px; background: #000; margin-bottom: 20px;">
                     <img src="logopix.png" width="100" alt="Logo Pix">
                     <span style="color: #fff; font-weight: bold;">PIX</span>
                 </div>
 
                 <div id="pix-valor-display" style="font-weight: 800; color: #fff; font-size: 1.2rem; margin-bottom: 10px;"></div>
-                
+                 
                 <p style="font-size: 0.8rem; color: #ccc; margin-bottom: 10px;">Escaneie o QR Code ou copie a chave Nubank abaixo: Bruno Luis Furlan </p>
                 <img src="qrcode.jpg" style="width:180px; margin-bottom:15px; border-radius: 8px; border: 4px solid #fff;">
-                
+                 
                 <div style="margin-bottom:20px; background: #111; padding: 12px; border-radius: 5px; border: 1px dashed #32bcad;">
                     <span style="font-size: 0.7rem; color: #888;">Chave Pix:</span><br>
                     <span id="chave-pix" style="font-weight: bold; color:#fff">19989620949</span> 
@@ -492,13 +492,13 @@ let isSignUp = false;
 let currentSlide = 0;
 let DESCONTO_FIXO = 0;
 let CUPOM_VALIDO = false;
+let CURRENT_MODEL_FILTER = 'todos';
 
 // --- FUNÇÕES DE PEDIDO E INTEGRAÇÃO ---
 
 async function enviarParaGoogleSheets(dados) {
     const URL_GOOGLE_SHEETS = 'https://script.google.com/macros/s/AKfycbzAX52f-yQZXT1CpYPXky_WphyOius_LjExLcI98YLCuf74FID0MrfbZCzU5VVtSrag/exec'; 
-    
-    // Organizando os produtos em uma string legível para não bagunçar a planilha
+     
     const listaProdutos = dados.produtos.map(p => `${p.nome} (Tam: ${p.tamanho})`).join(' | ');
 
     const payload = {
@@ -509,7 +509,7 @@ async function enviarParaGoogleSheets(dados) {
         cpf: dados.cpf,
         cep: dados.cep,
         endereco: dados.endereco,
-        produtos: listaProdutos, // Agora os produtos vão em uma única célula organizada
+        produtos: listaProdutos,
         total: dados.total,
         status: dados.status
     };
@@ -532,7 +532,7 @@ function processarPedido() {
     const cep = document.getElementById('checkout-cep').value;
     const end = document.getElementById('checkout-end').value;
     const total = document.getElementById('cart-total').innerText;
-    
+     
     if (!nome || !tel || !end || !cpf || !cep) { 
         alert("Preencha todos os dados: Nome, WhatsApp, CPF, CEP e Endereço."); 
         return; 
@@ -549,45 +549,39 @@ function processarPedido() {
         produtos: CART, 
         total: total,
         status: '',
-        rastreio: '' // Campo vazio para você preencher no seu painel ADM
+        rastreio: ''
     };
 
-    // 1. Envia para o Google Sheets (Corrigido)
     enviarParaGoogleSheets(pedidoData);
 
-    // 2. Salva no Firebase para aparecer no seu Painel ADM
-    // Criamos uma referência única para o pedido
     const novoPedidoRef = db.ref('todos_pedidos').push();
     const pedidoId = novoPedidoRef.key;
-    
+     
     novoPedidoRef.set({ ...pedidoData, id: pedidoId });
 
-    // 3. Também salva no histórico do usuário logado
     if(auth.currentUser) {
         db.ref('pedidos/' + auth.currentUser.uid + '/' + pedidoId).set(pedidoData);
     }
 
-    // Transição para tela de pagamento
     document.getElementById('modal-dados').classList.remove('active'); 
     document.getElementById('pix-valor-display').innerText = total; 
     document.getElementById('pix-loading-view').style.display = 'block';
     document.getElementById('pix-content-view').style.display = 'none';
     document.getElementById('modal-pix').classList.add('active'); 
-    
+     
     setTimeout(() => {
         document.getElementById('pix-loading-view').style.display = 'none';
         document.getElementById('pix-content-view').style.display = 'block';
     }, 2500);
 }
 
-// FUNÇÃO MEUS PEDIDOS (Para o cliente ver o status e rastreio que você colocar no ADM)
 function abrirMeusPedidos() {
     if(!auth.currentUser) {
         alert("Você precisa estar logado para ver seus pedidos.");
         openAuth();
         return;
     }
-    
+     
     toggleMenu();
     const lista = document.getElementById('lista-meus-pedidos');
     lista.innerHTML = "Carregando...";
@@ -603,8 +597,7 @@ function abrirMeusPedidos() {
         snapshot.forEach(child => {
             const pedido = child.val();
             const status = pedido.status || 'Pendente';
-            
-            // Lógica do rastreio
+             
             const rastreioHtml = pedido.rastreio 
                 ? `<div style="margin-top:10px; background:#32bcad; color:#fff; padding:8px; border-radius:4px; font-size:0.75rem; font-weight:bold; text-align:center;">
                      <i class="fas fa-truck"></i> Rastreio: ${pedido.rastreio}
@@ -636,7 +629,28 @@ function abrirMeusPedidos() {
     });
 }
 
-// --- RESTANTE DAS FUNÇÕES (IGUAIS) ---
+function finalizarWhatsApp() {
+    if (CART.length === 0) {
+        alert("Seu carrinho está vazio!");
+        return;
+    }
+
+    let mensagem = "Olá! Gostaria de fechar o seguinte pedido:\n\n";
+    
+    CART.forEach((item, index) => {
+        mensagem += `*${index + 1}. ${item.nome}*\n`;
+        mensagem += ` Tamanho: ${item.tamanho}\n`;
+        mensagem += ` Preço: R$ ${item.preco}\n\n`;
+    });
+
+    const totalTexto = document.getElementById('cart-total').innerText;
+    mensagem += `*${totalTexto}*`;
+
+    const mensagemUrl = encodeURIComponent(mensagem);
+    window.open(`https://wa.me/5519989620949?text=${mensagemUrl}`, '_blank');
+}
+
+// --- RESTANTE DAS FUNÇÕES ---
 
 function aplicarCupom() {
     const cod = document.getElementById('input-cupom').value.toUpperCase().trim();
@@ -705,16 +719,48 @@ db.ref('produtos').on('value', snap => {
     renderFull();
 });
 
+// FUNÇÃO PARA FILTRAR POR MODELO ESPECÍFICO DE TÊNIS
+function filtrarModeloTenis(modelo) {
+    CURRENT_MODEL_FILTER = modelo;
+    if(modelo === 'todos') {
+        renderFull(null);
+    } else {
+        const filtrados = ALL_PRODUCTS.filter(p => {
+            const nomeF = p.nome.toLowerCase();
+            const catF = p.categoria ? p.categoria.toLowerCase() : '';
+            return catF === 'tenis' && nomeF.includes(modelo.toLowerCase());
+        });
+        renderFull(filtrados);
+    }
+}
+
 function renderFull(filtered = null) {
     const main = document.getElementById('main-content');
     if(!main) return;
     main.innerHTML = "";
     const data = filtered || ALL_PRODUCTS;
     const cats = ["tenis", "chinelos", "raul", "camisas", "conjuntos", "shorts", "joias"];
+    
     cats.forEach(cat => {
         let prods = data.filter(p => p.categoria && p.categoria.toLowerCase() === cat);
         if(prods.length > 0) {
-            let html = `<div class="container"><h2 class="cat-title">${cat}</h2><div class="grid">`;
+            let html = `<div class="container"><h2 class="cat-title" style="text-transform: uppercase;">${cat}</h2>`;
+            
+            // SE A CATEGORIA FOR TÊNIS, INSERE A BARRA DE FILTROS DE MODELO LOGO ABAIXO DO TÍTULO
+            if(cat === "tenis") {
+                const modelos = ["todos", "Nocta glide", "air max 95", "DN", "TN", "shox", "air force", "dunk", "air jordan", "court vision"];
+                html += `<div style="display:flex; gap:10px; overflow-x:auto; padding:10px 0; margin-bottom:15px; scrollbar-width: none;-ms-overflow-style: none;">`;
+                modelos.forEach(mod => {
+                    const ativo = CURRENT_MODEL_FILTER.toLowerCase() === mod.toLowerCase();
+                    const estiloBotao = ativo 
+                        ? `background:#fff; color:#000; font-weight:bold; border:1px solid #fff;` 
+                        : `background:#111; color:#fff; border:1px solid #333;`;
+                    html += `<button onclick="filtrarModeloTenis('${mod}')" style="padding:6px 15px; border-radius:20px; cursor:pointer; font-size:0.8rem; white-space:nowrap; ${estiloBotao}">${mod.toUpperCase()}</button>`;
+                });
+                html += `</div>`;
+            }
+
+            html += `<div class="grid">`;
             prods.forEach(p => {
                 html += `<div class="product-card" onclick="openProduct('${p.id}')">
                             <div class="img-container"><img src="${p.imagem}"></div>
@@ -724,6 +770,7 @@ function renderFull(filtered = null) {
             });
             html += `</div></div>`;
             main.innerHTML += html;
+            
             if(cat === "tenis" && ALL_BANNERS.length > 0 && !filtered) {
                 main.innerHTML += `<div class="slider-section">
                     <button class="slider-btn prev-btn" onclick="moveSlide(-1)"><i class="fas fa-chevron-left"></i></button>
@@ -739,13 +786,15 @@ function filterCat(c) {
     if(document.getElementById('menu-sidebar').classList.contains('open')) toggleMenu();
     const hero = document.getElementById('hero-section');
     const brands = document.getElementById('brand-filters');
+    CURRENT_MODEL_FILTER = 'todos'; // Reseta o filtro secundário ao mudar de categoria macro
+    
     if(c === 'todos') {
-        hero.style.display = 'flex';
-        brands.style.display = 'flex';
+        if(hero) hero.style.display = 'flex';
+        if(brands) brands.style.display = 'flex';
         renderFull(null);
     } else {
-        hero.style.display = 'none';
-        brands.style.display = 'none';
+        if(hero) hero.style.display = 'none';
+        if(brands) brands.style.display = 'none';
         const filtrados = ALL_PRODUCTS.filter(p => (p.categoria && p.categoria.toLowerCase() === c) || (p.nome && p.nome.toLowerCase().includes(c)));
         renderFull(filtrados);
     }
