@@ -293,44 +293,17 @@
 </section>
 
 <section class="about-section">
-    <h2> NOSSOS CLIENTES </h2>
-    <p class="about-text">
-        
-    </p>
+    <h2> NOSSA PÁGINA </h2>
+    <p class="about-text"> siga nosso instagram e fique por dentro de nossas novidades em primeira mão!! 
+                       
+@b2.street_      
+   </p>
     
-    <!-- Novo Wrapper contendo o container e as setinhas -->
-    <div class="stories-wrapper">
-        <button class="story-arrow prev" onclick="scrollStories(-1)"><i class="fas fa-chevron-left"></i></button>
-        
-        <div class="stories-container" id="storiesContainer">
-            <div class="story-card">
-                <div class="story-inner">
-                    <img src="story1.jpg" alt="Instagram Story 1">
-                </div>
-            </div>
-            <div class="story-card">
-                <div class="story-inner">
-                    <img src="story2.jpg" alt="Instagram Story 2">
-                </div>
-            </div>
-            <div class="story-card">
-                <div class="story-inner">
-                    <img src="story3.jpg" alt="Instagram Story 3">
-                </div>
-            </div>
-            <div class="story-card">
-                <div class="story-inner">
-                    <img src="story4.jpg" alt="Instagram Story 4">
-                </div>
-            </div>
-        </div>
-        
-        <button class="story-arrow next" onclick="scrollStories(1)"><i class="fas fa-chevron-right"></i></button>
-    </div>
+   
 
     <a href="https://www.instagram.com/b2.street_/" target="_blank" class="instagram-btn">
         <i class="fab fa-instagram" style="font-size: 1.3rem;"></i> Nosso Instagram !!
-    </a>
+    </a> 
 </section>
 
 <div class="brand-filters" id="brand-filters">
@@ -457,8 +430,8 @@
         <div class="modal-body">
             <div id="pix-loading-view">
                 <div class="loader-spinner"></div>
-                <p>Processando...</p>
-            </div>
+                <p>Processando pagamento...</p>
+            </div> 
             <div id="pix-content-view" style="display:none">
                 <h2 style="margin-bottom:15px; font-size:1rem">Método de pagamento disponível:</h2>
                 
@@ -722,7 +695,7 @@ db.ref('banners').on('value', snap => {
     ALL_BANNERS = [];
     snap.forEach(c => { ALL_BANNERS.push(c.val().url); });
     renderFull();
-    if(ALL_BANNERS.length > 1) setInterval(() => moveSlide(1), 5000);
+    if(ALL_BANNERS.length > 1) setInterval(() => moveSlide(1), 5000);  
 });
 
 db.ref('produtos').on('value', snap => {
