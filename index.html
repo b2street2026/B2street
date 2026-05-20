@@ -657,10 +657,17 @@ function aplicarCupom() {
     db.ref('cupons/' + cod).once('value', snap => {
         if(snap.exists()) {
             const cupom = snap.val();
-            const elegivel = (cupom.categoria === 'geral') || CART.some(item => item.categoria === cupom.categoria);
+            
+            // Ajustado para ler 'tipoValido' do ADM e checar se é 'todos' ou bate com a categoria do item no CART
+            const categoriaCupom = cupom.tipoValido || cupom.categoria || 'todos';
+            const elegivel = (categoriaCupom === 'todos' || categoriaCupom === 'geral') || CART.some(item => item.categoria === categoriaCupom);
+            
             if(elegivel) {
-                DESCONTO_FIXO = parseFloat(cupom.valor);
+                // Lê o campo 'valor' em R$ salvo pelo novo ADM
+                const valorCupom = cupom.valor || cupom.porcentagem || 0;
+                DESCONTO_FIXO = parseFloat(valorCupom);
                 CUPOM_VALIDO = true;
+                
                 document.getElementById('desconto-info').innerText = `Cupom aplicado: -R$ ${DESCONTO_FIXO.toFixed(2)}`;
                 document.getElementById('desconto-info').style.display = 'block';
                 updateCart();
