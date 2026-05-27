@@ -338,12 +338,18 @@
     <i class="fas fa-times" onclick="toggleMenu()" style="margin-bottom:30px; cursor:pointer;"></i>
     <div class="menu-link" onclick="filterCat('todos')">Todos</div>
     <div class="menu-link" onclick="abrirMeusPedidos()" style="color: #ccc; border-bottom: 1px solid #333; padding-bottom: 10px;">Meus Pedidos</div>
-    <div class="menu-link" onclick="filterCat('tenis')">Tênis</div>
+    <div class="menu-link" onclick="filterCat('tenis')">Tênis Masculino</div>
+    <div class="menu-link" onclick="filterCat('tenis-feminino')" style="color: #ff8da1;">Tênis Feminino</div>
     <div class="menu-link" onclick="filterCat('chinelos')">Chinelos</div>
+    <div class="menu-link" onclick="filterCat('shorts')" style="color: #8da1ff;">Shorts</div>
+    <div class="menu-link" onclick="filterCat('conjuntos')" style="color: #a1ff8d;">Conjuntos</div>
     <div class="menu-link" onclick="filterCat('raul')">Raul</div>
     <div class="menu-link" onclick="filterCat('camisas')">Camisas</div>
     <div class="menu-link" onclick="filterCat('corteiz')">Corteiz</div>
     <div class="menu-link" onclick="filterCat('nike')">Nike</div>
+    <div class="menu-link" onclick="filterCat('adidas')">Adidas</div>
+    <div class="menu-link" onclick="filterCat('puma')">Puma</div>
+    <div class="menu-link" onclick="filterCat('new balance')">New Balance</div>
     <div class="menu-link" onclick="filterCat('syna')">Syna</div>
     <div class="menu-link" onclick="filterCat('denim tears')">Denim Tears</div>
     <div class="menu-link" onclick="filterCat('nocta')">Nocta</div>
@@ -371,8 +377,7 @@
 <div class="modal-overlay" id="modal-meus-pedidos">
     <div class="modal-content" style="max-width: 400px; padding: 20px;">
         <h2 style="margin-bottom: 20px; font-size: 1.2rem; text-align: center;">Meus Pedidos</h2>
-        <div id="lista-meus-pedidos" style="max-height: 300px; overflow-y: auto;">
-            </div>
+        <div id="lista-meus-pedidos" style="max-height: 300px; overflow-y: auto;"></div>
         <p onclick="closeModals()" style="text-align:center; cursor:pointer; margin-top:20px; font-size:0.7rem; color:#555">FECHAR</p>
     </div>
 </div>
@@ -384,7 +389,7 @@
             <h2 id="m-nome"></h2>
             <p id="m-preco" style="color:#fff; font-weight:800; font-size:1.1rem; margin:10px 0"></p>
             <div id="m-sizes" style="display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap"></div>
-            <button class="btn-action" onclick="addAoCarrinho()">Adicionar ao Carrinho</button>
+            <button class="btn-action" id="btn-add-cart" onclick="addAoCarrinho()">Adicionar ao Carrinho</button>
             <button class="btn-action" onclick="zapDireto()"><i class="fab fa-whatsapp" style="margin-right:8px;"></i>WhatsApp</button>
             <p onclick="closeModals()" style="text-align:center; cursor:pointer; margin-top:10px; font-size:0.7rem; color:#555">FECHAR</p>
         </div>
@@ -461,7 +466,7 @@
     <div class="modal-content" style="text-align:center; padding: 20px;">
         <div class="modal-body">
             <img src="logo.png" style="width: 80px; margin-bottom: 15px;">
-            <p style="margin: 15px 0; color: #fff; line-height: 1.5;">O pagamento será processado e enviaremos informações sobre seu pedido via whatsapp ou e-mail.Você pode checar o código de rastreio e status do seu pedido na seção ´´ Meus pedidos``.</p>
+            <p style="margin: 15px 0; color: #fff; line-height: 1.5;">O pagamento será processado e enviaremos informações sobre seu pedido via whatsapp or e-mail.Você pode checar o código de rastreio e status do seu pedido na seção ´´ Meus pedidos``.</p>
             <button class="btn-action" onclick="location.reload()" style="background:#fff; color:#000">Continuar Comprando</button>
             <button class="btn-action" onclick="window.open('https://wa.me/5519989620949')"><i class="fab fa-whatsapp" style="margin-right:8px;"></i>Atendimento Whatsapp</button>
         </div>
@@ -658,12 +663,10 @@ function aplicarCupom() {
         if(snap.exists()) {
             const cupom = snap.val();
             
-            // Ajustado para ler 'tipoValido' do ADM e checar se é 'todos' ou bate com a categoria do item no CART
             const categoriaCupom = cupom.tipoValido || cupom.categoria || 'todos';
             const elegivel = (categoriaCupom === 'todos' || categoriaCupom === 'geral') || CART.some(item => item.categoria === categoriaCupom);
             
             if(elegivel) {
-                // Lê o campo 'valor' em R$ salvo pelo novo ADM
                 const valorCupom = cupom.valor || cupom.porcentagem || 0;
                 DESCONTO_FIXO = parseFloat(valorCupom);
                 CUPOM_VALIDO = true;
@@ -726,7 +729,6 @@ db.ref('produtos').on('value', snap => {
     renderFull();
 });
 
-// FUNÇÃO PARA FILTRAR POR MODELO ESPECÍFICO DE TÊNIS
 function filtrarModeloTenis(modelo) {
     CURRENT_MODEL_FILTER = modelo;
     if(modelo === 'todos') {
@@ -735,10 +737,21 @@ function filtrarModeloTenis(modelo) {
         const filtrados = ALL_PRODUCTS.filter(p => {
             const nomeF = p.nome.toLowerCase();
             const catF = p.categoria ? p.categoria.toLowerCase() : '';
-            return catF === 'tenis' && nomeF.includes(modelo.toLowerCase());
+            return (catF === 'tenis' || catF === 'tenis-feminino') && nomeF.includes(modelo.toLowerCase());
         });
         renderFull(filtrados);
     }
+}
+
+function gerarTagHtml(tagValue) {
+    if (!tagValue || tagValue === 'nenhuma') return '';
+    if (tagValue === 'mais-pedido') {
+        return `<span style="position: absolute; top: 10px; left: 10px; background: #00cc66; color: #fff; font-size: 0.65rem; font-weight: bold; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; z-index: 2; letter-spacing: 0.5px; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">Mais Pedido</span>`;
+    }
+    if (tagValue === 'esgotado') {
+        return `<span style="position: absolute; top: 10px; left: 10px; background: #ff3333; color: #fff; font-size: 0.65rem; font-weight: bold; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; z-index: 2; letter-spacing: 0.5px; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">Esgotado</span>`;
+    }
+    return '';
 }
 
 function renderFull(filtered = null) {
@@ -746,16 +759,19 @@ function renderFull(filtered = null) {
     if(!main) return;
     main.innerHTML = "";
     const data = filtered || ALL_PRODUCTS;
-    const cats = ["tenis", "chinelos", "raul", "camisas", "conjuntos", "shorts", "joias"];
     
+    // CORREÇÃO: Adicionado 'shorts' e 'conjuntos' na lista de mapeamento de categorias
+    const cats = ["tenis", "tenis-feminino", "chinelos", "shorts", "conjuntos", "raul", "camisas", "corteiz", "nike", "syna", "denim tears", "nocta", "joias"];
+    
+    const modelosEsquema = ["nocta", "air max 95", "dn", "tn", "shox", "air force", "dunk", "air jordan", "court vision", "new balance", "puma", "adidas", "timberland"];
+
     cats.forEach(cat => {
         let prods = data.filter(p => p.categoria && p.categoria.toLowerCase() === cat);
         if(prods.length > 0) {
-            let html = `<div class="container"><h2 class="cat-title" style="text-transform: uppercase;">${cat}</h2>`;
+            let html = `<div class="container"><h2 class="cat-title" style="text-transform: uppercase;">${cat === 'tenis' ? 'Tênis Masculino' : cat === 'tenis-feminino' ? 'Tênis Feminino' : cat}</h2>`;
             
-            // SE A CATEGORIA FOR TÊNIS, INSERE A BARRA DE FILTROS DE MODELO LOGO ABAIXO DO TÍTULO
-            if(cat === "tenis") {
-                const modelos = ["todos", "Nocta glide", "air max 95", "DN", "TN", "shox", "air force", "dunk", "air jordan", "court vision"];
+            if(cat === "tenis" || cat === "tenis-feminino") {
+                const modelos = ["todos", "nocta", "air max 95", "dn", "tn", "shox", "air force", "dunk", "air jordan", "court vision", "new balance", "puma", "adidas", "timberland"];
                 html += `<div style="display:flex; gap:10px; overflow-x:auto; padding:10px 0; margin-bottom:15px; scrollbar-width: none;-ms-overflow-style: none;">`;
                 modelos.forEach(mod => {
                     const ativo = CURRENT_MODEL_FILTER.toLowerCase() === mod.toLowerCase();
@@ -765,17 +781,67 @@ function renderFull(filtered = null) {
                     html += `<button onclick="filtrarModeloTenis('${mod}')" style="padding:6px 15px; border-radius:20px; cursor:pointer; font-size:0.8rem; white-space:nowrap; ${estiloBotao}">${mod.toUpperCase()}</button>`;
                 });
                 html += `</div>`;
+
+                if(CURRENT_MODEL_FILTER === 'todos') {
+                    modelosEsquema.forEach(mod => {
+                        let prodsDoModelo = prods.filter(p => p.nome.toLowerCase().includes(mod.toLowerCase()));
+                        if(prodsDoModelo.length > 0) {
+                            html += `<h3 style="color:#fff; margin:15px 0 5px 0; font-size:1rem; text-transform:uppercase; font-weight:bold;">${mod}</h3>`;
+                            html += `<div class="grid">`;
+                            prodsDoModelo.forEach(p => {
+                                html += `<div class="product-card" onclick="openProduct('${p.id}')" style="position: relative;">
+                                            ${gerarTagHtml(p.tag)}
+                                            <div class="img-container"><img src="${p.imagem}"></div>
+                                            <h3>${p.nome}</h3>
+                                            <span class="price">R$ ${p.preco}</span>
+                                         </div>`;
+                            });
+                            html += `</div>`;
+                        }
+                    });
+
+                    let restoTenis = prods.filter(p => !modelosEsquema.some(m => p.nome.toLowerCase().includes(m.toLowerCase())));
+                    if(restoTenis.length > 0) {
+                        html += `<h3 style="color:#fff; margin:15px 0 5px 0; font-size:1rem; text-transform:uppercase; font-weight:bold;">Outros Modelos</h3>`;
+                        html += `<div class="grid">`;
+                        restoTenis.forEach(p => {
+                            html += `<div class="product-card" onclick="openProduct('${p.id}')" style="position: relative;">
+                                        ${gerarTagHtml(p.tag)}
+                                        <div class="img-container"><img src="${p.imagem}"></div>
+                                        <h3>${p.nome}</h3>
+                                        <span class="price">R$ ${p.preco}</span>
+                                     </div>`;
+                        });
+                        html += `</div>`;
+                    }
+
+                } else {
+                    html += `<div class="grid">`;
+                    prods.forEach(p => {
+                        html += `<div class="product-card" onclick="openProduct('${p.id}')" style="position: relative;">
+                                    ${gerarTagHtml(p.tag)}
+                                    <div class="img-container"><img src="${p.imagem}"></div>
+                                    <h3>${p.nome}</h3>
+                                    <span class="price">R$ ${p.preco}</span>
+                                 </div>`;
+                    });
+                    html += `</div>`;
+                }
+
+            } else {
+                html += `<div class="grid">`;
+                prods.forEach(p => {
+                    html += `<div class="product-card" onclick="openProduct('${p.id}')" style="position: relative;">
+                                ${gerarTagHtml(p.tag)}
+                                <div class="img-container"><img src="${p.imagem}"></div>
+                                <h3>${p.nome}</h3>
+                                <span class="price">R$ ${p.preco}</span>
+                             </div>`;
+                });
+                html += `</div>`;
             }
 
-            html += `<div class="grid">`;
-            prods.forEach(p => {
-                html += `<div class="product-card" onclick="openProduct('${p.id}')">
-                            <div class="img-container"><img src="${p.imagem}"></div>
-                            <h3>${p.nome}</h3>
-                            <span class="price">R$ ${p.preco}</span>
-                         </div>`;
-            });
-            html += `</div></div>`;
+            html += `</div>`;
             main.innerHTML += html;
             
             if(cat === "tenis" && ALL_BANNERS.length > 0 && !filtered) {
@@ -793,7 +859,7 @@ function filterCat(c) {
     if(document.getElementById('menu-sidebar').classList.contains('open')) toggleMenu();
     const hero = document.getElementById('hero-section');
     const brands = document.getElementById('brand-filters');
-    CURRENT_MODEL_FILTER = 'todos'; // Reseta o filtro secundário ao mudar de categoria macro
+    CURRENT_MODEL_FILTER = 'todos'; 
     
     if(c === 'todos') {
         if(hero) hero.style.display = 'flex';
@@ -813,8 +879,27 @@ function openProduct(id) {
     document.getElementById('m-img').src = SELECTED_PROD.imagem;
     document.getElementById('m-nome').innerText = SELECTED_PROD.nome;
     document.getElementById('m-preco').innerText = `R$ ${SELECTED_PROD.preco}`;
+    
+    const btnCart = document.getElementById('btn-add-cart');
+    if (SELECTED_PROD.tag === 'esgotado') {
+        btnCart.innerText = "Produto Esgotado";
+        btnCart.style.background = "#222";
+        btnCart.style.color = "#555";
+        btnCart.style.cursor = "not-allowed";
+        btnCart.disabled = true;
+    } else {
+        btnCart.innerText = "Adicionar ao Carrinho";
+        btnCart.style.background = "#fff";
+        btnCart.style.color = "#000";
+        btnCart.style.cursor = "pointer";
+        btnCart.disabled = false;
+    }
+
     let cat = SELECTED_PROD.categoria.toLowerCase();
-    let sizes = (cat === 'tenis' || cat === 'chinelos') ? ['38','39','40','41','42','43'] : cat === 'joias' ? ['único'] : ['P','M','G','GG'];
+    
+    // CORREÇÃO: Lógica ajustada para que shorts, conjuntos, camisas e raul usem tamanhos de roupa (P, M, G, GG)
+    let sizes = (cat === 'tenis' || cat === 'tenis-feminino' || cat === 'chinelos') ? ['38','39','40','41','42','43'] : cat === 'joias' ? ['único'] : ['P','M','G','GG'];
+    
     document.getElementById('m-sizes').innerHTML = sizes.map(s => 
         `<button onclick="SELECTED_SIZE='${s}'; Array.from(this.parentNode.children).forEach(b=>b.style.border='1px solid #333'); this.style.border='1px solid #fff'" style="padding:8px; background:#111; color:#fff; border:1px solid #333; cursor:pointer">${s}</button>`
     ).join('');
@@ -824,6 +909,7 @@ function openProduct(id) {
 function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); }
 
 function addAoCarrinho() {
+    if(SELECTED_PROD && SELECTED_PROD.tag === 'esgotado') return;
     if(!SELECTED_SIZE) return alert("Selecione o tamanho!");
     CART.push({...SELECTED_PROD, tamanho: SELECTED_SIZE, cartId: Date.now()});
     updateCart(); closeModals(); toggleCart(); SELECTED_SIZE = null;
