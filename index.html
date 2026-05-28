@@ -22,6 +22,32 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         body { background: var(--bg); color: #fff; overflow-x: hidden; }
 
+        /* Tela de Abertura (Splash Screen) */
+        #splash-screen {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            animation: splashFadeIn 0.6s ease-in-out forwards;
+        }
+        #splash-screen img {
+            width: 200px;
+            max-width: 80%;
+            height: auto;
+        }
+        @keyframes splashFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes splashFadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .fade-in { animation: fadeIn 0.4s ease-in-out; }
@@ -88,7 +114,7 @@
         .btn-action { width: 100%; padding: 14px; margin: 5px 0; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; color: #000 !important; background: var(--silver-btn); }
         .btn-action:hover { opacity: 0.8; transform: scale(0.98); box-shadow: 0 0 15px rgba(255,255,255,0.2); }
         
-        #menu-sidebar { position: fixed; left: -280px; top: 0; width: 280px; height: 100%; background: #000; z-index: 2000; padding: 40px 20px; border-right: 1px solid #gray; overflow-y: auto; transition: left 0.4s ease; }
+        #menu-sidebar { position: fixed; left: -280px; top: 0; width: 280px; height: 100%; background: #000; z-index: 2000; padding: 40px 20px; border-right: 1px solid var(--gray); overflow-y: auto; transition: left 0.4s ease; }
         #menu-sidebar.open { left: 0; }
         .menu-link { display: block; color: #fff; font-weight: 800; margin-bottom: 25px; text-transform: uppercase; cursor: pointer; }
 
@@ -260,6 +286,10 @@
 </head>
 <body>
 
+<div id="splash-screen">
+    <img src="logo.png" alt="Logo">
+</div>
+
 <a href="https://wa.me/5519989620949" class="float-zap" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
 <header>
@@ -279,6 +309,19 @@
         </div>
     </div>
 </header>
+
+<script>
+    // Controle da Tela de Abertura (Fade-in ao entrar / Fade-out para revelar o site)
+    window.addEventListener('DOMContentLoaded', () => {
+        const splash = document.getElementById('splash-screen');
+        setTimeout(() => {
+            splash.style.animation = 'splashFadeOut 1.0s ease-in-out forwards';
+            setTimeout(() => {
+                splash.style.display = 'none';
+            }, 600);
+        }, 3000); // Exibe a logo por 2 segundos antes de iniciar o fade-out
+    });
+</script>
 
 <div id="search-box">
     <input type="text" id="input-busca" placeholder="O que você está procurando?" oninput="buscarProduto()">
@@ -435,10 +478,19 @@
         <div class="modal-body">
             <div id="pix-loading-view">
                 <div class="loader-spinner"></div>
-                <p>Processando pagamento...</p>
+                <p>Processando pedido...</p>
             </div> 
+
+            <div id="pix-select-method-view" style="display:none;">
+                <h2 style="margin-bottom:20px; font-size:1.1rem; color:#fff;"><Método de pagamento disponível:</h2>
+                <button onclick="irParaQrCode()" style="background: #111; border: 2px solid #32bcad; border-radius: 8px; padding: 15px; width: 100%; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px;">
+                    <img src="logopix.png" width="120" alt="Logo Pix" style="border-radius: 4px;">
+                </button>
+                <p onclick="closeModals()" style="text-align:center; cursor:pointer; margin-top:20px; font-size:0.7rem; color:#555">CANCELAR</p>
+            </div> 
+            
             <div id="pix-content-view" style="display:none">
-                <h2 style="margin-bottom:15px; font-size:1rem">Método de pagamento disponível:</h2>
+                <h2 style="margin-bottom:15px; font-size:1rem"></h2>
                  
                 <div style="border: 2px solid #32bcad; padding: 15px; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 10px; background: #000; margin-bottom: 20px;">
                     <img src="logopix.png" width="100" alt="Logo Pix">
@@ -468,6 +520,7 @@
             <img src="logo.png" style="width: 80px; margin-bottom: 15px;">
             <p style="margin: 15px 0; color: #fff; line-height: 1.5;">O pagamento será processado e enviaremos informações sobre seu pedido via whatsapp or e-mail.Você pode checar o código de rastreio e status do seu pedido na seção ´´ Meus pedidos``.</p>
             <button class="btn-action" onclick="location.reload()" style="background:#fff; color:#000">Continuar Comprando</button>
+            <button class="btn-action" onclick="fecharObrigadoEAbrirPedidos()" style="background:#32bcad; color:#fff; font-weight:bold">Meus Pedidos</button>
             <button class="btn-action" onclick="window.open('https://wa.me/5519989620949')"><i class="fab fa-whatsapp" style="margin-right:8px;"></i>Atendimento Whatsapp</button>
         </div>
     </div>
@@ -571,13 +624,73 @@ function processarPedido() {
     document.getElementById('modal-dados').classList.remove('active'); 
     document.getElementById('pix-valor-display').innerText = total; 
     document.getElementById('pix-loading-view').style.display = 'block';
+    document.getElementById('pix-select-method-view').style.display = 'none';
     document.getElementById('pix-content-view').style.display = 'none';
     document.getElementById('modal-pix').classList.add('active'); 
      
     setTimeout(() => {
         document.getElementById('pix-loading-view').style.display = 'none';
-        document.getElementById('pix-content-view').style.display = 'block';
+        document.getElementById('pix-select-method-view').style.display = 'block';
     }, 2500);
+}
+
+function irParaQrCode() {
+    document.getElementById('pix-select-method-view').style.display = 'none';
+    document.getElementById('pix-content-view').style.display = 'block';
+}
+
+function fecharObrigadoEAbrirPedidos() {
+    document.getElementById('modal-obrigado').classList.remove('active');
+    // Força a abertura do modal de pedidos simulando o clique ou chamando a lógica diretamente
+    if(!auth.currentUser) {
+        alert("Você precisa estar logado para ver seus pedidos.");
+        openAuth();
+        return;
+    }
+    const lista = document.getElementById('lista-meus-pedidos');
+    lista.innerHTML = "Carregando...";
+    document.getElementById('modal-meus-pedidos').classList.add('active');
+
+    db.ref('pedidos/' + auth.currentUser.uid).on('value', snapshot => {
+        lista.innerHTML = "";
+        if(!snapshot.exists()) {
+            lista.innerHTML = "<p style='text-align:center'>Nenhum pedido encontrado.</p>";
+            return;
+        }
+
+        snapshot.forEach(child => {
+            const pedido = child.val();
+            const status = pedido.status || 'Pendente';
+             
+            const rastreioHtml = pedido.rastreio 
+                ? `<div style="margin-top:10px; background:#32bcad; color:#fff; padding:8px; border-radius:4px; font-size:0.75rem; font-weight:bold; text-align:center;">
+                     <i class="fas fa-truck"></i> Rastreio: ${pedido.rastreio}
+                   </div>` 
+                : `<div style="margin-top:10px; background:#222; color:#888; padding:8px; border-radius:4px; font-size:0.75rem; text-align:center;">Rastreio em breve</div>`;
+
+            let prodsHtml = pedido.produtos.map(p => `
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px; border-bottom:1px solid #222; padding-bottom:5px;">
+                    <img src="${p.imagem}" style="width:40px; height:40px; object-fit:cover; border-radius:4px;">
+                    <div style="font-size:0.8rem">
+                        <div>${p.nome}</div>
+                        <div style="color:#888">Tam: ${p.tamanho} | R$ ${p.preco}</div>
+                    </div>
+                </div>
+            `).join('');
+
+            lista.innerHTML += `
+                <div style="background:#111; padding:15px; border-radius:8px; margin-bottom:15px; border: 1px solid #333;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <div style="font-size:0.7rem; color:#888;">${pedido.data}</div>
+                        <div style="font-size:0.7rem; background:#32bcad; color:#fff; padding:2px 8px; border-radius:4px; font-weight:bold;">${status}</div>
+                    </div>
+                    ${prodsHtml}
+                    ${rastreioHtml}
+                    <div style="text-align:right; font-weight:bold; margin-top:10px; color:#32bcad;">${pedido.total}</div>
+                </div>
+            `;
+        });
+    });
 }
 
 function abrirMeusPedidos() {
@@ -760,7 +873,6 @@ function renderFull(filtered = null) {
     main.innerHTML = "";
     const data = filtered || ALL_PRODUCTS;
     
-    // CORREÇÃO: Adicionado 'shorts' e 'conjuntos' na lista de mapeamento de categorias
     const cats = ["tenis", "tenis-feminino", "chinelos", "shorts", "conjuntos", "raul", "camisas", "corteiz", "nike", "syna", "denim tears", "nocta", "joias"];
     
     const modelosEsquema = ["nocta", "air max 95", "dn", "tn", "shox", "air force", "dunk", "air jordan", "court vision", "new balance", "puma", "adidas", "timberland"];
@@ -790,11 +902,11 @@ function renderFull(filtered = null) {
                             html += `<div class="grid">`;
                             prodsDoModelo.forEach(p => {
                                 html += `<div class="product-card" onclick="openProduct('${p.id}')" style="position: relative;">
-                                            ${gerarTagHtml(p.tag)}
-                                            <div class="img-container"><img src="${p.imagem}"></div>
-                                            <h3>${p.nome}</h3>
-                                            <span class="price">R$ ${p.preco}</span>
-                                         </div>`;
+                                             ${gerarTagHtml(p.tag)}
+                                             <div class="img-container"><img src="${p.imagem}"></div>
+                                             <h3>${p.nome}</h3>
+                                             <span class="price">R$ ${p.preco}</span>
+                                          </div>`;
                             });
                             html += `</div>`;
                         }
@@ -806,11 +918,11 @@ function renderFull(filtered = null) {
                         html += `<div class="grid">`;
                         restoTenis.forEach(p => {
                             html += `<div class="product-card" onclick="openProduct('${p.id}')" style="position: relative;">
-                                        ${gerarTagHtml(p.tag)}
-                                        <div class="img-container"><img src="${p.imagem}"></div>
-                                        <h3>${p.nome}</h3>
-                                        <span class="price">R$ ${p.preco}</span>
-                                     </div>`;
+                                         ${gerarTagHtml(p.tag)}
+                                         <div class="img-container"><img src="${p.imagem}"></div>
+                                         <h3>${p.nome}</h3>
+                                         <span class="price">R$ ${p.preco}</span>
+                                      </div>`;
                         });
                         html += `</div>`;
                     }
@@ -897,7 +1009,6 @@ function openProduct(id) {
 
     let cat = SELECTED_PROD.categoria.toLowerCase();
     
-    // CORREÇÃO: Lógica ajustada para que shorts, conjuntos, camisas e raul usem tamanhos de roupa (P, M, G, GG)
     let sizes = (cat === 'tenis' || cat === 'tenis-feminino' || cat === 'chinelos') ? ['38','39','40','41','42','43'] : cat === 'joias' ? ['único'] : ['P','M','G','GG'];
     
     document.getElementById('m-sizes').innerHTML = sizes.map(s => 
