@@ -385,11 +385,11 @@
 
 <div id="meu-letreiro" class="letreiro-container" style="display: none;">
     <marquee behavior="scroll" direction="left" scrollamount="5">
- USE O CUPOM ´´CLIENTEB2`` NA SUA PRIMEIRA COMPRA // NOVIDADES EXCLUSIVAS NO SITE! 🔥 //  🔥 FRETE GRÁTIS EM COMPRAS ACIMA DE R$ 350,00!
+ 🔥 FRETE GRÁTIS EM COMPRAS ACIMA DE R$ 350,00! // NOVIDADES EXCLUSIVAS NO SITE! 🔥 // USE O CUPOM ´´CLIENTEB2`` NA SUA PRIMEIRA COMPRA
     </marquee>
 </div>
 
-<a href="https://wa.me/5519995544596" class="float-zap" target="_blank"><i class="fab fa-whatsapp"></i></a>
+<a href="https://wa.me/5519989620949" class="float-zap" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
 <header id="meu-header">
     <div style="display: flex; align-items: center; gap: 15px;">
@@ -509,25 +509,28 @@
 </div>
 
 <nav id="menu-sidebar">
-    <i class="fas fa-times" onclick="toggleMenu()" style="margin-bottom:30px; cursor:pointer;"></i>
-    <div class="menu-link" onclick="filterCat('todos')">Todos</div>
+    <i class="fas fa-times" onclick="toggleMenu()" style="margin-bottom:30px; cursor:pointer; color: #fff;"></i>
+    <div class="menu-link" onclick="filterCat('todos')" style="color: #fff;">Todos</div>
     <div class="menu-link" onclick="abrirMeusPedidos()" style="color: #ccc; border-bottom: 1px solid #333; padding-bottom: 10px;">Meus Pedidos</div>
-    <div class="menu-link" onclick="filterCat('tenis')">Tênis Masculino</div>
+    
+    <div class="menu-link" onclick="filterCat('tenis')" style="color: #00a2ff;">Tênis Masculino</div>
     <div class="menu-link" onclick="filterCat('tenis-feminino')" style="color: #ff8da1;">Tênis Feminino</div>
-    <div class="menu-link" onclick="filterCat('chinelos')">Chinelos</div>
-    <div class="menu-link" onclick="filterCat('shorts')" style="color: #8da1ff;">Shorts</div>
-    <div class="menu-link" onclick="filterCat('conjuntos')" style="color: #a1ff8d;">Conjuntos</div>
-    <div class="menu-link" onclick="filterCat('raul')">Raul</div>
-    <div class="menu-link" onclick="camisas">Camisas</div>
-    <div class="menu-link" onclick="filterCat('corteiz')">Corteiz</div>
-    <div class="menu-link" onclick="filterCat('nike')">Nike</div>
-    <div class="menu-link" onclick="filterCat('adidas')">Adidas</div>
-    <div class="menu-link" onclick="filterCat('puma')">Puma</div>
-    <div class="menu-link" onclick="filterCat('new balance')">New Balance</div>
-    <div class="menu-link" onclick="filterCat('syna')">Syna</div>
-    <div class="menu-link" onclick="filterCat('denim tears')">Denim Tears</div>
-    <div class="menu-link" onclick="filterCat('nocta')">Nocta</div>
-    <div class="menu-link" onclick="filterCat('joias')">Joias</div>
+    
+    <div class="menu-link" onclick="filterCat('academia')" style="color: #fff;">Academia</div>
+    <div class="menu-link" onclick="filterCat('moletom')" style="color: #fff;">Moletom</div>
+    <div class="menu-link" onclick="filterCat('chinelos')" style="color: #fff;">Chinelos</div>
+    <div class="menu-link" onclick="filterCat('shorts')" style="color: #fff;">Shorts</div>
+    <div class="menu-link" onclick="filterCat('conjuntos')" style="color: #fff;">Conjuntos</div>
+    <div class="menu-link" onclick="filterCat('camisas')" style="color: #fff;">Camisas</div>
+    <div class="menu-link" onclick="filterCat('corteiz')" style="color: #fff;">Corteiz</div>
+    <div class="menu-link" onclick="filterCat('nike')" style="color: #fff;">Nike</div>
+    <div class="menu-link" onclick="filterCat('adidas')" style="color: #fff;">Adidas</div>
+    <div class="menu-link" onclick="filterCat('puma')" style="color: #fff;">Puma</div>
+    <div class="menu-link" onclick="filterCat('new balance')" style="color: #fff;">New Balance</div>
+    <div class="menu-link" onclick="filterCat('syna')" style="color: #fff;">Syna</div>
+    <div class="menu-link" onclick="filterCat('denim tears')" style="color: #fff;">Denim Tears</div>
+    <div class="menu-link" onclick="filterCat('nocta')" style="color: #fff;">Nocta</div>
+    <div class="menu-link" onclick="filterCat('joias')" style="color: #fff;">Joias</div>
 </nav>
 
 <div class="cart-sidebar" id="cart-sidebar">
@@ -548,11 +551,16 @@
 
 <div id="main-content"></div>
 
-<div class="modal-overlay" id="modal-meus-pedidos">
-    <div class="modal-content" style="max-width: 400px; padding: 20px;">
-        <h2 style="margin-bottom: 20px; font-size: 1.2rem; text-align: center;">Meus Pedidos</h2>
-        <div id="lista-meus-pedidos" style="max-height: 300px; overflow-y: auto;"></div>
-        <p onclick="fecharTudo()" style="text-align:center; cursor:pointer; margin-top:20px; font-size:0.7rem; color:#555">FECHAR</p>
+<div class="modal-overlay" id="modal-meus-pedidos" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #050505; z-index: 9999; overflow-y: auto; padding: 20px; font-family: 'Segoe UI', sans-serif;">
+    
+    <div style="max-width: 600px; margin: 0 auto; padding-bottom: 50px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #222; padding-bottom: 15px;">
+            <h2 style="font-size: 1rem; letter-spacing: 2px; color: #fff; text-transform: uppercase; margin: 0;"><i class="fas fa-shopping-bag" style="margin-right: 8px;"></i> Meus Pedidos</h2>
+            <span onclick="const m = document.getElementById('modal-meus-pedidos'); m.style.display = 'none'; m.classList.remove('active');" style="cursor: pointer; font-size: 0.75rem; letter-spacing: 1px; color: #888; font-weight: bold; border: 1px solid #333; padding: 6px 12px; border-radius: 4px; transition: 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">VOLTAR AO SITE</span>
+        </div>
+
+        <div id="lista-meus-pedidos"></div>
+        
     </div>
 </div>
 
@@ -846,56 +854,20 @@ function irParaQrCode() {
 
 function fecharObrigadoEAbrirPedidos() {
     document.getElementById('modal-obrigado').classList.remove('active');
-    // Força a abertura do modal de pedidos simulando o clique ou chamando a lógica diretamente
     if(!auth.currentUser) {
         alert("Você precisa estar logado para ver seus pedidos.");
         openAuth();
         return;
     }
+    
+    // Altera o display do novo modal fullscreen e limpa a lista para o carregamento
+    const modalMeusPedidos = document.getElementById('modal-meus-pedidos');
+    modalMeusPedidos.style.display = 'block';
+    
     const lista = document.getElementById('lista-meus-pedidos');
-    lista.innerHTML = "Carregando...";
-    document.getElementById('modal-meus-pedidos').classList.add('active');
+    lista.innerHTML = `<div style="text-align:center; color:#555; font-size:0.8rem; margin-top:50px;">Carregando seus pedidos...</div>`;
 
-    db.ref('pedidos/' + auth.currentUser.uid).on('value', snapshot => {
-        lista.innerHTML = "";
-        if(!snapshot.exists()) {
-            lista.innerHTML = "<p style='text-align:center'>Nenhum pedido encontrado.</p>";
-            return;
-        }
-
-        snapshot.forEach(child => {
-            const pedido = child.val();
-            const status = pedido.status || 'Pendente';
-             
-            const rastreioHtml = pedido.rastreio 
-                ? `<div style="margin-top:10px; background:#32bcad; color:#fff; padding:8px; border-radius:4px; font-size:0.75rem; font-weight:bold; text-align:center;">
-                     <i class="fas fa-truck"></i> Rastreio: ${pedido.rastreio}
-                   </div>` 
-                : `<div style="margin-top:10px; background:#222; color:#888; padding:8px; border-radius:4px; font-size:0.75rem; text-align:center;">Rastreio em breve</div>`;
-
-            let prodsHtml = pedido.produtos.map(p => `
-                <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px; border-bottom:1px solid #222; padding-bottom:5px;">
-                    <img src="${p.imagem}" style="width:40px; height:40px; object-fit:cover; border-radius:4px;">
-                    <div style="font-size:0.8rem">
-                        <div>${p.nome}</div>
-                        <div style="color:#888">Tam: ${p.tamanho} | R$ ${p.preco}</div>
-                    </div>
-                </div>
-            `).join('');
-
-            lista.innerHTML += `
-                <div style="background:#111; padding:15px; border-radius:8px; margin-bottom:15px; border: 1px solid #333;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                        <div style="font-size:0.7rem; color:#888;">${pedido.data}</div>
-                        <div style="font-size:0.7rem; background:#32bcad; color:#fff; padding:2px 8px; border-radius:4px; font-weight:bold;">${status}</div>
-                    </div>
-                    ${prodsHtml}
-                    ${rastreioHtml}
-                    <div style="text-align:right; font-weight:bold; margin-top:10px; color:#32bcad;">${pedido.total}</div>
-                </div>
-            `;
-        });
-    });
+    carregarLógicaPedidosPremium(auth.currentUser.uid);
 }
 
 function abrirMeusPedidos() {
@@ -906,46 +878,105 @@ function abrirMeusPedidos() {
     }
      
     toggleMenu();
+    
+    // Altera o display do novo modal fullscreen
+    const modalMeusPedidos = document.getElementById('modal-meus-pedidos');
+    modalMeusPedidos.style.display = 'block';
+    
     const lista = document.getElementById('lista-meus-pedidos');
-    lista.innerHTML = "Carregando...";
-    document.getElementById('modal-meus-pedidos').classList.add('active');
+    lista.innerHTML = `<div style="text-align:center; color:#555; font-size:0.8rem; margin-top:50px;">Carregando seus pedidos...</div>`;
 
-    db.ref('pedidos/' + auth.currentUser.uid).on('value', snapshot => {
-        lista.innerHTML = "";
-        if(!snapshot.exists()) {
-            lista.innerHTML = "<p style='text-align:center'>Nenhum pedido encontrado.</p>";
+    carregarLógicaPedidosPremium(auth.currentUser.uid);
+}
+
+// NOVA FUNÇÃO ISOLADA QUE RENDERIZA O LAYOUT FULLSCREEN PREMIUM COM DADOS DE ENTREGA
+function carregarLógicaPedidosPremium(uidCliente) {
+    db.ref('pedidos/' + uidCliente).on('value', snap => {
+        const divLista = document.getElementById('lista-meus-pedidos');
+        divLista.innerHTML = "";
+
+        if (!snap.exists()) {
+            divLista.innerHTML = `<div style="text-align:center; color:#555; font-size:0.8rem; margin-top:50px;">Você ainda não realizou nenhum pedido.</div>`;
             return;
         }
 
-        snapshot.forEach(child => {
-            const pedido = child.val();
-            const status = pedido.status || 'Pendente';
-             
-            const rastreioHtml = pedido.rastreio 
-                ? `<div style="margin-top:10px; background:#32bcad; color:#fff; padding:8px; border-radius:4px; font-size:0.75rem; font-weight:bold; text-align:center;">
-                     <i class="fas fa-truck"></i> Rastreio: ${pedido.rastreio}
-                   </div>` 
-                : `<div style="margin-top:10px; background:#222; color:#888; padding:8px; border-radius:4px; font-size:0.75rem; text-align:center;">Rastreio em breve</div>`;
+        snap.forEach(child => {
+            const p = child.val();
+            const idPedido = child.key;
+            
+            // Limpa o texto do total se necessário
+            let totalLimpo = p.total ? p.total.toString().toLowerCase().replace(/total:/g, '').trim() : '0,00';
+            
+            // Define a cor do status do cliente de forma elegante
+            let corStatus = '#999';
+            const st = String(p.status).toLowerCase();
+            if (st === 'entregue') corStatus = '#00ff00';
+            if (st === 'preparando' || st === 'enviado') corStatus = '#ffff00';
 
-            let prodsHtml = pedido.produtos.map(p => `
-                <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px; border-bottom:1px solid #222; padding-bottom:5px;">
-                    <img src="${p.imagem}" style="width:40px; height:40px; object-fit:cover; border-radius:4px;">
-                    <div style="font-size:0.8rem">
-                        <div>${p.nome}</div>
-                        <div style="color:#888">Tam: ${p.tamanho} | R$ ${p.preco}</div>
+            // Mapeia os produtos do pedido
+            let prodsHtml = '';
+            if (p.produtos && Array.isArray(p.produtos)) {
+                prodsHtml = p.produtos.map(prod => {
+                    const nomeUrl = encodeURIComponent(prod.nome); 
+                    return `
+                    <div style="display: flex; justify-content: space-between; align-items: center; background: #070707; padding: 10px; border: 1px solid #1a1a1a; border-radius: 6px; margin-bottom: 8px; font-size: 0.8rem;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            ${prod.imagem ? `<img src="${prod.imagem}" style="width:40px; height:40px; object-fit:cover; border-radius:4px;">` : ''}
+                            <div>
+                                <b style="color: #fff; display:block; max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${prod.nome}</b>
+                                <span style="font-size: 0.7rem; color: #aaa;">Tam: ${prod.tamanho || '---'} | R$ ${prod.preco || '---'}</span>
+                            </div>
+                        </div>
+                        <a href="index.html?busca=${nomeUrl}" style="text-decoration: none; background: linear-gradient(180deg, #dcdcdc, #999999); color: #000; font-size: 0.65rem; font-weight: bold; padding: 6px 12px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.2s;">
+                            <i class="fas fa-redo"></i> Recomprar
+                        </a>
                     </div>
-                </div>
-            `).join('');
+                    `;
+                }).join('');
+            } else {
+                prodsHtml = '<span style="font-size:0.75rem; color:#555;">Nenhum item listado</span>';
+            }
 
-            lista.innerHTML += `
-                <div style="background:#111; padding:15px; border-radius:8px; margin-bottom:15px; border: 1px solid #333;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                        <div style="font-size:0.7rem; color:#888;">${pedido.data}</div>
-                        <div style="font-size:0.7rem; background:#32bcad; color:#fff; padding:2px 8px; border-radius:4px; font-weight:bold;">${status}</div>
+            // Renderiza o Card do Pedido com Dados de Entrega
+            divLista.innerHTML += `
+                <div style="background: #111; border: 1px solid #222; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-family:'Segoe UI', sans-serif;">
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-size: 0.75rem; border-bottom: 1px solid #222; padding-bottom: 10px;">
+                        <span style="color: #888;">ID: #${idPedido.substring(0, 8).toUpperCase()}</span>
+                        <span style="color: #555; font-size: 0.7rem;">${p.data || ''}</span>
+                        <span style="color: ${corStatus}; font-weight: bold; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px;">● ${p.status || 'Pendente'}</span>
                     </div>
-                    ${prodsHtml}
-                    ${rastreioHtml}
-                    <div style="text-align:right; font-weight:bold; margin-top:10px; color:#32bcad;">${pedido.total}</div>
+
+                    ${p.rastreio ? `
+                    <div style="background: #1a1a1a; border-left: 3px solid #32bcad; padding: 10px; margin-bottom: 15px; font-size: 0.75rem; border-radius: 0 4px 4px 0;">
+                        <small style="color:#888; font-size:0.6rem; display:block;">CÓDIGO DE RASTREIO:</small>
+                        <b style="color:#fff; letter-spacing:1px;"><i class="fas fa-truck"></i> ${p.rastreio}</b>
+                    </div>
+                    ` : `
+                    <div style="background: #161616; padding: 10px; margin-bottom: 15px; font-size: 0.7rem; color: #666; text-align: center; border-radius: 4px; border: 1px dashed #222;">
+                        Código de rastreio ficará disponível aqui assim que for postado.
+                    </div>
+                    `}
+
+                    <div style="margin-bottom: 20px;">
+                        <span style="font-size: 0.65rem; color: #888; display: block; margin-bottom: 8px; letter-spacing: 1px; text-transform:uppercase;">Itens do Pedido:</span>
+                        ${prodsHtml}
+                        
+                        <div style="text-align: right; margin-top: 12px; font-size: 0.9rem; font-weight: bold; color: #fff; border-top: 1px solid #1a1a1a; padding-top: 10px;">
+                            Total Pago: <span style="color: #32bcad;">${totalLimpo.includes('r$') ? totalLimpo.toUpperCase() : 'R$ ' + totalLimpo}</span>
+                        </div>
+                    </div>
+
+                    <div style="background: #070707; border: 1px solid #1a1a1a; padding: 12px; border-radius: 6px;">
+                        <span style="font-size: 0.65rem; color: #888; display: block; margin-bottom: 6px; letter-spacing: 1px;"><i class="fas fa-map-marker-alt"></i> ENDEREÇO E DADOS DE ENTREGA:</span>
+                        <div style="font-size: 0.75rem; color: #aaa; line-height: 1.6;">
+                            <b style="color:#fff;">Destinatário:</b> ${p.cliente || '---'}<br>
+                            <b style="color:#fff;">Endereço:</b> ${p.endereco || '---'}<br>
+                            <b style="color:#fff;">CEP:</b> ${p.cep || '---'} &nbsp;|&nbsp; <b style="color:#fff;">WhatsApp:</b> ${p.whatsapp || '---'}<br>
+                            <b style="color:#fff;">CPF:</b> ${p.cpf || '---'}
+                        </div>
+                    </div>
+
                 </div>
             `;
         });
@@ -970,7 +1001,7 @@ function finalizarWhatsApp() {
     mensagem += `*${totalTexto}*`;
 
     const mensagemUrl = encodeURIComponent(mensagem);
-    window.open(`https://wa.me/5519995544596?text=${mensagemUrl}`, '_blank');
+    window.open(`https://wa.me/5519989620949?text=${mensagemUrl}`, '_blank');
 }
 
 // --- RESTANTE DAS FUNÇÕES ---
@@ -1078,14 +1109,22 @@ function renderFull(filtered = null) {
     main.innerHTML = "";
     const data = filtered || ALL_PRODUCTS;
     
-    const cats = ["tenis", "tenis-feminino", "chinelos", "shorts", "conjuntos", "raul", "camisas", "corteiz", "nike", "syna", "denim tears", "nocta", "joias"];
+    // ATUALIZADO: Inclusão das categorias 'moletom' e 'academia' na renderização principal
+    const cats = ["tenis", "tenis-feminino", "academia", "moletom", "chinelos", "shorts", "conjuntos", "raul", "camisas", "corteiz", "nike", "syna", "denim tears", "nocta", "joias"];
     
     const modelosEsquema = ["nocta", "air max 95", "dn", "tn", "shox", "air force", "dunk", "air jordan", "court vision", "new balance", "puma", "adidas", "timberland"];
 
     cats.forEach(cat => {
         let prods = data.filter(p => p.categoria && p.categoria.toLowerCase() === cat);
         if(prods.length > 0) {
-            let html = `<div class="container"><h2 class="cat-title" style="text-transform: uppercase;">${cat === 'tenis' ? 'Tênis Masculino' : cat === 'tenis-feminino' ? 'Tênis Feminino' : cat}</h2>`;
+            // Mapeia os títulos das categorias para exibição de forma amigável
+            let tituloExibicao = cat;
+            if (cat === 'tenis') tituloExibicao = 'Tênis Masculino';
+            else if (cat === 'tenis-feminino') tituloExibicao = 'Tênis Feminino';
+            else if (cat === 'moletom') tituloExibicao = 'Moletons';
+            else if (cat === 'academia') tituloExibicao = 'Moda Academia';
+
+            let html = `<div class="container"><h2 class="cat-title" style="text-transform: uppercase;">${tituloExibicao}</h2>`;
             
             if(cat === "tenis" || cat === "tenis-feminino") {
                 const modelos = ["todos", "nocta", "air max 95", "dn", "tn", "shox", "air force", "dunk", "air jordan", "court vision", "new balance", "puma", "adidas", "timberland"];
@@ -1152,7 +1191,7 @@ function renderFull(filtered = null) {
                                 ${gerarTagHtml(p.tag)}
                                 <div class="img-container"><img src="${p.imagem}"></div>
                                 <h3>${p.nome}</h3>
-                                <span class="price">R$ ${p.preco}</span>
+                                    <span class="price">R$ ${p.preco}</span>
                              </div>`;
                 });
                 html += `</div>`;
@@ -1306,7 +1345,7 @@ function updateCart() {
     document.getElementById('cart-total').innerText = `Total: R$ ${totalFinal.toFixed(2).replace('.',',')}`;
 }
 
-function zapDireto() { window.open(`https://wa.me/5519995544596?text=Olá, este produto está disponivel? ${SELECTED_PROD.nome}`); }
+function zapDireto() { window.open(`https://wa.me/5519989620949?text=Olá, este produto está disponivel? ${SELECTED_PROD.nome}`); }
 
 function abrirModalDados() { 
     if(!auth.currentUser) return openAuth(); 
