@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR" style="scroll-behavior: smooth;">
 <head>
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-123456789"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -16,7 +15,7 @@
     <title>B2 STREET | Urban Premium</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+     
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
@@ -96,7 +95,7 @@
         .cat-title { font-size: 1rem; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; color: #fff; }
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
         @media (min-width: 768px) { .grid { grid-template-columns: repeat(4, 1fr); } }
-        
+         
         .product-card { background: var(--card); border-radius: 0px; padding: 8px; border: 1px solid #111; cursor: pointer; }
         .product-card:hover { transform: translateY(-5px); border-color: #fff; }
         .img-container { width: 100%; aspect-ratio: 1/1; overflow: hidden; }
@@ -115,7 +114,7 @@
             padding: 0;
         }
         #modal-produto.active { display: block; }
-        
+         
         .modal-content-wrapper {
             width: 100%;
             max-width: 1400px;
@@ -126,7 +125,7 @@
             gap: 30px;
             position: relative;
         }
-        
+         
         @media (min-width: 992px) {
             .modal-content-wrapper {
                 grid-template-columns: 1.1fr 0.9fr;
@@ -288,7 +287,7 @@
         }
         .info-dropdown i { font-size: 0.9rem; color: #888; transition: transform 0.3s; }
         .info-dropdown.active i { transform: rotate(180deg); }
-        
+         
         .info-dropdown-content {
             max-height: 0;
             overflow: hidden;
@@ -298,17 +297,17 @@
             line-height: 1.5;
         }
         .info-dropdown-content div { padding-bottom: 15px; }
-        
+         
         /* Modais padrão de cartão centralizado */
         .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000; display: none; align-items: center; justify-content: center; padding: 20px; }
         .modal-overlay.active:not(#modal-produto) { display: flex; }
-        
+         
         .modal-content { background: #000; width: 100%; max-width: 380px; border-radius: 12px; padding: 0; border: 1px solid #222; position: relative; overflow: hidden; animation: fadeIn 0.3s; }
         .modal-body-standard { padding: 25px; }
-        
+         
         .cart-sidebar { position: fixed; right: -100%; top: 0; width: 320px; height: 100vh; background: #000; z-index: 2000; padding: 20px; border-left: 1px solid #222; display: flex; flex-direction: column; will-change: transform; transition: right 0.4s ease; }
         .cart-sidebar.open { right: 0; }
-        
+         
         #cart-list { flex: 1; overflow-y: auto; padding-right: 5px; margin-bottom: 20px; }
         #cart-list::-webkit-scrollbar { width: 4px; }
         #cart-list::-webkit-scrollbar-thumb { background: #333; }
@@ -318,7 +317,7 @@
 
         .btn-action { width: 100%; padding: 14px; margin: 5px 0; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; color: #000 !important; background: var(--silver-btn); }
         .btn-action:hover { opacity: 0.8; transform: scale(0.98); box-shadow: 0 0 15px rgba(255,255,255,0.2); }
-        
+         
         #menu-sidebar { position: fixed; left: -280px; top: 0; width: 280px; height: 100%; background: #000; z-index: 2000; padding: 40px 20px; border-right: 1px solid var(--gray); overflow-y: auto; transition: left 0.4s ease; }
         #menu-sidebar.open { left: 0; }
         .menu-link { display: block; color: #fff; font-weight: 800; margin-bottom: 25px; text-transform: uppercase; cursor: pointer; }
@@ -349,12 +348,12 @@
         }
         .about-text {
             max-width: 700px;
-            margin: 0 auto 35px auto;
+            margin: 0 auto 25px auto;
             font-size: 1rem;
             line-height: 1.6;
             color: #ccc;
         }
-        
+         
         .instagram-btn {
             display: inline-flex;
             align-items: center;
@@ -368,13 +367,57 @@
             text-decoration: none;
             font-size: 1rem;
             transition: transform 0.2s, box-shadow 0.2s;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             box-shadow: 0 4px 15px rgba(220, 39, 67, 0.3);
         }
         .instagram-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 6px 20px rgba(220, 39, 67, 0.5);
         }
+
+        /* ESTILO DO BOTÃO TIKTOK ADICIONADO */
+        .tiktok-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #010101;
+            color: #fff;
+            padding: 12px 35px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 20px;
+            border: 1px solid #25f4ee;
+            box-shadow: 0 4px 15px rgba(254, 44, 85, 0.2);
+        }
+        .tiktok-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(37, 244, 238, 0.6), 0 0 15px rgba(254, 44, 85, 0.6);
+        }
+
+        /* ESTILO DOS BOTÕES SOCIAIS DA SIDEBAR */
+        .sidebar-socials {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #222;
+            display: flex;
+            gap: 20px;
+            justify-content: flex-start;
+        }
+        .sidebar-social-icon {
+            color: #bbb;
+            font-size: 1.5rem;
+            transition: color 0.2s, transform 0.2s;
+            cursor: pointer;
+        }
+        .sidebar-social-icon:hover {
+            transform: scale(1.1);
+        }
+        .sidebar-social-icon.insta:hover { color: #dc2743; }
+        .sidebar-social-icon.tt:hover { color: #25f4ee; }
     </style>
 </head>
 <body>
@@ -389,7 +432,7 @@
     </marquee>
 </div>
 
-<a href="https://wa.me/5519995544596" class="float-zap" target="_blank"><i class="fab fa-whatsapp"></i></a>
+<a href="https://wa.me/5519989620949" class="float-zap" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
 <header id="meu-header">
     <div style="display: flex; align-items: center; gap: 15px;">
@@ -427,7 +470,7 @@
         box-sizing: border-box;
         z-index: 1000; /* Fica acima de absolutamente tudo */
     }
-    
+     
     .letreiro-container marquee {
         color: #e0e0e0 !important;
         text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.4), -1px -1px 2px rgba(0, 0, 0, 0.8);
@@ -457,13 +500,13 @@
     window.addEventListener('DOMContentLoaded', () => {
         const splash = document.getElementById('splash-screen');
         const letreiro = document.getElementById('meu-letreiro');
-        
+         
         // Garante que o padding do body só aconteça quando o splash sumir
         document.body.style.paddingTop = "0px";
 
         setTimeout(() => {
             splash.style.animation = 'splashFadeOut 1.0s ease-in-out forwards';
-            
+             
             setTimeout(() => {
                 splash.style.display = 'none';
                 letreiro.style.display = 'block';
@@ -487,10 +530,15 @@
 
 <section class="about-section">
     <h2> NOSSA PÁGINA </h2>
-    <p class="about-text"> siga nosso instagram e fique por dentro de nossas novidades em primeira mão!! <br> @b2.street_ </p>
-    <a href="https://www.instagram.com/b2.street_/" target="_blank" class="instagram-btn">
-        <i class="fab fa-instagram" style="font-size: 1.3rem;"></i> Nosso Instagram !!
-    </a> 
+    <p class="about-text"> siga nossas redes e fique por dentro de nossas novidades em primeira mão!! <br> @b2.street_ </p>
+    <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+        <a href="https://www.instagram.com/b2.street_/" target="_blank" class="instagram-btn">
+            <i class="fab fa-instagram" style="font-size: 1.3rem;"></i> Nosso Instagram !!
+        </a> 
+        <a href="https://www.tiktok.com/@b2.street" target="_blank" class="tiktok-btn">
+            <i class="fab fa-tiktok" style="font-size: 1.2rem;"></i> Nosso TikTok !!
+        </a>
+    </div>
 </section>
 
 <div class="brand-filters" id="brand-filters">
@@ -512,10 +560,10 @@
     <i class="fas fa-times" onclick="toggleMenu()" style="margin-bottom:30px; cursor:pointer; color: #fff;"></i>
     <div class="menu-link" onclick="filterCat('todos')" style="color: #fff;">Todos</div>
     <div class="menu-link" onclick="abrirMeusPedidos()" style="color: #ccc; border-bottom: 1px solid #333; padding-bottom: 10px;">Meus Pedidos</div>
-    
+     
     <div class="menu-link" onclick="filterCat('tenis')" style="color: #00a2ff;">Tênis Masculino</div>
     <div class="menu-link" onclick="filterCat('tenis-feminino')" style="color: #ff8da1;">Tênis Feminino</div>
-    
+     
     <div class="menu-link" onclick="filterCat('academia')" style="color: #fff;">Academia</div>
     <div class="menu-link" onclick="filterCat('moletom')" style="color: #fff;">Moletom</div>
     <div class="menu-link" onclick="filterCat('chinelos')" style="color: #fff;">Chinelos</div>
@@ -531,6 +579,15 @@
     <div class="menu-link" onclick="filterCat('denim tears')" style="color: #fff;">Denim Tears</div>
     <div class="menu-link" onclick="filterCat('nocta')" style="color: #fff;">Nocta</div>
     <div class="menu-link" onclick="filterCat('joias')" style="color: #fff;">Joias</div>
+
+    <div class="sidebar-socials">
+        <a href="https://www.instagram.com/b2.street_/" target="_blank" class="sidebar-social-icon insta" title="Instagram">
+            <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://www.tiktok.com/@b2.street" target="_blank" class="sidebar-social-icon tt" title="TikTok">
+            <i class="fab fa-tiktok"></i>
+        </a>
+    </div>
 </nav>
 
 <div class="cart-sidebar" id="cart-sidebar">
@@ -734,7 +791,7 @@
             <p style="margin: 15px 0; color: #fff; line-height: 1.5;">O pagamento será processado e enviaremos informações sobre seu pedido via whatsapp or e-mail.Você pode checar o código de rastreio e status do seu pedido na seção ´´ Meus pedidos``.</p>
             <button class="btn-action" onclick="location.reload()" style="background:#fff; color:#000">Continuar Comprando</button>
             <button class="btn-action" onclick="fecharObrigadoEAbrirPedidos()" style="background:#32bcad; color:#fff; font-weight:bold">Meus Pedidos</button>
-            <button class="btn-action" onclick="window.open('https://wa.me/5519995544596')"><i class="fab fa-whatsapp" style="margin-right:8px;"></i>Atendimento Whatsapp</button>
+            <button class="btn-action" onclick="window.open('https://wa.me/5519989620949')"><i class="fab fa-whatsapp" style="margin-right:8px;"></i>Atendimento Whatsapp</button>
         </div>
     </div>
 </div>
@@ -1001,7 +1058,7 @@ function finalizarWhatsApp() {
     mensagem += `*${totalTexto}*`;
 
     const mensagemUrl = encodeURIComponent(mensagem);
-    window.open(`https://wa.me/5519995544596?text=${mensagemUrl}`, '_blank');
+    window.open(`https://wa.me/5519989620949?text=${mensagemUrl}`, '_blank');
 }
 
 // --- RESTANTE DAS FUNÇÕES ---
@@ -1345,7 +1402,7 @@ function updateCart() {
     document.getElementById('cart-total').innerText = `Total: R$ ${totalFinal.toFixed(2).replace('.',',')}`;
 }
 
-function zapDireto() { window.open(`https://wa.me/5519995544596?text=Olá, este produto está disponivel? ${SELECTED_PROD.nome}`); }
+function zapDireto() { window.open(`https://wa.me/5519989620949?text=Olá, este produto está disponivel? ${SELECTED_PROD.nome}`); }
 
 function abrirModalDados() { 
     if(!auth.currentUser) return openAuth(); 
@@ -1377,3 +1434,4 @@ function loginGoogle() { const provider = new firebase.auth.GoogleAuthProvider()
 function logoutUser() { if(confirm("Deseja sair da conta?")) auth.signOut().then(() => location.reload()); }
 function handleAuth() { const e = document.getElementById('auth-email').value, p = document.getElementById('auth-pass').value; if(isSignUp) auth.createUserWithEmailAndPassword(e, p).then(()=>closeModals()).catch(err => alert(err.message)); else auth.signInWithEmailAndPassword(e, p).then(()=>closeModals()).catch(err => alert(err.message)); }
 </script>
+
