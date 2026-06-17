@@ -734,8 +734,29 @@
             <input type="email" id="checkout-email" class="auth-input" placeholder="E-mail">
             <input type="tel" id="checkout-tel" class="auth-input" placeholder="Telefone para contato (WhatsApp)">
             <input type="text" id="checkout-cpf" class="auth-input" placeholder="CPF">
-            <input type="text" id="checkout-cep" class="auth-input" placeholder="CEP">
+            <input type="text" id="checkout-cep" class="auth-input" placeholder="CEP" onblur="calcularFreteEEndereco()">
             <input type="text" id="checkout-end" class="auth-input" placeholder="Endereço de Recebimento (Com número )">
+            
+            <div style="margin-bottom: 15px;">
+                <select id="checkout-tipo-residencia" class="auth-input" onchange="toggleCamposCondominio()" style="width: 100%; background: #111; color: #fff; border: 1px solid #333; padding: 12px; border-radius: 8px; outline: none; font-size: 0.9rem;">
+                    <option value="casa">Casa</option>
+                    <option value="condominio">Condomínio</option>
+                </select>
+            </div>
+
+            <div id="campos-condominio" style="display: none; gap: 10px; margin-bottom: 15px;">
+                <input type="text" id="checkout-bloco" class="auth-input" placeholder="Bloco" style="flex: 1; margin-bottom: 0;">
+                <input type="text" id="checkout-apto" class="auth-input" placeholder="Apto / Sala" style="flex: 1; margin-bottom: 0;">
+            </div>
+
+            <div id="checkout-frete-info" style="display: flex; justify-content: space-between; font-size: 0.85rem; color: #bbb; margin-top: 10px; font-weight: bold;">
+                <span>CUSTO DE ENVIO:</span>
+                <span id="frete-valores-display">Digite o CEP</span>
+            </div>
+            <div id="checkout-total-info" style="display: flex; justify-content: space-between; font-size: 1rem; color: #fff; margin-top: 8px; margin-bottom: 15px; font-weight: 800; border-top: 1px solid #222; padding-top: 10px;">
+                <span>TOTAL COM FRETE:</span>
+                <span id="checkout-total-display">R$ 0,00</span>
+            </div>
              
             <button class="btn-action" onclick="processarPedido()" style="background:#fff; color:#000; font-weight:800; margin-top: 15px;">Continuar para Pagamento</button>
             <p onclick="closeModals()" style="text-align:center; cursor:pointer; margin-top:15px; font-size:0.7rem; color:#555; font-weight: 800; letter-spacing: 1px;">CANCELAR</p>
@@ -821,6 +842,7 @@ let currentSlide = 0;
 let DESCONTO_FIXO = 0;
 let CUPOM_VALIDO = false;
 let CURRENT_MODEL_FILTER = 'todos';
+let VALOR_FRETE = 0;
 
 // --- FUNÇÕES DE PEDIDO E INTEGRAÇÃO ---
 
@@ -852,18 +874,123 @@ async function enviarParaGoogleSheets(dados) {
     } catch (error) { console.error("Erro ao enviar para Sheets:", error); }
 }
 
+function toggleCamposCondominio() {
+    const tipo = document.getElementById('checkout-tipo-residencia').value;
+    const blocoAptoDiv = document.getElementById('campos-condominio');
+    
+    if (tipo === 'condominio') {
+        blocoAptoDiv.style.display = 'flex';
+    } else {
+        blocoAptoDiv.style.display = 'none';
+        document.getElementById('checkout-bloco').value = '';
+        document.getElementById('checkout-apto').value = '';
+    }
+}
+
+function obterValorNumericoTotal() {
+    let subtotal = 0;
+    CART.forEach(i => {
+        subtotal += parseFloat(String(i.preco).replace(',','.'));
+    });
+    let totalFinal = subtotal - DESCONTO_FIXO;
+    return totalFinal < 0 ? 0 : totalFinal;
+}
+
+function calcularFreteEEndereco() {
+    const cep = document.getElementById('checkout-cep').value.replace(/\D/g, '');
+    const inputEndereco = document.getElementById('checkout-end');
+    const freteDisplay = document.getElementById('frete-valores-display');
+
+    if (cep.length !== 8) {
+        alert("CEP inválido. Digite os 8 números.");
+        return;
+    }
+
+    if (freteDisplay) freteDisplay.innerText = "Calculando...";
+
+    fetch(`https://viacep.com.br/ws/${cep}/json/`)
+        .then(res => res.json())
+        .then(dados => {
+            if (dados.erro) {
+                alert("CEP não encontrado. Preencha o endereço manualmente.");
+                if (freteDisplay) freteDisplay.innerText = "CEP não encontrado";
+                return;
+            }
+            
+            inputEndereco.value = `${dados.logradouro}, - ${dados.bairro}, ${dados.localidade}/${dados.uf}`;
+
+            let valorCalculado = 19.90; 
+
+            if (dados.uf === 'SP') {
+                valorCalculado = 11.00; 
+            } else if (['RJ', 'MG', 'PR', 'SC'].includes(dados.uf)) {
+                valorCalculado = 16.90;
+            } else {
+                valorCalculado = 24.90; 
+            }
+
+            const totalCarrinhoBase = obterValorNumericoTotal(); 
+            if (totalCarrinhoBase >= 350) {
+                valorCalculado = 0;
+            }
+
+            VALOR_FRETE = valorCalculado;
+            
+            if (freteDisplay) {
+                freteDisplay.innerText = VALOR_FRETE === 0 ? "GRÁTIS" : `R$ ${VALOR_FRETE.toFixed(2).replace('.', ',')}`;
+            }
+
+            atualizarTotalComFrete();
+        })
+        .catch(err => {
+            console.error("Erro ao buscar CEP:", err);
+            alert("Erro ao calcular o frete.");
+        });
+}
+
+function atualizarTotalComFrete() {
+    const subtotal = obterValorNumericoTotal();
+    const totalFinal = subtotal + VALOR_FRETE;
+    
+    const txtFinal = `R$ ${totalFinal.toFixed(2).replace('.', ',')}`;
+    
+    const checkoutTotalDisplay = document.getElementById('checkout-total-display');
+    if (checkoutTotalDisplay) {
+        checkoutTotalDisplay.innerText = txtFinal;
+    }
+}
+
 function processarPedido() {
     const nome = document.getElementById('checkout-nome').value;
     const email = document.getElementById('checkout-email').value;
     const tel = document.getElementById('checkout-tel').value;
     const cpf = document.getElementById('checkout-cpf').value;
     const cep = document.getElementById('checkout-cep').value;
-    const end = document.getElementById('checkout-end').value;
-    const total = document.getElementById('cart-total').innerText;
+    const endBase = document.getElementById('checkout-end').value;
+    
+    const subtotal = obterValorNumericoTotal();
+    const totalFinalCalculado = subtotal + VALOR_FRETE;
+    const totalFormatado = `Total: R$ ${totalFinalCalculado.toFixed(2).replace('.', ',')}`;
+    
+    const tipoResidencia = document.getElementById('checkout-tipo-residencia').value;
+    const bloco = document.getElementById('checkout-bloco').value;
+    const apto = document.getElementById('checkout-apto').value;
      
-    if (!nome || !tel || !end || !cpf || !cep) { 
+    if (!nome || !tel || !endBase || !cpf || !cep) { 
         alert("Preencha todos os dados: Nome, WhatsApp, CPF, CEP e Endereço."); 
         return; 
+    }
+
+    if (tipoResidencia === 'condominio' && (!bloco || !apto)) {
+        alert("Por favor, preencha o Bloco e o Apartamento/Sala para entregas em condomínio.");
+        return;
+    }
+
+    let enderecoCompleto = endBase;
+    if (tipoResidencia === 'condominio') {
+        enderecoCompleto += ` (Condomínio - Bloco: ${bloco} | Apto: ${apto})`;
+    } else {
+        enderecoCompleto += ` (Casa)`;
     }
 
     const pedidoData = {
@@ -873,10 +1000,10 @@ function processarPedido() {
         whatsapp: tel, 
         cpf: cpf,
         cep: cep,
-        endereco: end,
+        endereco: enderecoCompleto,
         produtos: CART, 
-        total: total,
-        status: '',
+        total: totalFormatado,
+        status: 'Pendente',
         rastreio: ''
     };
 
@@ -892,7 +1019,7 @@ function processarPedido() {
     }
 
     document.getElementById('modal-dados').classList.remove('active'); 
-    document.getElementById('pix-valor-display').innerText = total; 
+    document.getElementById('pix-valor-display').innerText = `R$ ${totalFinalCalculado.toFixed(2).replace('.', ',')}`; 
     document.getElementById('pix-loading-view').style.display = 'block';
     document.getElementById('pix-select-method-view').style.display = 'none';
     document.getElementById('pix-content-view').style.display = 'none';
@@ -917,7 +1044,6 @@ function fecharObrigadoEAbrirPedidos() {
         return;
     }
     
-    // Altera o display do novo modal fullscreen e limpa a lista para o carregamento
     const modalMeusPedidos = document.getElementById('modal-meus-pedidos');
     modalMeusPedidos.style.display = 'block';
     
@@ -936,7 +1062,6 @@ function abrirMeusPedidos() {
      
     toggleMenu();
     
-    // Altera o display do novo modal fullscreen
     const modalMeusPedidos = document.getElementById('modal-meus-pedidos');
     modalMeusPedidos.style.display = 'block';
     
@@ -946,7 +1071,6 @@ function abrirMeusPedidos() {
     carregarLógicaPedidosPremium(auth.currentUser.uid);
 }
 
-// NOVA FUNÇÃO ISOLADA QUE RENDERIZA O LAYOUT FULLSCREEN PREMIUM COM DADOS DE ENTREGA
 function carregarLógicaPedidosPremium(uidCliente) {
     db.ref('pedidos/' + uidCliente).on('value', snap => {
         const divLista = document.getElementById('lista-meus-pedidos');
@@ -961,16 +1085,13 @@ function carregarLógicaPedidosPremium(uidCliente) {
             const p = child.val();
             const idPedido = child.key;
             
-            // Limpa o texto do total se necessário
             let totalLimpo = p.total ? p.total.toString().toLowerCase().replace(/total:/g, '').trim() : '0,00';
             
-            // Define a cor do status do cliente de forma elegante
             let corStatus = '#999';
             const st = String(p.status).toLowerCase();
             if (st === 'entregue') corStatus = '#00ff00';
             if (st === 'preparando' || st === 'enviado') corStatus = '#ffff00';
 
-            // Mapeia os produtos do pedido
             let prodsHtml = '';
             if (p.produtos && Array.isArray(p.produtos)) {
                 prodsHtml = p.produtos.map(prod => {
@@ -994,7 +1115,6 @@ function carregarLógicaPedidosPremium(uidCliente) {
                 prodsHtml = '<span style="font-size:0.75rem; color:#555;">Nenhum item listado</span>';
             }
 
-            // Renderiza o Card do Pedido com Dados de Entrega
             divLista.innerHTML += `
                 <div style="background: #111; border: 1px solid #222; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-family:'Segoe UI', sans-serif;">
                     
@@ -1166,7 +1286,6 @@ function renderFull(filtered = null) {
     main.innerHTML = "";
     const data = filtered || ALL_PRODUCTS;
     
-    // ATUALIZADO: Inclusão das categorias 'moletom' e 'academia' na renderização principal
     const cats = ["tenis", "tenis-feminino", "academia", "moletom", "chinelos", "shorts", "conjuntos", "raul", "camisas", "corteiz", "nike", "syna", "denim tears", "nocta", "joias"];
     
     const modelosEsquema = ["nocta", "air max 95", "dn", "tn", "shox", "air force", "dunk", "air jordan", "court vision", "new balance", "puma", "adidas", "timberland"];
@@ -1174,7 +1293,6 @@ function renderFull(filtered = null) {
     cats.forEach(cat => {
         let prods = data.filter(p => p.categoria && p.categoria.toLowerCase() === cat);
         if(prods.length > 0) {
-            // Mapeia os títulos das categorias para exibição de forma amigável
             let tituloExibicao = cat;
             if (cat === 'tenis') tituloExibicao = 'Tênis Masculino';
             else if (cat === 'tenis-feminino') tituloExibicao = 'Tênis Feminino';
@@ -1324,15 +1442,12 @@ function addAoCarrinho() {
     if(SELECTED_PROD && SELECTED_PROD.tag === 'esgotado') return;
     if(!SELECTED_SIZE) return alert("Selecione o tamanho!");
     
-    // 1. Adiciona o produto ao carrinho
     CART.push({...SELECTED_PROD, tamanho: SELECTED_SIZE, cartId: Date.now()});
     updateCart(); 
     
-    // 2. Cria o aviso "Produto Adicionado" dinamicamente na tela
     const aviso = document.createElement('div');
     aviso.innerHTML = `<i class="fas fa-check-circle" style="color: #fff; margin-right: 8px;"></i> PRODUTO ADICIONADO`;
     
-    // Estilização premium combinando com o design da B2 STREET
     Object.assign(aviso.style, {
         position: 'fixed',
         top: '50%',
@@ -1354,23 +1469,18 @@ function addAoCarrinho() {
     
     document.body.appendChild(aviso);
     
-    // Animação de entrada (Fade In)
     setTimeout(() => { aviso.style.opacity = '1'; }, 10);
     
-    // 3. Fecha o modal de produto e reseta a seleção
     document.getElementById('modal-produto').classList.remove('active');
     closeModals(); 
     SELECTED_SIZE = null;
 
-    // 4. Após 1 segundo de exibição, faz o Fade Out e remove o aviso
     setTimeout(() => {
         aviso.style.opacity = '0';
         
-        // Remove do HTML após terminar a transição de sumir
         setTimeout(() => { 
             aviso.remove(); 
             
-            // 5. Abre o carrinho suavemente APÓS a mensagem sumir
             const sidebarCarrinho = document.getElementById('cart-sidebar');
             if (sidebarCarrinho) {
                 sidebarCarrinho.classList.add('open');
@@ -1379,7 +1489,7 @@ function addAoCarrinho() {
             }
         }, 300); 
 
-    }, 1000); // Fica visível por exatamente 1 segundo
+    }, 1000); 
 }
 
 function removerDoCarrinho(cid) {
@@ -1400,6 +1510,13 @@ function updateCart() {
     let totalFinal = subtotal - DESCONTO_FIXO;
     if(totalFinal < 0) totalFinal = 0;
     document.getElementById('cart-total').innerText = `Total: R$ ${totalFinal.toFixed(2).replace('.',',')}`;
+
+    // Reseta frete ao mudar itens do carrinho para forçar recálculo no checkout
+    VALOR_FRETE = 0;
+    const fDisplay = document.getElementById('frete-valores-display');
+    const cDisplay = document.getElementById('checkout-total-display');
+    if (fDisplay) fDisplay.innerText = "Digite o CEP";
+    if (cDisplay) cDisplay.innerText = `R$ ${totalFinal.toFixed(2).replace('.', ',')}`;
 }
 
 function zapDireto() { window.open(`https://wa.me/5519989620949?text=Olá, este produto está disponivel? ${SELECTED_PROD.nome}`); }
@@ -1407,6 +1524,12 @@ function zapDireto() { window.open(`https://wa.me/5519989620949?text=Olá, este 
 function abrirModalDados() { 
     if(!auth.currentUser) return openAuth(); 
     toggleCart(); 
+    
+    // Atualiza o total inicial antes de abrir o modal
+    const totalCarrinhoAtual = obterValorNumericoTotal();
+    document.getElementById('checkout-total-display').innerText = `R$ ${totalCarrinhoAtual.toFixed(2).replace('.', ',')}`;
+    document.getElementById('frete-valores-display').innerText = "Digite o CEP";
+    
     document.getElementById('modal-dados').classList.add('active'); 
 }
 
@@ -1434,4 +1557,3 @@ function loginGoogle() { const provider = new firebase.auth.GoogleAuthProvider()
 function logoutUser() { if(confirm("Deseja sair da conta?")) auth.signOut().then(() => location.reload()); }
 function handleAuth() { const e = document.getElementById('auth-email').value, p = document.getElementById('auth-pass').value; if(isSignUp) auth.createUserWithEmailAndPassword(e, p).then(()=>closeModals()).catch(err => alert(err.message)); else auth.signInWithEmailAndPassword(e, p).then(()=>closeModals()).catch(err => alert(err.message)); }
 </script>
-
