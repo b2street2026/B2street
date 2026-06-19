@@ -616,6 +616,115 @@
             <span onclick="const m = document.getElementById('modal-meus-pedidos'); m.style.display = 'none'; m.classList.remove('active');" style="cursor: pointer; font-size: 0.75rem; letter-spacing: 1px; color: #888; font-weight: bold; border: 1px solid #333; padding: 6px 12px; border-radius: 4px; transition: 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#888'">VOLTAR AO SITE</span>
         </div>
 
+        <style>
+            .rastreamento-container {
+                background-color: #111;
+                border: 1px solid #222;
+                border-radius: 8px;
+                padding: 20px;
+                margin-bottom: 30px;
+                color: #fff;
+            }
+            .rastreamento-container h3 {
+                margin-top: 0;
+                font-size: 0.9rem;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                color: #fff;
+                margin-bottom: 15px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .passos-rastreio {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                margin-bottom: 20px;
+            }
+            .passo {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+            .passo-numero {
+                background: linear-gradient(145deg, #ffffff, #a1a1a6);
+                color: #000;
+                font-weight: bold;
+                width: 22px;
+                height: 22px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.8rem;
+                flex-shrink: 0;
+                box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+            }
+            .passo p {
+                margin: 0;
+                font-size: 0.85rem;
+                color: #aaa;
+                line-height: 1.4;
+            }
+            .btn-correios {
+                display: inline-block;
+                text-align: center;
+                text-decoration: none;
+                font-weight: 800;
+                text-transform: uppercase;
+                font-size: 0.8rem;
+                letter-spacing: 1px;
+                padding: 14px 20px;
+                border-radius: 6px;
+                color: #000;
+                background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 25%, #b5b5b5 50%, #e0e0e0 75%, #ffffff 100%);
+                background-size: 200% auto;
+                box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+                border: 1px solid #8e8e93;
+                transition: all 0.3s ease;
+                cursor: pointer;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            .btn-correios:hover {
+                background-position: right center;
+                box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
+                transform: translateY(-2px);
+                color: #000;
+            }
+            .btn-correios:active {
+                transform: translateY(1px);
+            }
+            
+            #lista-meus-pedidos {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+        </style>
+
+        <div class="rastreamento-container">
+            <h3><i class="fas fa-truck"></i> Como rastrear seu pedido</h3>
+            <div class="passos-rastreio">
+                <div class="passo">
+                    <span class="passo-numero">1</span>
+                    <p>Copie o <strong>código de rastreio</strong> do produto que você deseja acompanhar.</p>
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">2</span>
+                    <p>Clique no botão abaixo para acessar a página oficial de rastreamento dos <strong>Correios</strong>.</p>
+                </div>
+                <div class="passo">
+                    <span class="passo-numero">3</span>
+                    <p>Cole o código no campo indicado e clique em pesquisar.</p>
+                </div>
+            </div>
+            <a href="https://rastreamento.correios.com.br/app/index.php" target="_blank" class="btn-correios">
+                Ir para Rastreio Correios
+            </a>
+        </div>
+
         <div id="lista-meus-pedidos"></div>
         
     </div>
@@ -678,53 +787,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    // Sistema Inteligente de Seleção de Tamanho Humano (Age de forma não destrutiva nos elementos inseridos pelo Firebase)
-    window.addEventListener('load', () => {
-        const containerSizes = document.getElementById('m-sizes');
-        if (containerSizes) {
-            const observer = new MutationObserver(() => {
-                const elementosTamanho = containerSizes.querySelectorAll('.size-box, span, button, div');
-                elementosTamanho.forEach(elemento => {
-                    if (!elemento.dataset.ouvinteAtivo) {
-                        elemento.dataset.ouvinteAtivo = "true";
-                        elemento.style.cursor = "pointer";
-                        elemento.addEventListener('click', function() {
-                            elementosTamanho.forEach(el => el.classList.remove('selected'));
-                            elemento.classList.add('selected');
-                        });
-                    }
-                });
-            });
-            observer.observe(containerSizes, { childList: true, subtree: true });
-        }
-    });
-
-    // Controladores de Interface Pura (Sanfonas Dropdown)
-    function toggleInfoDropdown(abaClicada) {
-        abaClicada.classList.toggle('active');
-        const conteudo = abaClicada.nextElementSibling;
-        if (conteudo.style.maxHeight && conteudo.style.maxHeight !== '0px') {
-            conteudo.style.maxHeight = '0px';
-        } else {
-            conteudo.style.maxHeight = conteudo.scrollHeight + "px";
-        }
-    }
-
-    // Função Mestra Desconectada para Fechar Telas (Executa as suas rotinas locais e remove as classes ativas)
-    function fecharTudo() {
-        if (typeof closeModals === 'function') { 
-            try { closeModals(); } catch(e) { console.log("Aviso: Função closeModals nativa omitida."); }
-        }
-        document.getElementById('modal-produto').classList.remove('active');
-        document.getElementById('modal-auth').classList.remove('active');
-        document.getElementById('modal-meus-pedidos').classList.remove('active');
-    }
-</script>
-
-</body>
-</html>
 
 <div class="modal-overlay" id="modal-dados">
     <div class="modal-content" style="max-width: 480px;">
@@ -816,6 +878,53 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Sistema Inteligente de Seleção de Tamanho Humano (Age de forma não destrutiva nos elementos inseridos pelo Firebase)
+    window.addEventListener('load', () => {
+        const containerSizes = document.getElementById('m-sizes');
+        if (containerSizes) {
+            const observer = new MutationObserver(() => {
+                const elementosTamanho = containerSizes.querySelectorAll('.size-box, span, button, div');
+                elementosTamanho.forEach(elemento => {
+                    if (!elemento.dataset.ouvinteAtivo) {
+                        elemento.dataset.ouvinteAtivo = "true";
+                        elemento.style.cursor = "pointer";
+                        elemento.addEventListener('click', function() {
+                            elementosTamanho.forEach(el => el.classList.remove('selected'));
+                            elemento.classList.add('selected');
+                        });
+                    }
+                });
+            });
+            observer.observe(containerSizes, { childList: true, subtree: true });
+        }
+    });
+
+    // Controladores de Interface Pura (Sanfonas Dropdown)
+    function toggleInfoDropdown(abaClicada) {
+        abaClicada.classList.toggle('active');
+        const conteudo = abaClicada.nextElementSibling;
+        if (conteudo.style.maxHeight && conteudo.style.maxHeight !== '0px') {
+            conteudo.style.maxHeight = '0px';
+        } else {
+            conteudo.style.maxHeight = conteudo.scrollHeight + "px";
+        }
+    }
+
+    // Função Mestra Desconectada para Fechar Telas (Executa as suas rotinas locais e remove as classes ativas)
+    function fecharTudo() {
+        if (typeof closeModals === 'function') { 
+            try { closeModals(); } catch(e) { console.log("Aviso: Função closeModals nativa omitida."); }
+        }
+        document.getElementById('modal-produto').classList.remove('active');
+        document.getElementById('modal-auth').classList.remove('active');
+        document.getElementById('modal-meus-pedidos').classList.remove('active');
+    }
+</script>
+
+</body>
+</html>
 
 <script>
 // CONFIGURAÇÃO FIREBASE
