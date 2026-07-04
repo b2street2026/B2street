@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR" style="scroll-behavior: smooth;">
 <head>
+    <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-MZMNJZ55');</script>
+    })(window,document,'script','dataLayer','GTM-5C8MSD38');</script>
+    <!-- End Google Tag Manager -->
+
     <meta charset="UTF-8">
     <link rel="icon" type="image/png" href="favicon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -100,232 +103,430 @@
         .product-card h3 { font-size: 0.75rem; margin: 10px 0 4px; color: #bbb; }
         .product-card .price { font-weight: 800; color: #fff; font-size: 0.9rem; }
 
-        /* --- DESIGN PÁGINA COMPLETA DE PRODUTO (PREENCHE A TELA) --- */
-        #modal-produto { 
-            position: fixed; 
-            inset: 0; 
-            background: #000000; 
-            z-index: 3000; 
-            display: none; 
-            overflow-y: auto;
-            padding: 0;
-        }
-        #modal-produto.active { display: block; }
+      /* --- DESIGN PÁGINA COMPLETA DE PRODUTO (LIQUID GLASS EFFECT) --- */
+#modal-produto { 
+    position: fixed; 
+    inset: 0; 
+    background: rgba(10, 10, 10, 0.6); /* Fundo translúcido fluido */
+    backdrop-filter: blur(25px); /* Desfoque profundo do site ao fundo */
+    -webkit-backdrop-filter: blur(25px);
+    z-index: 3000; 
+    display: none; 
+    overflow-y: auto;
+    padding: 0;
+}
+#modal-produto.active { display: block; }
+     
+.modal-content-wrapper {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 5% 60px 5%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    position: relative;
+}
+     
+@media (min-width: 992px) {
+    .modal-content-wrapper {
+        grid-template-columns: 1.1fr 0.9fr;
+        padding: 40px 5% 80px 5%;
+        gap: 60px;
+        align-items: start;
+    }
+}
+
+/* Botão Voltar para o Site */
+.btn-back-store {
+    grid-column: 1 / -1;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 100px; /* Formato pílula suave */
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    padding: 10px 20px;
+    width: fit-content;
+    align-self: flex-start;
+    transition: all 0.3s ease;
+}
+.btn-back-store:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+}
+
+/* Container de Mídia Vidrificado */
+.modal-media-side {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.02); /* Vidro extremamente sutil */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+#m-img { 
+    width: 100%; 
+    height: auto;
+    max-height: 75vh;
+    object-fit: contain; 
+    display: block; 
+    border-radius: 8px;
+}
+
+.modal-body { 
+    padding: 10px 0; 
+    display: flex;
+    flex-direction: column;
+}
+
+#m-nome {
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 12px;
+}
+
+#m-preco {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 30px;
+}
+
+.size-container-label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 12px;
+}
+
+/* Caixas de Tamanho Estilo Gemini (Cápsulas de Vidro) */
+.size-box {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.03);
+    color: rgba(255, 255, 255, 0.8);
+    min-width: 55px; /* Ligeiramente mais largo para o formato pílula */
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 100px; /* Transforma as caixas quadradas em pílulas */
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.size-box:hover { 
+    border-color: rgba(255, 255, 255, 0.3); 
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+}
+.size-box.selected {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+    font-weight: 800;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+/* Botão Comprar (Brilho Líquido de Alto Contraste) */
+.btn-buy-now {
+    width: 100%;
+    padding: 18px;
+    background: rgba(255, 255, 255, 0.9); /* Quase opaco para destaque */
+    color: #000;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 100px; /* Gemini style */
+    font-weight: 800;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-bottom: 12px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+.btn-buy-now:hover { 
+    background: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(255, 255, 255, 0.2);
+}
+
+/* Botão WhatsApp (Vidro Líquido Verde) */
+.btn-zap-now {
+    width: 100%;
+    padding: 16px;
+    background: rgba(37, 211, 102, 0.05); /* Base de vidro verde */
+    color: #25d366;
+    border: 1px solid rgba(37, 211, 102, 0.2);
+    border-radius: 100px; /* Gemini style */
+    font-weight: 800;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
+}
+.btn-zap-now:hover { 
+    background: rgba(37, 211, 102, 0.12); 
+    border-color: rgba(37, 211, 102, 0.4);
+    box-shadow: 0 0 20px rgba(37, 211, 102, 0.15);
+    transform: translateY(-1px);
+}
+
+/* Estrutura Dropdown Sanfona Flutuante */
+.info-dropdown-wrapper {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.info-dropdown-wrapper:last-of-type {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.info-dropdown {
+    padding: 18px 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.info-dropdown:hover {
+    color: #fff;
+}
+.info-dropdown i { font-size: 0.9rem; color: rgba(255, 255, 255, 0.4); transition: transform 0.3s; }
+.info-dropdown.active i { transform: rotate(180deg); color: #fff; }
+     
+.info-dropdown-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.6;
+}
+.info-dropdown-content div { padding: 0 5px 15px 5px; }
+     
+/* Modais padrão de cartão centralizado (Checkout, Avisos, etc) */
+.modal-overlay { 
+    position: fixed; 
+    inset: 0; 
+    background: rgba(5, 5, 5, 0.5); 
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    z-index: 3000; 
+    display: none; 
+    align-items: center; 
+    justify-content: center; 
+    padding: 20px; 
+}
+.modal-overlay.active:not(#modal-produto) { display: flex; }
+     
+.modal-content { 
+    background: rgba(15, 15, 15, 0.75); 
+    width: 100%; 
+    max-width: 380px; 
+    border-radius: 24px; /* Mais arredondado para casar com o design */
+    padding: 0; 
+    border: 1px solid rgba(255, 255, 255, 0.08); 
+    position: relative; 
+    overflow: hidden; 
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 255, 255, 0.02);
+    animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+}
+.modal-body-standard { padding: 25px; }
          
-        .modal-content-wrapper {
-            width: 100%;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px 5% 60px 5%;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
-            position: relative;
-        }
-         
-        @media (min-width: 992px) {
-            .modal-content-wrapper {
-                grid-template-columns: 1.1fr 0.9fr;
-                padding: 40px 5% 80px 5%;
-                gap: 60px;
-                align-items: start;
-            }
-        }
+        /* --- FUNDO E SIDEBAR COM EFEITO DE VIDRO --- */
+/* Definindo uma cor base mais clara para o fundo da página (opcional, mas ajuda a ver o efeito de vidro) */
+body {
+    background: #111; /* Se o fundo da página já for escuro, o efeito de blur é mais sutil. */
+}
 
-        /* Botão Voltar para o Site */
-        .btn-back-store {
-            grid-column: 1 / -1;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            color: #fff;
-            background: transparent;
-            border: none;
-            font-size: 0.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            padding: 15px 0;
-            width: fit-content;
-            align-self: flex-start;
-        }
-        .btn-back-store:hover {
-            opacity: 0.7;
-        }
+/* Base comum para as duas sidebars com efeito Glass */
+.glass-sidebar {
+    background: rgba(10, 10, 10, 0.7); /* Fundo translúcido escuro */
+    backdrop-filter: blur(10px); /* O efeito de desfoque de vidro */
+    -webkit-backdrop-filter: blur(10px); /* Compatibilidade para Safari */
+    border: 1px solid rgba(255, 255, 255, 0.08); /* Borda "líquida" muito sutil */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.03); /* Brilho de borda suave */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-        .modal-media-side {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #000;
-        }
+.cart-sidebar { 
+    position: fixed; 
+    right: -100%; 
+    top: 0; 
+    width: 320px; 
+    height: 100vh; 
+    z-index: 2000; 
+    padding: 20px; 
+    display: flex; 
+    flex-direction: column; 
+    will-change: transform; 
+    border-left: 1px solid rgba(255, 255, 255, 0.1); /* Reforça a borda no lado da abertura */
+}
+/* Aplica o estilo glass quando estiver aberta */
+.cart-sidebar.open { 
+    right: 0; 
+    extend: glass-sidebar; /* Isso é conceitual, o CSS final deve ter as propriedades direto na classe */
+}
 
-        #m-img { 
-            width: 100%; 
-            height: auto;
-            max-height: 85vh;
-            object-fit: contain; 
-            display: block; 
-        }
+/* Classe unificada para o CSS final (substituindo a lógica acima) */
+.cart-sidebar.open { 
+    right: 0;
+    background: rgba(10, 10, 10, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.03);
+}
+ 
+#cart-list { flex: 1; overflow-y: auto; padding-right: 5px; margin-bottom: 20px; }
+#cart-list::-webkit-scrollbar { width: 4px; }
+#cart-list::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 4px; }
 
-        .modal-body { 
-            padding: 0; 
-            display: flex;
-            flex-direction: column;
-        }
+/* --- CUPOM E AÇÕES DE VIDRO LÍQUIDO --- */
+.coupon-box { 
+    display: flex; 
+    gap: 5px; 
+    background: rgba(255, 255, 255, 0.03); /* Fundo de vidro sutil */
+    padding: 6px 12px; 
+    border-radius: 24px; 
+    border: 1px solid rgba(255, 255, 255, 0.08); 
+    margin-bottom: 15px; 
+    transition: all 0.2s ease;
+}
+.coupon-box:focus-within {
+    border-color: rgba(255, 255, 255, 0.2); 
+    background: rgba(255, 255, 255, 0.05);
+}
+#input-cupom { flex: 1; background: transparent; border: none; color: rgba(255, 255, 255, 0.8); padding: 8px; outline: none; text-transform: uppercase; }
 
-        #m-nome {
-            font-size: 1.8rem;
-            font-weight: 800;
-            line-height: 1.2;
-            letter-spacing: -0.5px;
-            text-transform: uppercase;
-            color: #fff;
-            margin-bottom: 12px;
-        }
+/* --- BOTÕES DE AÇÃO COM BRILHO LÍQUIDO --- */
+.btn-action { 
+    width: 100%; 
+    padding: 14px 24px; 
+    margin: 6px 0; 
+    border: none; 
+    border-radius: 100px; 
+    font-weight: 700; 
+    cursor: pointer; 
+    text-transform: uppercase; 
+    font-size: 0.75rem; 
+    letter-spacing: 0.5px;
+    color: #fff !important; /* Cor do texto para branco para o efeito glass */
+    background: rgba(255, 255, 255, 0.05); /* Base translúcida */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.01);
+}
+/* Efeito de Brilho Líquido no Hover */
+.btn-action:hover { 
+    transform: scale(0.99) translateY(-1px); /* Leve elevação */
+    background: rgba(255, 255, 255, 0.1); 
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1); /* Brilho líquido espalhado */
+    filter: brightness(1.1); /* Aumenta a luminosidade geral */
+}
+.btn-action:active {
+    transform: scale(0.97);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.05);
+}
+ 
+/* --- SIDEBAR DO MENU (Efeito Glass Total) --- */
+#menu-sidebar { 
+    position: fixed; 
+    left: -280px; 
+    top: 0; 
+    width: 280px; 
+    height: 100%; 
+    z-index: 2000; 
+    padding: 40px 15px; 
+    overflow-y: auto; 
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+    border-right: 1px solid rgba(255, 255, 255, 0.1); /* Borda lateral de vidro */
+}
+/* Aplica o estilo glass quando estiver aberta */
+#menu-sidebar.open { 
+    left: 0; 
+    background: rgba(10, 10, 10, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.03);
+}
 
-        #m-preco {
-            font-size: 1.4rem;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 30px;
-        }
+/* Botões do Menu com "Vidro Líquido" */
+.menu-link { 
+    display: block; 
+    color: rgba(255, 255, 255, 0.7); 
+    font-weight: 600; 
+    margin-bottom: 8px; 
+    padding: 12px 20px; 
+    border-radius: 100px; 
+    text-transform: uppercase; 
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    cursor: pointer; 
+    transition: all 0.3s ease;
+    border: 1px solid transparent; /* Base para a borda no hover */
+}
+/* Efeito de Reflexo Líquido ao passar o mouse */
+.menu-link:hover { 
+    background-color: rgba(255, 255, 255, 0.08); /* Fundo de vidro sutil */
+    color: #fff; 
+    border-color: rgba(255, 255, 255, 0.15); /* Borda de vidro sutil */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.05); /* Brilho de reflexo */
+    transform: translateX(2px); /* Pequeno movimento "líquido" */
+}
+/* Classe Ativa mais sólida */
+.menu-link.active {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.2);
+}
 
-        .size-container-label {
-            font-size: 0.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #888;
-            margin-bottom: 12px;
-        }
+/* --- ITENS DO CARRINHO E OUTROS --- */
+.cart-item { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); padding-bottom: 10px; }
+.cart-item img { width: 50px; height: 50px; object-fit: cover; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); } 
+.remove-item { color: rgba(255, 68, 68, 0.8); cursor: pointer; font-size: 0.8rem; margin-left: auto; transition: color 0.2s; }
+.remove-item:hover { color: #ff4444; }
 
-        .size-box {
-            border: 1px solid #333;
-            background: transparent;
-            color: #fff;
-            min-width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.2s ease;
-        }
-        .size-box:hover { border-color: #fff; }
-        .size-box.selected {
-            background: #fff;
-            color: #000;
-            border-color: #fff;
-            font-weight: 800;
-        }
-
-        .btn-buy-now {
-            width: 100%;
-            padding: 18px;
-            background: #fff;
-            color: #000;
-            border: none;
-            font-weight: 800;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            cursor: pointer;
-            margin-top: 15px;
-            margin-bottom: 12px;
-            text-align: center;
-        }
-        .btn-buy-now:hover { background: #e0e0e0; }
-
-        .btn-zap-now {
-            width: 100%;
-            padding: 15px;
-            background: transparent;
-            color: #25d366;
-            border: 1px solid #25d366;
-            font-weight: 800;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 30px;
-        }
-        .btn-zap-now:hover { background: rgba(37, 211, 102, 0.1); }
-
-        /* Estrutura Dropdown Sanfona */
-        .info-dropdown-wrapper {
-            border-top: 1px solid #222;
-        }
-        .info-dropdown-wrapper:last-of-type {
-            border-bottom: 1px solid #222;
-        }
-
-        .info-dropdown {
-            padding: 18px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #fff;
-            cursor: pointer;
-        }
-        .info-dropdown i { font-size: 0.9rem; color: #888; transition: transform 0.3s; }
-        .info-dropdown.active i { transform: rotate(180deg); }
-         
-        .info-dropdown-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-            font-size: 0.8rem;
-            color: #aaa;
-            line-height: 1.5;
-        }
-        .info-dropdown-content div { padding-bottom: 15px; }
-         
-        /* Modais padrão de cartão centralizado */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 3000; display: none; align-items: center; justify-content: center; padding: 20px; }
-        .modal-overlay.active:not(#modal-produto) { display: flex; }
-         
-        .modal-content { background: #000; width: 100%; max-width: 380px; border-radius: 12px; padding: 0; border: 1px solid #222; position: relative; overflow: hidden; animation: fadeIn 0.3s; }
-        .modal-body-standard { padding: 25px; }
-         
-        .cart-sidebar { position: fixed; right: -100%; top: 0; width: 320px; height: 100vh; background: #000; z-index: 2000; padding: 20px; border-left: 1px solid #222; display: flex; flex-direction: column; will-change: transform; transition: right 0.4s ease; }
-        .cart-sidebar.open { right: 0; }
-         
-        #cart-list { flex: 1; overflow-y: auto; padding-right: 5px; margin-bottom: 20px; }
-        #cart-list::-webkit-scrollbar { width: 4px; }
-        #cart-list::-webkit-scrollbar-thumb { background: #333; }
-
-        .coupon-box { display: flex; gap: 5px; background: #111; padding: 5px; border-radius: 8px; border: 1px solid #333; margin-bottom: 15px; }
-        #input-cupom { flex: 1; background: transparent; border: none; color: #fff; padding: 8px; outline: none; text-transform: uppercase; }
-
-        .btn-action { width: 100%; padding: 14px; margin: 5px 0; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; text-transform: uppercase; font-size: 0.75rem; color: #000 !important; background: var(--silver-btn); }
-        .btn-action:hover { opacity: 0.8; transform: scale(0.98); box-shadow: 0 0 15px rgba(255,255,255,0.2); }
-         
-        #menu-sidebar { position: fixed; left: -280px; top: 0; width: 280px; height: 100%; background: #000; z-index: 2000; padding: 40px 20px; border-right: 1px solid var(--gray); overflow-y: auto; transition: left 0.4s ease; }
-        #menu-sidebar.open { left: 0; }
-        .menu-link { display: block; color: #fff; font-weight: 800; margin-bottom: 25px; text-transform: uppercase; cursor: pointer; }
-
-        .cart-item { display: flex; align-items: center; gap: 10px; margin-bottom: 15px; border-bottom: 1px solid #111; padding-bottom: 10px; }
-        .cart-item img { width: 50px; height: 50px; object-fit: cover; }
-        .remove-item { color: #ff4444; cursor: pointer; font-size: 0.8rem; margin-left: auto; }
-
-        #search-box { display: none; width: 100%; background: #111; padding: 15px; border-bottom: 1px solid #333; }
-        #search-box input { width: 100%; background: none; border: none; color: #fff; font-size: 1rem; outline: none; }
-        .loader-spinner { border: 4px solid #333; border-top: 4px solid #fff; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
+#search-box { width: 100%; background: rgba(0, 0, 0, 0.3); padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(5px); }
+#search-box input { width: 100%; background: none; border: none; color: rgba(255, 255, 255, 0.8); font-size: 1rem; outline: none; }
+.loader-spinner { border: 4px solid rgba(255, 255, 255, 0.1); border-top: 4px solid #fff; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
 
         .float-zap { position: fixed; bottom: 25px; right: 25px; background: var(--silver-btn); color: #000; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; z-index: 9999; box-shadow: 0 4px 15px rgba(255,255,255,0.2); text-decoration: none; }
         .float-zap:hover { transform: scale(1.1); }
@@ -418,9 +619,12 @@
     </style>
 </head>
 <body>
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MZMNJZ55"
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5C8MSD38"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <div id="splash-screen">
+    <!-- End Google Tag Manager (noscript) -->
+
+<div id="splash-screen">
     <img src="logo.png" alt="Logo">
 </div>
 
