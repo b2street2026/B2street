@@ -717,7 +717,7 @@ body {
     </marquee>
 </div>
 
-<a href="https://wa.me/5519989620949" class="float-zap" target="_blank"><i class="fab fa-whatsapp"></i></a>
+<a href="https://wa.me/5519995544596" class="float-zap" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
 <header id="meu-header">
     <div style="display: flex; align-items: center; gap: 15px;">
@@ -808,10 +808,37 @@ body {
 <section id="hero-section" class="hero-video">
     <div class="hero-gradient"></div>
     <img src="logo3.png" class="logo-overlay">
-    <video autoplay loop muted playsinline>
-        <source src="video.mov" type="video/mp4">
+    
+    <!-- Adicionada a ID "meuHeroVideo" para o script conseguir forçar a reprodução -->
+    <video autoplay loop muted playsinline id="meuHeroVideo" style="pointer-events: none;">
+        <!-- Dica de ouro: Se puder, converta seu video.mov para video.mp4, vai carregar 10x mais rápido -->
+        <source src="video.mov" type="video/quicktime">
+        <source src="video.mp4" type="video/mp4">
     </video>
 </section>
+
+<!-- Script que força o play independente da ocasião -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const video = document.getElementById("meuHeroVideo");
+        if (video) {
+            // Garante que o play aconteça mesmo se o navegador tentar bloquear
+            video.play().catch(function(error) {
+                console.log("Autoplay bloqueado pelo navegador, forçando ao primeiro toque...");
+                
+                // Se o navegador travar o autoplay (como em modo de economia de energia),
+                // ele destrava assim que o cliente encostar na tela para rolar a página
+                const rodarVideo = () => {
+                    video.play();
+                    document.removeEventListener("touchstart", rodarVideo);
+                    document.removeEventListener("click", rodarVideo);
+                };
+                document.addEventListener("touchstart", rodarVideo);
+                document.addEventListener("click", rodarVideo);
+            });
+        }
+    });
+</script>
 
 <section class="about-section">
     <h2> NOSSA PÁGINA </h2>
@@ -1105,7 +1132,8 @@ body {
                 <span id="checkout-total-display">R$ 0,00</span>
             </div>
              
-            <button class="btn-action" onclick="processarPedido()" style="background:#fff; color:#000; font-weight:800; margin-top: 15px;">Continuar para Pagamento</button>
+            <!-- CORRIGIDO: Forçado o texto preto (#000) e camada superior para o "Continuar para Pagamento" -->
+            <button class="btn-action" onclick="processarPedido()" style="background:#fff; color:#000 !important; font-weight:800; margin-top: 15px; position: relative; z-index: 2;">Continuar para Pagamento</button>
             <p onclick="closeModals()" style="text-align:center; cursor:pointer; margin-top:15px; font-size:0.7rem; color:#555; font-weight: 800; letter-spacing: 1px;">CANCELAR</p>
         </div>
     </div>
@@ -1157,9 +1185,12 @@ body {
         <div class="modal-body">
             <img src="logo.png" style="width: 80px; margin-bottom: 15px;">
             <p style="margin: 15px 0; color: #fff; line-height: 1.5;">O pagamento será processado e enviaremos informações sobre seu pedido via whatsapp or e-mail.Você pode checar o código de rastreio e status do seu pedido na seção ´´ Meus pedidos``.</p>
-            <button class="btn-action" onclick="location.reload()" style="background:#fff; color:#000">Continuar Comprando</button>
+            
+            <!-- CORRIGIDO: Forçado o texto preto (#000) e camada superior para o "Continuar Comprando" -->
+            <button class="btn-action" onclick="location.reload()" style="background:#fff; color:#000 !important; font-weight:800; position: relative; z-index: 2;">Continuar Comprando</button>
+            
             <button class="btn-action" onclick="fecharObrigadoEAbrirPedidos()" style="background:#32bcad; color:#fff; font-weight:bold">Meus Pedidos</button>
-            <button class="btn-action" onclick="window.open('https://wa.me/5519989620949')"><i class="fab fa-whatsapp" style="margin-right:8px;"></i>Atendimento Whatsapp</button>
+            <button class="btn-action" onclick="window.open('https://wa.me/5519995544596')"><i class="fab fa-whatsapp" style="margin-right:8px;"></i>Atendimento Whatsapp</button>
         </div>
     </div>
 </div>
@@ -1214,13 +1245,13 @@ body {
 <script>
 // CONFIGURAÇÃO FIREBASE
 const firebaseConfig = {
-    apiKey: "AIzaSyD1Phuyxe5du5aMPG3rn4BxAiKdYp0uFuI",
-    authDomain: "b2-street-501f4.firebaseapp.com",
-    projectId: "b2-street-501f4",
-    storageBucket: "b2-street-501f4.firebasestorage.app",
-    messagingSenderId: "975888104452",
-    appId: "1:975888104452:web:1d02d83e0155c67a3fc951",
-    databaseURL: "https://b2-street-501f4-default-rtdb.firebaseio.com"
+    apiKey: "AIzaSyD1Phuyxe5du5aMPG3rn4BxAiKdYp0uFuI",
+    authDomain: "b2-street-501f4.firebaseapp.com",
+    projectId: "b2-street-501f4",
+    storageBucket: "b2-street-501f4.firebasestorage.app",
+    messagingSenderId: "975888104452",
+    appId: "1:975888104452:web:1d02d83e0155c67a3fc951",
+    databaseURL: "https://b2-street-501f4-default-rtdb.firebaseio.com"
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
@@ -1572,7 +1603,7 @@ function finalizarWhatsApp() {
     mensagem += `*${totalTexto}*`;
 
     const mensagemUrl = encodeURIComponent(mensagem);
-    window.open(`https://wa.me/5519989620949?text=${mensagemUrl}`, '_blank');
+    window.open(`https://wa.me/5519995544596?text=${mensagemUrl}`, '_blank');
 }
 
 // --- RESTANTE DAS FUNÇÕES ---
@@ -1913,7 +1944,7 @@ function updateCart() {
     if (cDisplay) cDisplay.innerText = `R$ ${totalFinal.toFixed(2).replace('.', ',')}`;
 }
 
-function zapDireto() { window.open(`https://wa.me/5519989620949?text=Olá, este produto está disponivel? ${SELECTED_PROD.nome}`); }
+function zapDireto() { window.open(`https://wa.me/5519995544596?text=Olá, este produto está disponivel? ${SELECTED_PROD.nome}`); }
 
 function abrirModalDados() { 
     if(!auth.currentUser) return openAuth(); 
