@@ -907,6 +907,10 @@ body {
         <h3 style="font-size: 1rem;">SEU CARRINHO</h3>
         <i class="fas fa-times" onclick="toggleCart()" style="cursor:pointer; padding:5px;"></i>
     </div>
+    
+    <!-- Div de Notificações Inteligentes e Cross-selling -->
+    <div id="notificacoes-carrinho" style="padding: 0 0 15px 0; display: none;"></div>
+    
     <div id="cart-list"></div>
     <div class="coupon-box">
         <input type="text" id="input-cupom" placeholder="CUPOM">
@@ -1922,6 +1926,29 @@ function removerDoCarrinho(cid) {
     updateCart();
 }
 
+// Função auxiliar para adicionar o produto sugerido diretamente pelo carrinho
+function adicionarSugeridoDoCarrinho(idProduto, categoria) {
+    const produto = ALL_PRODUCTS.find(p => p.id === idProduto);
+    if (produto) {
+        // Define o tamanho inicial baseado no tipo de produto
+        const cat = categoria ? categoria.toLowerCase() : '';
+        let tamanhoPadrao = 'único'; // Padrão para acessórios e joias
+        
+        if (cat === 'camisas' || cat === 'shorts' || cat === 'sets') {
+            tamanhoPadrao = 'M'; // Tamanho inicial médio para vestuário
+        } else if (cat === 'tenis' || cat === 'tenis-feminino' || cat === 'chinelos') {
+            tamanhoPadrao = '40';
+        }
+
+        CART.push({
+            ...produto,
+            tamanho: tamanhoPadrao,
+            cartId: Date.now()
+        });
+        updateCart();
+    }
+}
+
 function updateCart() {
     document.getElementById('cart-count').innerText = CART.length;
     const list = document.getElementById('cart-list');
@@ -1942,6 +1969,88 @@ function updateCart() {
     const cDisplay = document.getElementById('checkout-total-display');
     if (fDisplay) fDisplay.innerText = "Digite o CEP";
     if (cDisplay) cDisplay.innerText = `R$ ${totalFinal.toFixed(2).replace('.', ',')}`;
+
+    // ==========================================
+    // SISTEMA DE NOTIFICAÇÕES & VENDA CRUZADA (PRETO & METAL)
+    // ==========================================
+    const containerNotificacao = document.getElementById('notificacoes-carrinho');
+    if (containerNotificacao) {
+        containerNotificacao.innerHTML = '';
+
+        if (CART.length === 0) {
+            containerNotificacao.style.display = 'none';
+        } else {
+            containerNotificacao.style.display = 'block';
+
+            const META_FRETE_GRATIS = 350;
+            const quantoFalta = META_FRETE_GRATIS - subtotal;
+
+            // 1. Alerta de Frete Grátis
+            if (subtotal < META_FRETE_GRATIS) {
+                const divFrete = document.createElement('div');
+                divFrete.className = 'alerta-carrinho frete';
+                // Estilo Metal Escuro (Preto profundo com borda grafite fina)
+                divFrete.style = 'background: #111111; border: 1px solid #444444; padding: 12px; border-radius: 6px; margin-bottom: 12px; text-align: center; font-size: 0.8rem; color: #ffffff; font-weight: bold; letter-spacing: 0.5px;';
+                divFrete.innerHTML = `🚚 FALTAM APENAS <span style="color: #ffffff; text-decoration: underline; font-weight: 800;">R$ ${quantoFalta.toFixed(2).replace('.', ',')}</span> PARA O <span style="font-weight: 800;">FRETE GRÁTIS</span>`;
+                containerNotificacao.appendChild(divFrete);
+            } else {
+                const divFreteGratis = document.createElement('div');
+                divFreteGratis.className = 'alerta-carrinho frete-sucesso';
+                // Estilo Prata Premium (Borda branca/metalizada)
+                divFreteGratis.style = 'background: #161616; border: 1px solid #ffffff; padding: 12px; border-radius: 6px; margin-bottom: 12px; text-align: center; font-size: 0.8rem; color: #ffffff; font-weight: bold; letter-spacing: 0.5px;';
+                divFreteGratis.innerHTML = `✓ VOCÊ GARANTIU O <span style="font-weight: 800;">FRETE GRÁTIS!</span>`;
+                containerNotificacao.appendChild(divFreteGratis);
+            }
+
+            // 2. Lógica de Sugestão de Produtos
+            const idsNoCarrinho = CART.map(item => item.id);
+            let produtosDisponiveis = [];
+            let tituloChamada = "";
+
+            if (subtotal < META_FRETE_GRATIS && quantoFalta <= 40) {
+                // Caso 1: Faltam menos de R$ 40,00 -> Sugere Joias/Acessórios
+                produtosDisponiveis = ALL_PRODUCTS.filter(p => 
+                    p.categoria && p.categoria.toLowerCase() === 'joias' && 
+                    !idsNoCarrinho.includes(p.id) &&
+                    p.tag !== 'esgotado'
+                );
+                tituloChamada = "ADICIONE E GANHE FRETE GRÁTIS";
+            } else {
+                // Caso 2: Faltam mais de R$ 40,00 -> Sugere Roupas (Camisas, Shorts, etc.)
+                produtosDisponiveis = ALL_PRODUCTS.filter(p => 
+                    p.categoria && 
+                    (p.categoria.toLowerCase() === 'camisas' || p.categoria.toLowerCase() === 'shorts' || p.categoria.toLowerCase() === 'sets') && 
+                    !idsNoCarrinho.includes(p.id) &&
+                    p.tag !== 'esgotado'
+                );
+                tituloChamada = "APROVEITE E LEVE JUNTO";
+            }
+
+            // Se encontrar algum produto compatível, monta o layout metalizado
+            if (produtosDisponiveis.length > 0) {
+                const produtoSugerido = produtosDisponiveis[Math.floor(Math.random() * produtosDisponiveis.length)];
+
+                const divSugestao = document.createElement('div');
+                divSugestao.className = 'alerta-carrinho sugestao-upsell';
+                divSugestao.style = 'background: #000000; border: 1px solid #2a2a2a; padding: 12px; border-radius: 6px; display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 10px;';
+                
+                divSugestao.innerHTML = `
+                    <div style="display: flex; align-items: center; gap: 12px; overflow: hidden;">
+                        <img src="${produtoSugerido.imagem}" style="width: 45px; height: 45px; border-radius: 4px; object-fit: cover; border: 1px solid #222;">
+                        <div style="text-align: left; overflow: hidden;">
+                            <span style="font-size: 0.62rem; color: #888888; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; display: block;">${tituloChamada}</span>
+                            <p style="font-size: 0.75rem; color: #ffffff; margin: 1px 0; font-weight: bold; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 130px;">${produtoSugerido.nome}</p>
+                            <span style="font-size: 0.75rem; color: #888888; font-weight: 600;">R$ ${produtoSugerido.preco}</span>
+                        </div>
+                    </div>
+                    <button onclick="adicionarSugeridoDoCarrinho('${produtoSugerido.id}', '${produtoSugerido.categoria}')" style="background: #ffffff; color: #000000; border: none; padding: 6px 12px; font-size: 0.65rem; font-weight: 900; border-radius: 4px; cursor: pointer; white-space: nowrap; transition: 0.2s; letter-spacing: 0.5px;" onmouseover="this.style.background='#cccccc'" onmouseout="this.style.background='#ffffff'">
+                        + ADICIONAR
+                    </button>
+                `;
+                containerNotificacao.appendChild(divSugestao);
+            }
+        }
+    }
 }
 
 function zapDireto() { window.open(`https://wa.me/5519995544596?text=Olá, este produto está disponivel? ${SELECTED_PROD.nome}`); }
