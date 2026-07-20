@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR" style="scroll-behavior: smooth;">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B2 STREET</title>
+
     <!-- Meta Pixel Code -->
     <script>
     !function(f,b,e,v,n,t,s)
@@ -11,11 +15,11 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '25571895715841310');
+    fbq('init', '1716223462898447'); // ID Atualizado!
     fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=25571895715841310&ev=PageView&noscript=1"
+    src="https://www.facebook.com/tr?id=1716223462898447&ev=PageView&noscript=1"
     /></noscript>
     <!-- End Meta Pixel Code -->
 
@@ -1293,6 +1297,18 @@ let CUPOM_VALIDO = false;
 let CURRENT_MODEL_FILTER = 'todos';
 let VALOR_FRETE = 0;
 
+// =========================================================
+// GATILHO: PAGEVIEW (Contador de Visitas no Firebase)
+// =========================================================
+try {
+    if (typeof db !== 'undefined') {
+        db.ref('metricas/visitas_totais').transaction((atual) => (atual || 0) + 1);
+    }
+} catch (e) {
+    console.error("Erro no gatilho de PageView (Firebase):", e);
+}
+// =========================================================
+
 // --- FUNÇÕES DE PEDIDO E INTEGRAÇÃO ---
 
 async function enviarParaGoogleSheets(dados) {
@@ -1456,6 +1472,32 @@ function processarPedido() {
         rastreio: ''
     };
 
+    // =========================================================
+    // GATILHOS COMPLEMENTARES (PAINEL ADM & META PIXEL)
+    // =========================================================
+
+    // 1. Atualiza compras e faturamento diário no Painel ADM
+    try {
+        const hoje = new Date().toISOString().split('T')[0];
+        db.ref(`metricas/${hoje}/compras`).transaction((atual) => (atual || 0) + 1);
+        db.ref(`metricas/${hoje}/faturamento`).transaction((atual) => (atual || 0) + totalFinalCalculado);
+    } catch (e) { console.error("Erro métricas ADM (Pedido):", e); }
+
+    // 2. Dispara o evento de conversão final 'Purchase' para o Meta Pixel
+    try {
+        if (typeof fbq === 'function' && CART && CART.length > 0) {
+            const idsProdutos = CART.map(p => p.id || '');
+            fbq('track', 'Purchase', {
+                value: totalFinalCalculado, 
+                currency: 'BRL',
+                content_ids: idsProdutos,
+                content_type: 'product'
+            });
+        }
+    } catch (e) { console.error("Erro Meta Pixel (Pedido):", e); }
+
+    // =========================================================
+
     enviarParaGoogleSheets(pedidoData);
 
     const novoPedidoRef = db.ref('todos_pedidos').push();
@@ -1615,6 +1657,26 @@ function finalizarWhatsApp() {
         return;
     }
 
+    // --- RASTREAMENTO FACEBOOK PIXEL (InitiateCheckout) ---
+    try {
+        const totalTextoRaw = document.getElementById('cart-total').innerText; // Pega ex: "Total: R$ 350,00" ou "R$ 350,00"
+        // Remove tudo que não for número, vírgula ou ponto, e depois ajusta as casas decimais
+        const valorTotalClean = parseFloat(totalTextoRaw.replace(/[^\d,,.]/g, '').replace('.', '').replace(',', '.'));
+        
+        // Mapeia os IDs de todos os produtos que estão no carrinho
+        const itensIds = CART.map(item => item.id);
+
+        fbq('track', 'InitiateCheckout', {
+            content_ids: itensIds,
+            content_type: 'product',
+            value: isNaN(valorTotalClean) ? 0 : valorTotalClean,
+            currency: 'BRL'
+        });
+    } catch (err) {
+        console.error("Erro ao disparar o Pixel do Facebook:", err);
+    }
+    // -----------------------------------------------------
+
     let mensagem = "Olá! Gostaria de fechar o seguinte pedido:\n\n";
     
     CART.forEach((item, index) => {
@@ -1629,7 +1691,6 @@ function finalizarWhatsApp() {
     const mensagemUrl = encodeURIComponent(mensagem);
     window.open(`https://wa.me/5519995544596?text=${mensagemUrl}`, '_blank');
 }
-
 // --- RESTANTE DAS FUNÇÕES ---
 
 function aplicarCupom() {
@@ -1856,6 +1917,19 @@ function filterCat(c) {
 
 function openProduct(id) {
     SELECTED_PROD = ALL_PRODUCTS.find(p => p.id === id);
+    
+    // Dispara o Pixel do Facebook (ViewContent) se o produto for encontrado
+    if (SELECTED_PROD) {
+        fbq('track', 'ViewContent', {
+            content_name: SELECTED_PROD.nome,
+            content_ids: [SELECTED_PROD.id],
+            content_type: 'product',
+            // Converte "R$ 350,00" ou "350,00" para o número 350 para o Facebook ler certo
+            value: parseFloat(SELECTED_PROD.preco.toString().replace('R$', '').replace('.', '').replace(',', '.').trim()),
+            currency: 'BRL'
+        });
+    }
+
     document.getElementById('m-img').src = SELECTED_PROD.imagem;
     document.getElementById('m-nome').innerText = SELECTED_PROD.nome;
     document.getElementById('m-preco').innerText = `R$ ${SELECTED_PROD.preco}`;
@@ -1891,11 +1965,28 @@ function addAoCarrinho() {
     if(SELECTED_PROD && SELECTED_PROD.tag === 'esgotado') return;
     if(!SELECTED_SIZE) return alert("Selecione o tamanho!");
     
+    // --- RASTREAMENTO FACEBOOK PIXEL (AddToCart) ---
+    try {
+        if (SELECTED_PROD) {
+            fbq('track', 'AddToCart', {
+                content_name: SELECTED_PROD.nome,
+                content_ids: [SELECTED_PROD.id],
+                content_type: 'product',
+                value: parseFloat(SELECTED_PROD.preco.toString().replace('R$', '').replace('.', '').replace(',', '.').trim()),
+                currency: 'BRL'
+            });
+        }
+    } catch (err) {
+        console.error("Erro ao disparar AddToCart no Pixel:", err);
+    }
+    // ------------------------------------------------
+
     CART.push({...SELECTED_PROD, tamanho: SELECTED_SIZE, cartId: Date.now()});
     updateCart(); 
     
     const aviso = document.createElement('div');
     aviso.innerHTML = `<i class="fas fa-check-circle" style="color: #fff; margin-right: 8px;"></i> PRODUTO ADICIONADO`;
+    // ... o restante do seu código que fecha o modal ou exibe o aviso continua aqui embaixo de forma idêntica
     
     Object.assign(aviso.style, {
         position: 'fixed',
@@ -1939,6 +2030,36 @@ function addAoCarrinho() {
         }, 300); 
 
     }, 1000); 
+
+    // =========================================================
+    // GATILHOS COMPLEMENTARES (PAINEL ADM & META PIXEL)
+    // =========================================================
+
+    // 1. Envia a métrica de Carrinho pro seu Painel ADM (Firebase)
+    try {
+        const hoje = new Date().toISOString().split('T')[0];
+        db.ref(`metricas/${hoje}/carrinhos`).transaction((atual) => (atual || 0) + 1);
+    } catch (e) { console.error("Erro métricas ADM:", e); }
+
+    // 2. Dispara o evento 'AddToCart' para o Meta Pixel
+    try {
+        if (typeof fbq === 'function' && SELECTED_PROD) {
+            let precoFormatado = 0;
+            if (SELECTED_PROD.preco) {
+                precoFormatado = typeof SELECTED_PROD.preco === 'string' 
+                    ? parseFloat(SELECTED_PROD.preco.replace(',', '.')) 
+                    : parseFloat(SELECTED_PROD.preco);
+            }
+            fbq('track', 'AddToCart', {
+                content_name: SELECTED_PROD.nome,
+                content_category: SELECTED_PROD.categoria || 'geral',
+                value: precoFormatado, 
+                currency: 'BRL',
+                content_ids: [SELECTED_PROD.id || ''],
+                content_type: 'product'
+            });
+        }
+    } catch (e) { console.error("Erro Meta Pixel:", e); }
 }
 
 function removerDoCarrinho(cid) {
