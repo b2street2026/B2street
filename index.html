@@ -87,7 +87,7 @@
 
        header { 
     /* Mudamos para uma base preta fumê, mas mantendo a translucidez */
-    background: rgba(15, 15, 15, 0.60) !important; 
+    background: rgba(15, 15, 15, 0.80) !important; 
     
     /* Aumentamos o desfoque para dar o efeito "jateado/fosco" pesado */
     backdrop-filter: blur(30px) saturate(130%) !important; 
@@ -98,7 +98,7 @@
     
     /* O truque do vidro fosco escuro: o reflexo do topo continua branco bem sutil */
     box-shadow: 
-        inset 0 1px 1px rgba(255, 255, 255, 0.15), 
+        inset 0 1px 1px rgba(255, 255, 255, 0.35), 
         0 8px 32px 0 rgba(0, 0, 0, 0.5) !important;
 
     /* Suas configurações estruturais */
@@ -112,7 +112,7 @@
 }
 
 .logo-nav { 
-    height: 35px; 
+    height: 40px; 
 }
 
         #user-menu { display: none; align-items: center; gap: 10px; cursor: pointer; }
@@ -724,9 +724,36 @@ body {
 .remove-item { color: rgba(255, 68, 68, 0.8); cursor: pointer; font-size: 0.8rem; margin-left: auto; transition: color 0.2s; }
 .remove-item:hover { color: #ff4444; }
 
-#search-box { width: 100%; background: rgba(0, 0, 0, 0.4); padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.08); backdrop-filter: blur(5px); }
-#search-box input { width: 100%; background: none; border: none; color: rgba(255, 255, 255, 0.8); font-size: 1rem; outline: none; }
-.loader-spinner { border: 4px solid rgba(255, 255, 255, 0.1); border-top: 4px solid #fff; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
+#search-box { 
+  width: 100%; 
+  background: rgba(0, 0, 0, 0.4); 
+  /* Aumentamos o padding de 15px para 22px 20px (mais espaço em cima/baixo) */
+  padding: 22px 20px; 
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
+  backdrop-filter: blur(5px); 
+}
+
+#search-box input { 
+  width: 100%; 
+  background: none; 
+  border: none; 
+  color: rgba(255, 255, 255, 0.8); 
+  /* Aumentamos levemente a fonte para acompanhar a altura */
+  font-size: 1.05rem; 
+  outline: none; 
+  /* Adicionamos padding interno no input para dar mais altura à área clicável */
+  padding: 8px 0; 
+}
+
+.loader-spinner { 
+  border: 4px solid rgba(255, 255, 255, 0.1); 
+  border-top: 4px solid #fff; 
+  border-radius: 50%; 
+  width: 40px; 
+  height: 40px; 
+  animation: spin 1s linear infinite; 
+  margin: 20px auto; 
+}
         .float-zap { position: fixed; bottom: 25px; right: 25px; background: var(--silver-btn); color: #000; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; z-index: 9999; box-shadow: 0 4px 15px rgba(255,255,255,0.2); text-decoration: none; }
         .float-zap:hover { transform: scale(1.1); }
 
@@ -843,7 +870,7 @@ body {
             <img id="user-pic" src="">
         </div>
     </div>
-    <img src="logo.png" class="logo-nav">
+    <img src="logo3.png" class="logo-nav">
     <div style="display: flex; align-items: center; gap: 18px;">
         <i class="fas fa-search" onclick="toggleSearch()" style="cursor:pointer"></i>
         <div onclick="toggleCart()" style="position:relative; cursor:pointer">
