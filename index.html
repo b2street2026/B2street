@@ -533,6 +533,7 @@
     margin-top: 60px;
     padding-top: 40px;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
 }
 
 .section-title {
@@ -544,12 +545,97 @@
     text-transform: uppercase;
 }
 
-.related-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 12px;
+/* Wrapper do Carrossel */
+.carousel-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
+/* Lista Enfileirada com Scroll Horizontal */
+.related-grid {
+    display: flex !important;
+    gap: 6px !important; /* Espaço bem curtinho entre os cards */
+    justify-content: flex-start; /* Alinha todos coladinhos a partir da esquerda */
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 10px 0;
+    width: 100%;
+    scrollbar-width: none;
+}
+
+.related-grid::-webkit-scrollbar {
+    display: none;
+}
+
+/* Card Individual de Produto (Clean, sem borda e responsivo) */
+.related-product-card {
+    flex: 0 0 auto !important; /* Impede que eles fiquem se esticando para longe um do outro */
+    width: 120px !important; /* Largura fixa compacta */
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 4px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.related-product-card:hover {
+    transform: translateY(-3px);
+    opacity: 0.85;
+}
+
+.related-product-card img {
+    width: 100%;
+    height: 110px; /* Ajuste suave da imagem */
+    object-fit: contain;
+    margin-bottom: 6px;
+    background: transparent;
+}
+
+.related-product-card .product-title {
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+/* Setinhas de Navegação */
+.carrossel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.arrow-prev { left: -12px; }
+.arrow-next { right: -12px; }
+
+.carrossel-arrow:hover {
+    background: #ffffff;
+    color: #000000;
+}
 /* Rodapé */
 .modal-footer {
     grid-column: 1 / -1;
@@ -874,73 +960,101 @@ body {
 </header>
 
 <style>
-    /* Letreiro grudado no topo absoluto */
-    .letreiro-container {
-        background-color: #111111 !important;
-        border-bottom: 1px solid #333333;
-        padding: 8px 0;
-        font-family: sans-serif;
-        font-size: 12px;
-        font-weight: bold;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        box-sizing: border-box;
-        z-index: 1000;
-    }
-     
-    .letreiro-container marquee {
-        color: #e0e0e0 !important;
-        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.4), -1px -1px 2px rgba(0, 0, 0, 0.8);
-        display: block;
-        margin: 0;
-        padding: 0;
-    }
-
-    /* Header transparente fixado */
-    header, #meu-header {
-        position: fixed !important;
-        top: 31px !important; /* Empurrado para baixo apenas o tamanho do letreiro */
-        left: 0;
-        width: 100%;
-        box-sizing: border-box;
-        z-index: 999;
-        background-color: transparent !important;
-        background: transparent !important;
-        transition: background-color 0.3s ease;
-        padding: 12px 4%;
-    }
-
-    /* Removemos a faixa preta do body completamente */
-    body {
-        margin: 0 !important;
-        padding-top: 0 !important;
-        background-color: #000;
-    }
-
- /* Container esticado de ponta a ponta */
-.hero-video {
-    width: 100% !important;
-    height: auto !important;
-    min-height: auto !important;
-    position: relative;
-    overflow: hidden;
-    background: #000;
-    display: block;
-    margin-top: 0 !important;
-    padding-top: 31px; /* Compensa o letreiro do topo */
-    box-sizing: border-box;
+  /* 1. RESET DE BODY */
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: #000000;
 }
 
-/* Imagem 100% esticada na largura */
-.hero-video img:not(.logo-overlay) {
+/* 2. LETREIRO NO TOPO */
+.letreiro-container, #meu-letreiro {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
     width: 100% !important;
-    height: auto !important;
+    height: 32px !important;
+    line-height: 32px !important;
+    background-color: #000000 !important;
+    border-bottom: 1px solid #222222;
+    z-index: 1000;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.letreiro-container marquee, #meu-letreiro marquee {
+    color: #ffffff !important;
+    font-size: 12px !important;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 32px !important;
     display: block;
-    object-fit: cover !important;
+}
+
+/* 3. HEADER COLADO LOGO ABAIXO DO LETREIRO */
+header, #meu-header {
+    position: fixed !important;
+    top: 32px !important; /* Colado exatamente na base do letreiro de 32px */
+    left: 0 !important;
+    width: 100% !important;
+    box-sizing: border-box;
+    z-index: 999;
+    background: transparent !important;
+    transition: background-color 0.3s ease;
+    padding: 12px 5% !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* LOGO GRANDONA */
+header img, #meu-header img, .logo-img, #header-logo {
+    height: 55px !important;
+    width: auto !important;
+    object-fit: contain;
+}
+
+/* 4. CONTAINER DA FOTO (Cobre a tela sem deixar o meio em branco) */
+.hero-video {
+    width: 100% !important;
+    min-height: 100vh !important; /* Faz a foto ocupar a tela inteira */
+    position: relative;
+    overflow: hidden;
+    background: #000000;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.banner-picture {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.hero-banner-img, 
+.banner-picture img {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    object-fit: cover !important; /* Preenche perfeitamente a área sem achatar */
+}
+
+/* COUNTER DO CARRINHO */
+#cart-count, .cart-count {
+    position: absolute !important;
+    top: -5px !important;
+    right: -8px !important;
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    font-size: 11px !important;
+    font-weight: bold !important;
+    width: 18px !important;
+    height: 18px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 </style>
 
@@ -983,11 +1097,13 @@ body {
 </div>
 
 <section id="hero-section" class="hero-video">
-    <div class="hero-gradient"></div>
-    <img src="logo3.png" class="logo-overlay">
-    
-    <!-- Imagem substituindo o vídeo -->
-    <img src="imagem2.jpg" alt="Hero Banner" class="hero-banner-img">
+    <picture class="banner-picture">
+        <!-- Imagem para Celular (telas menores que 768px) -->
+        <source media="(max-width: 767px)" srcset="imagem3.jpg">
+        
+        <!-- Imagem Padrão para PC/Desktop -->
+        <img src="imagem2.jpg" alt="Banner B2Street" class="hero-banner-img">
+    </picture>
 </section>
 
 <section class="about-section">
@@ -1416,19 +1532,26 @@ body {
             </div>
         </div>
 
-        <!-- Seção de Produtos Similares Reais -->
-        <section class="related-products-section">
-            <h3 class="section-title">Produtos Similares</h3>
-            <!-- O JavaScript vai preencher essa div com os produtos do site -->
-            <div id="related-grid" class="related-grid"></div>
-        </section>
-
-        <!-- Rodapé Oficial -->
-        <footer class="modal-footer">
-            <p>&copy; B2STREET - Todos os direitos reservados.</p>
-        </footer>
+       <!-- Seção de Produtos Similares Reais com Carrossel -->
+<section class="related-products-section">
+    <h3 class="section-title">Produtos Similares</h3>
+    
+    <div class="carousel-wrapper">
+        <!-- Seta Esquerda -->
+        <button type="button" class="carrossel-arrow arrow-prev" onclick="scrollSimilares(-1)">&#10094;</button>
+        
+        <!-- O JavaScript vai preencher essa div com os cards enfileirados -->
+        <div id="related-grid" class="related-grid"></div>
+        
+        <!-- Seta Direita -->
+        <button type="button" class="carrossel-arrow arrow-next" onclick="scrollSimilares(1)">&#10095;</button>
     </div>
-</div>
+</section>
+
+<!-- Rodapé Oficial -->
+<footer class="modal-footer">
+    <p>&copy; B2STREET - Todos os direitos reservados.</p>
+</footer>
 
 <div class="modal-overlay" id="modal-auth">
     <div class="modal-content auth-container">
@@ -2304,7 +2427,7 @@ function openProduct(id) {
     modal.scrollTop = 0; // Garante que abra no topo da página
 }
 
-// FUNÇÃO DOS SIMILARES: Pega 1 produto aleatório de cada categoria diferente
+// FUNÇÃO DOS SIMILARES: Exibe até 6 produtos sem preço e sem botão
 function renderSimilares(prodAtual) {
     const gridContainer = document.getElementById('related-grid');
     if (!gridContainer || typeof ALL_PRODUCTS === 'undefined' || !ALL_PRODUCTS.length) return;
@@ -2324,7 +2447,7 @@ function renderSimilares(prodAtual) {
         }
     });
 
-    // 2. Seleciona 1 produto aleatório de cada categoria registrada
+    // 2. Seleciona 1 produto aleatório de cada categoria
     let similares = [];
     Object.keys(produtosPorCategoria).forEach(cat => {
         const listaDaCat = produtosPorCategoria[cat];
@@ -2332,21 +2455,18 @@ function renderSimilares(prodAtual) {
         similares.push(itemSorteado);
     });
 
-    // 3. Embaralha a lista final para não vir sempre na mesma ordem de categorias
+    // 3. Embaralha a lista
     similares.sort(() => Math.random() - 0.5);
 
-    // 4. Exibe até 4 produtos variados
-    similares.slice(0, 4).forEach(prod => {
+    // 4. Exibe até 6 produtos sem preço e sem botão
+    similares.slice(0, 6).forEach(prod => {
         const card = document.createElement('div');
-        card.className = 'product-card';
+        card.className = 'related-product-card';
         card.onclick = function() { openProduct(prod.id); };
         
         card.innerHTML = `
-            <div class="img-container">
-                <img src="${prod.imagem}" alt="${prod.nome}">
-            </div>
-            <h3>${prod.nome}</h3>
-            <div class="price">R$ ${prod.preco}</div>
+            <img src="${prod.imagem}" alt="${prod.nome}">
+            <div class="product-title">${prod.nome}</div>
         `;
         
         gridContainer.appendChild(card);
