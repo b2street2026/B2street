@@ -123,16 +123,57 @@
         .btn-google img { width: 18px; }
         .auth-switch { font-size: 0.75rem; color: #888; margin-top: 15px; cursor: pointer; text-decoration: underline; }
 
-        .hero-video { width: 100%; height: 75vh; position: relative; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; }
-        .hero-video video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
-        .logo-overlay { position: absolute; width: 200px; z-index: 10; filter: drop-shadow(0 0 20px rgba(255,255,255,0.2)); }
-        .hero-gradient { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 60%, #000 100%); z-index: 5; }
+        ..hero-video {
+    width: 100%;
+    height: 75vh;
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-        .brand-filters { display: flex; justify-content: center; gap: 15px; padding: 20px; background: #000; }
-        .brand-btn { text-align: center; cursor: pointer; }
-        .brand-btn img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #333; margin-bottom: 5px; }
-        .brand-btn:hover img { border-color: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.3); }
-        .brand-btn span { display: block; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+/* Garante que o container do <picture> ocupe 100% da área */
+.hero-video picture {
+    width: 100%;
+    height: 100%;
+}
+
+/* Regras aplicadas à imagem principal */
+/* Imagem com cores 100% originais (sem transparência) */
+.hero-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 1; /* Mudado de 0.85 para 1 para remover a transparência escura */
+}
+
+/* Gradiente desativado (para não escurecer a imagem) */
+.hero-gradient {
+    display: none; /* Esconde a camada do gradiente preto */
+}
+
+/* --- ADAPTAÇÃO PARA MOBILE --- */
+@media (max-width: 768px) {
+    .hero-video {
+        /* Altura adaptada para telas na vertical de celulares */
+        height: 60vh; 
+    }
+    
+    .hero-media {
+        /* Foca no centro da imagem para não cortar detalhes principais no celular */
+        object-position: center center; 
+    }
+}
+
+/* CSS das Marcas (mantido) */
+.brand-filters { display: flex; justify-content: center; gap: 15px; padding: 20px; background: #000; }
+.brand-btn { text-align: center; cursor: pointer; }
+.brand-btn img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #333; margin-bottom: 5px; }
+.brand-btn:hover img { border-color: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+.brand-btn span { display: block; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
 
         .slider-section { padding: 10px 0; background: #000; margin: 20px 0; position: relative; }
         .slider-container { width: 92%; margin: auto; height: 500px; overflow: hidden; border-radius: 0px; position: relative; }
@@ -882,37 +923,16 @@ body {
 
 <section id="hero-section" class="hero-video">
     <div class="hero-gradient"></div>
-    <img src="logo3.png" class="logo-overlay">
     
-    <!-- Adicionada a ID "meuHeroVideo" para o script conseguir forçar a reprodução -->
-    <video autoplay loop muted playsinline id="meuHeroVideo" style="pointer-events: none;">
-        <!-- Dica de ouro: Se puder, converta seu video.mov para video.mp4, vai carregar 10x mais rápido -->
-        <source src="video.mov" type="video/quicktime">
-        <source src="video.mp4" type="video/mp4">
-    </video>
+    <!-- Tag <picture> gerencia a troca automática de imagem entre Mobile e PC -->
+    <picture>
+        <!-- Imagem para Celulares (telas até 768px de largura) -->
+        <source media="(max-width: 768px)" srcset="imagem3.jpg">
+        
+        <!-- Imagem Padrão para Computadores / Notebooks -->
+        <img src="imagem2.jpg" alt="Hero Banner" class="hero-media">
+    </picture>
 </section>
-
-<!-- Script que força o play independente da ocasião -->
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const video = document.getElementById("meuHeroVideo");
-        if (video) {
-            // Garante que o play aconteça mesmo se o navegador tentar bloquear
-            video.play().catch(function(error) {
-                console.log("Autoplay bloqueado pelo navegador, forçando ao primeiro toque...");
-                
-                // Se o navegador travar o autoplay (como em modo de economia de energia),
-                // ele destrava assim que o cliente encostar na tela para rolar a página
-                const rodarVideo = () => {
-                    video.play();
-                    document.removeEventListener("touchstart", rodarVideo);
-                    document.removeEventListener("click", rodarVideo);
-                };
-                document.addEventListener("touchstart", rodarVideo);
-                document.addEventListener("click", rodarVideo);
-            });
-        }
-    });
 </script>
 
 <section class="about-section">
