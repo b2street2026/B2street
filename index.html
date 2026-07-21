@@ -268,28 +268,49 @@
 #modal-produto { 
     position: fixed; 
     inset: 0; 
-    background: #000000; /* Fundo escuro absoluto/sólido, visual limpo e profissional */
+    background: #000000;
     z-index: 3000; 
     display: none; 
     overflow-y: auto;
+    overflow-x: hidden; /* Força zero rolagem lateral */
     padding: 0;
+    width: 100vw;
+    box-sizing: border-box;
 }
+
 #modal-produto.active { display: block; }
      
 .modal-content-wrapper {
     width: 100%;
     max-width: 1600px;
     margin: 0 auto;
-    padding: 20px 4% 0 4%;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 30px;
+    padding: 20px 16px 0 16px; /* Usamos px fixo e seguro para mobile */
+    display: flex; /* Mudado para flex-column no mobile para evitar o estouro de grid */
+    flex-direction: column;
+    gap: 25px;
     position: relative;
+    box-sizing: border-box !important; /* Garante que os paddings fiquem dentro dos 100% */
+}
+
+/* Evita o zoom no iPhone/Android ao focar no input de frete */
+#modal-produto input, 
+#modal-produto select, 
+#modal-produto button {
+    font-size: 16px !important;
+}
+
+/* Garantia para mídias/imagens no mobile */
+.modal-media-side img, #m-img {
+    max-width: 100% !important;
+    height: auto !important;
+    object-fit: contain;
 }
      
+/* Em telas médias e grandes (Desktop) volta ao Grid bonito */
 @media (min-width: 992px) {
     .modal-content-wrapper {
-        grid-template-columns: 1.2fr 0.8fr; /* Dá mais destaque e tamanho para a imagem */
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
         padding: 40px 5% 0 5%;
         gap: 50px;
         align-items: start;
