@@ -115,72 +115,160 @@
     height: 35px; 
 }
 
-        #user-menu { display: none; align-items: center; gap: 10px; cursor: pointer; }
-        #user-pic { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--accent); object-fit: cover; }
-        .auth-container { text-align: center; }
-        .auth-input { width: 100%; padding: 12px; margin: 8px 0; background: #111; border: 1px solid #333; color: #fff; border-radius: 8px; }
-        .btn-google { background: #fff !important; color: #000 !important; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 15px; border: none; }
-        .btn-google img { width: 18px; }
-        .auth-switch { font-size: 0.75rem; color: #888; margin-top: 15px; cursor: pointer; text-decoration: underline; }
+       /* =========================================================
+   CABEÇALHO TRANSPARENTE E FIXO
+   ========================================================= */
 
-        .hero-video { width: 100%; height: 75vh; position: relative; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; }
-        .hero-video video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
-        .logo-overlay { position: absolute; width: 200px; z-index: 10; filter: drop-shadow(0 0 20px rgba(255,255,255,0.2)); }
-        .hero-gradient { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 60%, #000 100%); z-index: 5; }
+.header-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4%;
+    z-index: 1000;
+    background: transparent; /* Transparente por padrão no topo */
+    transition: background 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
+    box-sizing: border-box;
+}
 
-        .brand-filters { display: flex; justify-content: center; gap: 15px; padding: 20px; background: #000; }
-        .brand-btn { text-align: center; cursor: pointer; }
-        .brand-btn img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #333; margin-bottom: 5px; }
-        .brand-btn:hover img { border-color: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.3); }
-        .brand-btn span { display: block; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+/* Estado da barra ao rolar a tela para baixo */
+.header-navbar.scrolled {
+    background: rgba(0, 0, 0, 0.92); /* Cor de fundo escura quando rola */
+    backdrop-filter: blur(8px); /* Efeito fosco elegante */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
 
-        .slider-section { padding: 10px 0; background: #000; margin: 20px 0; position: relative; }
-        .slider-container { width: 92%; margin: auto; height: 500px; overflow: hidden; border-radius: 0px; position: relative; }
-        .slider-track { display: flex; transition: transform 0.8s ease-in-out; height: 100%; }
-        .slide { min-width: 100%; height: 100%; }
-        .slide img { width: 100%; height: 100%; object-fit: cover; }
-        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); color: #fff; border: none; padding: 15px; cursor: pointer; z-index: 10; font-size: 1.2rem; }
-        .prev-btn { left: 5%; } .next-btn { right: 5%; }
+.header-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s;
+}
 
-        .container { padding: 25px 4%; }
+.header-btn:hover {
+    opacity: 0.8;
+}
+
+.header-left, .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-logo img {
+    height: 35px;
+    object-fit: contain;
+}
+
+/* =========================================================
+   HERO BANNER (AGORA COM IMAGEM2.JPG)
+   ========================================================= */
+
+#user-menu { display: none; align-items: center; gap: 10px; cursor: pointer; }
+#user-pic { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--accent); object-fit: cover; }
+.auth-container { text-align: center; }
+.auth-input { width: 100%; padding: 12px; margin: 8px 0; background: #111; border: 1px solid #333; color: #fff; border-radius: 8px; }
+.btn-google { background: #fff !important; color: #000 !important; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 15px; border: none; }
+.btn-google img { width: 18px; }
+.auth-switch { font-size: 0.75rem; color: #888; margin-top: 15px; cursor: pointer; text-decoration: underline; }
+
+/* Atualizado de hero-video para hero-banner */
+.hero-banner { width: 100%; height: 75vh; position: relative; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; }
+.hero-banner .hero-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
+.logo-overlay { position: absolute; width: 200px; z-index: 10; filter: drop-shadow(0 0 20px rgba(255,255,255,0.2)); }
+.hero-gradient { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 60%, #000 100%); z-index: 5; }
+
+.brand-filters { display: flex; justify-content: center; gap: 15px; padding: 20px; background: #000; }
+.brand-btn { text-align: center; cursor: pointer; }
+.brand-btn img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid #333; margin-bottom: 5px; }
+.brand-btn:hover img { border-color: #fff; box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+.brand-btn span { display: block; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+
+.slider-section { padding: 10px 0; background: #000; margin: 20px 0; position: relative; }
+.slider-container { width: 92%; margin: auto; height: 500px; overflow: hidden; border-radius: 0px; position: relative; }
+.slider-track { display: flex; transition: transform 0.8s ease-in-out; height: 100%; }
+.slide { min-width: 100%; height: 100%; }
+.slide img { width: 100%; height: 100%; object-fit: cover; }
+.slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); color: #fff; border: none; padding: 15px; cursor: pointer; z-index: 10; font-size: 1.2rem; }
+.prev-btn { left: 5%; } .next-btn { right: 5%; }
+
+.container { padding: 25px 4%; }
 .cat-title { font-size: 1rem; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; color: #fff; }
 .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 @media (min-width: 768px) { .grid { grid-template-columns: repeat(4, 1fr); } }
         
-/* Cards Ultra Translúcidos (Vidro de Alta Transparência / Cristal) */
+/* Cards 100% sem borda com foco na foto */
 .product-card { 
-    background: rgba(255, 255, 255, 0.02); /* Praticamente invisível, transparência máxima */
-    backdrop-filter: blur(0px); /* Remove a névoa fosca para o fundo passar 100% nítido */
+    background: transparent; /* Remove qualquer fundo se preferir */
+    backdrop-filter: blur(0px);
     -webkit-backdrop-filter: blur(0px);
     border-radius: 0px; 
-    padding: 8px; 
-    /* Apenas uma linha de luz cirúrgica para desenhar o contorno do card */
-    border: 1px solid rgba(255, 255, 255, 0.04); 
+    
+    /* Remove todo o padding do card para a foto crescer */
+    padding: 0; 
+    
+    /* ZERA as bordas completamente */
+    border: none; 
+    
     cursor: pointer; 
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: none; /* Remove sombras escuras que deixam o card pesado */
+    box-shadow: none;
 }
 
-/* Hover sutil que apenas ilumina a lâmina de vidro */
+/* Hover sem borda */
 .product-card:hover { 
     transform: translateY(-5px); 
-    background: rgba(255, 255, 255, 0.03); /* Leve reflexo de luz ao passar o mouse */
-    border-color: rgba(255, 255, 255, 0.3); /* A borda acende nitidamente */
-    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.02);
+    background: transparent;
+    
+    /* Garante que NENHUMA borda apareça no hover */
+    border: none; 
+    border-color: transparent;
+    
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Sombra suave opcional para destacar no hover */
 }
 
-.img-container { width: 100%; aspect-ratio: 1/1; overflow: hidden; }
-.product-card img { width: 100%; height: 100%; object-fit: cover; }
-.product-card h3 { font-size: 0.75rem; margin: 10px 0 4px; color: #bbb; }
-.product-card .price { font-weight: 800; color: #fff; font-size: 0.9rem; }
+.img-container { 
+    width: 100%; 
+    aspect-ratio: 1/1; 
+    overflow: hidden; 
+}
 
-    /* --- DESIGN PÁGINA COMPLETA DE PRODUTO (LIQUID GLASS EFFECT) --- */
+.product-card img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
+
+/* Espaçamento leve no texto para não ficar colado nas pontas após remover o padding do card */
+.product-card h3 { 
+    font-size: 0.75rem; 
+    margin: 8px 4px 4px; 
+    color: #bbb; 
+}
+
+.product-card .price { 
+    font-weight: 800; 
+    color: #fff; 
+    font-size: 0.9rem; 
+    margin: 0 4px 8px; 
+}
+
+/* --- DESIGN PÁGINA DE PRODUTO FOCADA EM MÍDIA (ESTILO REFERENCE) --- */
 #modal-produto { 
     position: fixed; 
     inset: 0; 
-    background: rgba(10, 10, 10, 0.8); /* Translucidez reduzida (fundo mais opaco) */
-    backdrop-filter: blur(25px); /* Desfoque profundo do site ao fundo */
-    -webkit-backdrop-filter: blur(25px);
+    background: #000000; /* Fundo escuro absoluto/sólido, visual limpo e profissional */
     z-index: 3000; 
     display: none; 
     overflow-y: auto;
@@ -190,9 +278,9 @@
      
 .modal-content-wrapper {
     width: 100%;
-    max-width: 1400px;
+    max-width: 1600px;
     margin: 0 auto;
-    padding: 20px 5% 60px 5%;
+    padding: 20px 4% 0 4%;
     display: grid;
     grid-template-columns: 1fr;
     gap: 30px;
@@ -201,83 +289,100 @@
      
 @media (min-width: 992px) {
     .modal-content-wrapper {
-        grid-template-columns: 1.1fr 0.9fr;
-        padding: 40px 5% 80px 5%;
-        gap: 60px;
+        grid-template-columns: 1.2fr 0.8fr; /* Dá mais destaque e tamanho para a imagem */
+        padding: 40px 5% 0 5%;
+        gap: 50px;
         align-items: start;
     }
 }
 
-/* Botão Voltar para o Site */
+/* Botão Voltar */
 .btn-back-store {
     grid-column: 1 / -1;
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: rgba(255, 255, 255, 0.7);
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 100px; /* Formato pílula suave */
-    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.6);
+    background: transparent;
+    border: none;
+    font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
     cursor: pointer;
-    padding: 10px 20px;
-    width: fit-content;
-    align-self: flex-start;
-    transition: all 0.3s ease;
+    padding: 10px 0;
+    transition: color 0.3s ease;
 }
 .btn-back-store:hover {
     color: #fff;
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.15);
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
 }
 
-/* Container de Mídia Vidrificado */
+/* Container de Mídia Limpo e Destaque Total */
 .modal-media-side {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgba(255, 255, 255, 0.02); /* Vidro extremamente sutil */
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    background: transparent; /* Sem bordas ou fundos translúcidos */
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
 }
 
 #m-img { 
     width: 100%; 
     height: auto;
-    max-height: 75vh;
+    max-height: 80vh;
     object-fit: contain; 
     display: block; 
-    border-radius: 8px;
 }
 
+/* Informações do Produto */
 .modal-body { 
-    padding: 10px 0; 
+    padding: 0; 
     display: flex;
     flex-direction: column;
 }
 
-#m-nome {
-    font-size: 2rem;
-    font-weight: 800;
-    line-height: 1.2;
-    letter-spacing: -0.5px;
+.breadcrumb {
+    font-size: 0.7rem;
+    color: #666;
     text-transform: uppercase;
-    color: #fff;
+    letter-spacing: 1px;
     margin-bottom: 12px;
 }
 
+#m-nome {
+    font-size: 2.2rem;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 15px;
+}
+
+.price-container {
+    display: flex;
+    align-items: baseline;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
 #m-preco {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: rgba(255, 255, 255, 0.9);
-    margin-bottom: 30px;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #fff;
+}
+
+.installments {
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.size-section {
+    margin-bottom: 25px;
 }
 
 .size-container-label {
@@ -285,149 +390,106 @@
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: rgba(255, 255, 255, 0.5);
-    margin-bottom: 12px;
+    color: #888;
+    display: block;
+    margin-bottom: 10px;
 }
 
-/* Caixas de Tamanho com Estética Liquid Glass e Cantos Ligeiramente Arredondados */
+.size-boxes {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* Caixas de Tamanho Quadradas Minimalistas sem borda chata */
 .size-box {
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.04);
-    color: rgba(255, 255, 255, 0.8);
-    min-width: 50px; 
-    height: 45px; /* Um pouco mais alta para equilibrar o visual quadrado */
+    border: 1px solid #333;
+    background: transparent;
+    color: #fff;
+    width: 45px; 
+    height: 45px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 0.85rem;
     font-weight: 700;
-    border-radius: 8px; /* Cantos ligeiramente arredondados em vez de pílula */
+    border-radius: 0px; 
     cursor: pointer;
-    text-transform: uppercase;
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.01);
-}
-.size-box:hover { 
-    border-color: rgba(255, 255, 255, 0.25); 
-    background: rgba(255, 255, 255, 0.12);
-    color: #fff;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.08);
-    transform: translateY(-1px);
-}
-.size-box.selected {
-    background: rgba(255, 255, 255, 0.95);
-    color: #000;
-    border-color: #fff;
-    font-weight: 800;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-    transform: scale(0.98);
+    transition: all 0.2s ease;
 }
 
-/* Botão Comprar (Brilho Líquido de Alto Contraste) */
+.size-box:hover { 
+    border-color: #fff;
+}
+
+.size-box.selected {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+}
+
+/* Botão Comprar Sólido de Alto Impacto */
 .btn-buy-now {
     width: 100%;
     padding: 18px;
-    background: rgba(255, 255, 255, 0.95); /* Menos translúcido para maior destaque */
-    color: #000;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 100px; 
-    font-weight: 800;
-    font-size: 0.85rem;
+    background: #ffffff;
+    color: #000000;
+    border: none;
+    border-radius: 0px; 
+    font-weight: 900;
+    font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 2px;
     cursor: pointer;
-    margin-top: 20px;
     margin-bottom: 12px;
     text-align: center;
-    transition: all 0.3s ease;
-}
-.btn-buy-now:hover { 
-    background: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(255, 255, 255, 0.2);
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
-/* Botão WhatsApp (Vidro Líquido Verde) */
+.btn-buy-now:hover { 
+    background: #e6e6e6;
+    transform: translateY(-2px);
+}
+
+/* Botão WhatsApp Discreto */
 .btn-zap-now {
     width: 100%;
-    padding: 16px;
-    background: rgba(37, 211, 102, 0.08); /* Translucidez reduzida */
+    padding: 14px;
+    background: transparent;
     color: #25d366;
-    border: 1px solid rgba(37, 211, 102, 0.25);
-    border-radius: 100px; 
-    font-weight: 800;
+    border: 1px solid #25d366;
+    border-radius: 0px; 
+    font-weight: 700;
     font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 1px;
     cursor: pointer;
-    text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin-bottom: 12px;
+    margin-bottom: 25px;
     transition: all 0.3s ease;
 }
+
 .btn-zap-now:hover { 
-    background: rgba(37, 211, 102, 0.15); 
-    border-color: rgba(37, 211, 102, 0.45);
-    box-shadow: 0 0 20px rgba(37, 211, 102, 0.2);
-    transform: translateY(-1px);
+    background: rgba(37, 211, 102, 0.1);
 }
 
-/* Botão de Login Google Corrigido com base no seu HTML */
-.btn-action.btn-google {
-    width: 100%;
-    min-height: 50px;
-    padding: 12px 20px;
-    background: #ffffff !important; /* Fundo branco sólido para destacar a logo do Google */
-    color: #000000 !important; /* Texto preto para dar alto contraste no fundo branco */
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 100px;
-    font-weight: 700;
-    font-size: 0.85rem;
-    text-transform: none; /* Remove o uppercase para o texto fluir natural */
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    
-    /* Força o alinhamento em linha do ícone + texto */
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Garante que a imagem do Google não suma ou fique gigante */
-.btn-action.btn-google img {
-    width: 18px;
-    height: 18px;
-    display: block;
-    flex-shrink: 0; /* Impede a imagem de amassar */
-}
-
-/* Efeito de hover suave no botão do Google */
-.btn-action.btn-google:hover {
-    background: #f5f5f5 !important;
-    transform: translateY(-1px);
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
-}
-
-/* Estrutura Dropdown Sanfona Flutuante */
+/* Dropdowns Sanfona Clean */
 .info-dropdown-wrapper {
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid #222;
+}
+/* Ajuste Fino nos Dropdowns de Envio e Pagamento */
+.info-dropdown-wrapper {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 .info-dropdown-wrapper:last-of-type {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .info-dropdown {
-    padding: 18px 5px;
+    padding: 18px 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -435,25 +497,75 @@
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.85);
     cursor: pointer;
-    transition: color 0.2s;
+    transition: color 0.2s ease;
 }
+
 .info-dropdown:hover {
-    color: #fff;
+    color: #ffffff;
 }
-.info-dropdown i { font-size: 0.9rem; color: rgba(255, 255, 255, 0.4); transition: transform 0.3s; }
-.info-dropdown.active i { transform: rotate(180deg); color: #fff; }
-     
+
+.info-dropdown i {
+    transition: transform 0.3s ease;
+}
+
+.info-dropdown.active i {
+    transform: rotate(180deg);
+}
+
 .info-dropdown-content {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.6);
-    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.5;
 }
-.info-dropdown-content div { padding: 0 5px 15px 5px; }
+
+.info-dropdown-content > div {
+    padding-bottom: 16px;
+}
+
+/* Container de Produtos Similares */
+.related-products-section {
+    grid-column: 1 / -1;
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.section-title {
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+}
+
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+/* Rodapé */
+.modal-footer {
+    grid-column: 1 / -1;
+    margin-top: 50px;
+    padding: 25px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+}
+
+.modal-footer p {
+    font-size: 0.7rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
      
 /* Modais padrão de cartão centralizado (Checkout, Avisos, etc) */
 .modal-overlay { 
@@ -751,12 +863,12 @@ body {
             <img id="user-pic" src="">
         </div>
     </div>
-    <img src="logo.png" class="logo-nav">
+    <img src="logo3.png" class="logo-nav">
     <div style="display: flex; align-items: center; gap: 18px;">
         <i class="fas fa-search" onclick="toggleSearch()" style="cursor:pointer"></i>
         <div onclick="toggleCart()" style="position:relative; cursor:pointer">
             <i class="fas fa-shopping-bag"></i>
-            <span id="cart-count" style="position:absolute; top:-8px; right:-8px; background:var(--silver-btn); color:#000; font-size:0.6rem; font-weight:800; padding:2px 5px; border-radius:50%; box-shadow: 0 0 5px #fff;">0</span>
+            <span id="cart-count" style="position:absolute; top:-8px; right:-8px; background:var(--silver-btn); color:#000; font-size:0.9rem; font-weight:800; padding:4px 7px; border-radius:50%; box-shadow: 0 0 5px #fff;">0</span>
         </div>
     </div>
 </header>
@@ -772,12 +884,12 @@ body {
         font-weight: bold;
         letter-spacing: 1px;
         text-transform: uppercase;
-        position: fixed; /* Fixa o elemento na tela */
+        position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         box-sizing: border-box;
-        z-index: 1000; /* Fica acima de absolutamente tudo */
+        z-index: 1000;
     }
      
     .letreiro-container marquee {
@@ -788,43 +900,84 @@ body {
         padding: 0;
     }
 
-    /* Header fixado logo abaixo do letreiro */
-    header {
-        position: fixed; /* Força o header a ficar fixo também */
-        top: 31px; /* Empurra o header para baixo para não cobrir o letreiro */
+    /* Header transparente fixado */
+    header, #meu-header {
+        position: fixed !important;
+        top: 31px !important; /* Empurrado para baixo apenas o tamanho do letreiro */
         left: 0;
         width: 100%;
         box-sizing: border-box;
-        z-index: 999; /* Fica logo abaixo do letreiro */
-        background: #000; /* Garante fundo preto opaco ao rolar a página */
+        z-index: 999;
+        background-color: transparent !important;
+        background: transparent !important;
+        transition: background-color 0.3s ease;
+        padding: 12px 4%;
     }
 
-    /* Espaçador para o conteúdo do site não brotar por baixo do header fixo */
+    /* Removemos a faixa preta do body completamente */
     body {
-        padding-top: 100px; /* Deixa um espaço para compensar o letreiro e header fixos */
+        margin: 0 !important;
+        padding-top: 0 !important;
+        background-color: #000;
     }
+
+ /* Container esticado de ponta a ponta */
+.hero-video {
+    width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    display: block;
+    margin-top: 0 !important;
+    padding-top: 31px; /* Compensa o letreiro do topo */
+    box-sizing: border-box;
+}
+
+/* Imagem 100% esticada na largura */
+.hero-video img:not(.logo-overlay) {
+    width: 100% !important;
+    height: auto !important;
+    display: block;
+    object-fit: cover !important;
+}
 </style>
 
 <script>
     window.addEventListener('DOMContentLoaded', () => {
         const splash = document.getElementById('splash-screen');
         const letreiro = document.getElementById('meu-letreiro');
-         
-        // Garante que o padding do body só aconteça quando o splash sumir
-        document.body.style.paddingTop = "0px";
+        
+        // Mantém apenas a compensação do letreiro
+        document.body.style.paddingTop = "31px";
 
-        setTimeout(() => {
-            splash.style.animation = 'splashFadeOut 1.0s ease-in-out forwards';
-             
+        if (splash) {
             setTimeout(() => {
-                splash.style.display = 'none';
-                letreiro.style.display = 'block';
-                // Ativa o espaçamento para o resto do site rolar perfeitamente abaixo da barra fixa
-                document.body.style.paddingTop = "100px";
-            }, 600);
-        }, 3000);
+                splash.style.animation = 'splashFadeOut 1.0s ease-in-out forwards';
+                
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                    if (letreiro) letreiro.style.display = 'block';
+                    document.body.style.paddingTop = "31px";
+                }, 600);
+            }, 3000);
+        }
+    });
+
+    // Alterna a transparência do header conforme o scroll
+    window.addEventListener('scroll', () => {
+        const header = document.getElementById('meu-header');
+        if (header) {
+            if (window.scrollY > 20) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }
     });
 </script>
+
 <div id="search-box">
     <input type="text" id="input-busca" placeholder="O que você está procurando?" oninput="buscarProduto()">
 </div>
@@ -833,36 +986,9 @@ body {
     <div class="hero-gradient"></div>
     <img src="logo3.png" class="logo-overlay">
     
-    <!-- Adicionada a ID "meuHeroVideo" para o script conseguir forçar a reprodução -->
-    <video autoplay loop muted playsinline id="meuHeroVideo" style="pointer-events: none;">
-        <!-- Dica de ouro: Se puder, converta seu video.mov para video.mp4, vai carregar 10x mais rápido -->
-        <source src="video.mov" type="video/quicktime">
-        <source src="video.mp4" type="video/mp4">
-    </video>
+    <!-- Imagem substituindo o vídeo -->
+    <img src="imagem2.jpg" alt="Hero Banner" class="hero-banner-img">
 </section>
-
-<!-- Script que força o play independente da ocasião -->
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const video = document.getElementById("meuHeroVideo");
-        if (video) {
-            // Garante que o play aconteça mesmo se o navegador tentar bloquear
-            video.play().catch(function(error) {
-                console.log("Autoplay bloqueado pelo navegador, forçando ao primeiro toque...");
-                
-                // Se o navegador travar o autoplay (como em modo de economia de energia),
-                // ele destrava assim que o cliente encostar na tela para rolar a página
-                const rodarVideo = () => {
-                    video.play();
-                    document.removeEventListener("touchstart", rodarVideo);
-                    document.removeEventListener("click", rodarVideo);
-                };
-                document.addEventListener("touchstart", rodarVideo);
-                document.addEventListener("click", rodarVideo);
-            });
-        }
-    });
-</script>
 
 <section class="about-section">
     <h2> NOSSA PÁGINA </h2>
@@ -957,91 +1083,245 @@ body {
         </div>
 
         <style>
-            .rastreamento-container {
-                background-color: #111;
-                border: 1px solid #222;
-                border-radius: 8px;
-                padding: 20px;
-                margin-bottom: 30px;
-                color: #fff;
-            }
-            .rastreamento-container h3 {
-                margin-top: 0;
-                font-size: 0.9rem;
-                text-transform: uppercase;
-                letter-spacing: 1.5px;
-                color: #fff;
-                margin-bottom: 15px;
-                display: flex;
-                align-items: center;
-                gap: 8px;
-            }
-            .passos-rastreio {
-                display: flex;
-                flex-direction: column;
-                gap: 12px;
-                margin-bottom: 20px;
-            }
-            .passo {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-            }
-            .passo-numero {
-                background: linear-gradient(145deg, #ffffff, #a1a1a6);
-                color: #000;
-                font-weight: bold;
-                width: 22px;
-                height: 22px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 0.8rem;
-                flex-shrink: 0;
-                box-shadow: 0 2px 5px rgba(255,255,255,0.1);
-            }
-            .passo p {
-                margin: 0;
-                font-size: 0.85rem;
-                color: #aaa;
-                line-height: 1.4;
-            }
-            .btn-correios {
-                display: inline-block;
-                text-align: center;
-                text-decoration: none;
-                font-weight: 800;
-                text-transform: uppercase;
-                font-size: 0.8rem;
-                letter-spacing: 1px;
-                padding: 14px 20px;
-                border-radius: 6px;
-                color: #000;
-                background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 25%, #b5b5b5 50%, #e0e0e0 75%, #ffffff 100%);
-                background-size: 200% auto;
-                box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-                border: 1px solid #8e8e93;
-                transition: all 0.3s ease;
-                cursor: pointer;
-                width: 100%;
-                box-sizing: border-box;
-            }
-            .btn-correios:hover {
-                background-position: right center;
-                box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
-                transform: translateY(-2px);
-                color: #000;
-            }
-            .btn-correios:active {
-                transform: translateY(1px);
-            }
-            
-            #lista-meus-pedidos {
-                display: flex;
-                flex-direction: column;
-                gap: 15px;
-            }
+            /* =========================================================
+   MELHORIAS E ANIMAÇÕES DO MODAL DE PRODUTO
+   ========================================================= */
+
+/* Animação de entrada fluida para o conteúdo do Modal */
+#modal-produto.active .modal-content-wrapper {
+    animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Transição suave na imagem principal */
+#m-img {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* --- BADGE PISCANDO: "RECEBA EM ATÉ 10 DIAS ÚTEIS" --- */
+.delivery-badge-pulse {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 255, 136, 0.4);
+    color: #00ff88;
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin: 12px 0 20px 0;
+    width: fit-content;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.15);
+    animation: badgePulse 2s infinite alternate ease-in-out;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #00ff88;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #00ff88;
+    animation: dotBlink 1s infinite alternate;
+}
+
+@keyframes badgePulse {
+    0% {
+        border-color: rgba(0, 255, 136, 0.3);
+        box-shadow: 0 0 8px rgba(0, 255, 136, 0.1);
+    }
+    100% {
+        border-color: rgba(0, 255, 136, 0.9);
+        box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+    }
+}
+
+@keyframes dotBlink {
+    from { opacity: 0.3; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1.2); }
+}
+
+/* --- CALCULADORA DE FRETE --- */
+.frete-calculator-box {
+    margin: 20px 0;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+}
+
+.frete-calculator-box label {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #aaa;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.frete-input-wrapper {
+    display: flex;
+    gap: 8px;
+}
+
+.frete-input-wrapper input {
+    flex: 1;
+    background: #000;
+    border: 1px solid #333;
+    color: #fff;
+    padding: 10px 14px;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.frete-input-wrapper input:focus {
+    border-color: #fff;
+}
+
+.frete-input-wrapper button {
+    background: #fff;
+    color: #000;
+    border: none;
+    padding: 0 16px;
+    font-weight: 800;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background 0.2s, opacity 0.2s;
+}
+
+.frete-input-wrapper button:hover {
+    background: #ccc;
+}
+
+.frete-resultado {
+    margin-top: 12px;
+    font-size: 0.78rem;
+    color: #ccc;
+}
+
+.frete-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.frete-option:last-child {
+    border-bottom: none;
+}
+
+/* =========================================================
+   SISTEMA DE RASTREAMENTO E MEUS PEDIDOS
+   ========================================================= */
+
+.rastreamento-container {
+    background-color: #111;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    color: #fff;
+}
+
+.rastreamento-container h3 {
+    margin-top: 0;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #fff;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.passos-rastreio {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.passo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.passo-numero {
+    background: linear-gradient(145deg, #ffffff, #a1a1a6);
+    color: #000;
+    font-weight: bold;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+}
+
+.passo p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #aaa;
+    line-height: 1.4;
+}
+
+.btn-correios {
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    padding: 14px 20px;
+    border-radius: 6px;
+    color: #000;
+    background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 25%, #b5b5b5 50%, #e0e0e0 75%, #ffffff 100%);
+    background-size: 200% auto;
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    border: 1px solid #8e8e93;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.btn-correios:hover {
+    background-position: right center;
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+    color: #000;
+}
+
+.btn-correios:active {
+    transform: translateY(1px);
+}
+
+#lista-meus-pedidos {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
         </style>
 
         <div class="rastreamento-container">
@@ -1072,42 +1352,81 @@ body {
 
 <div id="modal-produto">
     <div class="modal-content-wrapper">
+        <!-- Botão Voltar -->
         <button class="btn-back-store" onclick="fecharTudo()">
             <i class="fas fa-arrow-left"></i> Voltar para o site
         </button>
 
+        <!-- Mídia do Produto -->
         <div class="modal-media-side">
             <img id="m-img" src="">
         </div>
         
+        <!-- Detalhes e Ações -->
         <div class="modal-body">
             <h2 id="m-nome"></h2>
             <p id="m-preco"></p>
             
+            <!-- [NOVO 1]: ALERTA PISCANDO "RECEBA EM ATÉ 10 DIAS" -->
+            <div class="delivery-badge-pulse">
+                <span class="pulse-dot"></span>
+                <i class="fas fa-shipping-fast"></i> RECEBA EM ATÉ 10 DIAS ÚTEIS
+            </div>
+
             <div class="size-container-label">Tamanho</div>
             <div id="m-sizes" style="display:flex; gap:10px; margin-bottom:30px; flex-wrap:wrap"></div>
             
             <button class="btn-buy-now" id="btn-add-cart" onclick="addAoCarrinho()">Comprar</button>
             <button class="btn-zap-now" onclick="zapDireto()"><i class="fab fa-whatsapp"></i> Chame no WhatsApp</button>
             
+            <!-- [NOVO 2]: CALCULADORA DE FRETE -->
+            <div class="frete-calculator-box">
+                <label for="cep-input"><i class="fas fa-truck"></i> CALCULAR FRETE E PRAZO</label>
+                <div class="frete-input-wrapper">
+                    <input type="text" id="cep-input" placeholder="00000-000" maxlength="9" onkeyup="mascaraCEP(this)">
+                    <button id="btn-calc-frete" onclick="calcularFreteModal()">CALCULAR</button>
+                </div>
+                <div id="frete-resultado" class="frete-resultado"></div>
+            </div>
+
+            <!-- Meios de Pagamento (Arrumado) -->
             <div class="info-dropdown-wrapper">
                 <div class="info-dropdown" onclick="toggleInfoDropdown(this)">
                     Meios de Pagamento <i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="info-dropdown-content">
-                    <div>Aceitamos Pix com aprovação imediata e Cartões de Débito no local de retirada.</div>
+                    <div>
+                        <p style="margin-bottom: 6px;">• <strong>PIX:</strong> Aprovação imediata com desconto.</p>
+                        <p style="margin-bottom: 6px;">• <strong>Cartão de Crédito/Débito:</strong> Parcelamento em até 12x ou pagamento no local de retirada.</p>
+                    </div>
                 </div>
             </div>
             
+            <!-- Meios de Envio (Arrumado) -->
             <div class="info-dropdown-wrapper">
                 <div class="info-dropdown" onclick="toggleInfoDropdown(this)">
                     Meios de Envio <i class="fas fa-chevron-down"></i>
                 </div>
                 <div class="info-dropdown-content">
-                    <div>Enviamos para todo o Brasil através dos Correios (PAC, SEDEX ou JADLOG) com rastreamento completo.</div>
+                    <div>
+                        <p style="margin-bottom: 6px;">• <strong>Envio Nacional:</strong> Correios (PAC e SEDEX) ou Transportadora JADLOG com código de rastreamento.</p>
+                        <p>• <strong>Retirada:</strong> Disponível no ponto de retirada B2STREET.</p>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- Seção de Produtos Similares Reais -->
+        <section class="related-products-section">
+            <h3 class="section-title">Produtos Similares</h3>
+            <!-- O JavaScript vai preencher essa div com os produtos do site -->
+            <div id="related-grid" class="related-grid"></div>
+        </section>
+
+        <!-- Rodapé Oficial -->
+        <footer class="modal-footer">
+            <p>&copy; B2STREET - Todos os direitos reservados.</p>
+        </footer>
     </div>
 </div>
 
@@ -1211,7 +1530,7 @@ body {
 <div class="modal-overlay" id="modal-obrigado">
     <div class="modal-content" style="text-align:center; padding: 20px;">
         <div class="modal-body">
-            <img src="logo.png" style="width: 80px; margin-bottom: 15px;">
+            <img src="logo3.png" style="width: 80px; margin-bottom: 15px;">
             <p style="margin: 15px 0; color: #fff; line-height: 1.5;">O pagamento será processado e enviaremos informações sobre seu pedido via whatsapp or e-mail.Você pode checar o código de rastreio e status do seu pedido na seção ´´ Meus pedidos``.</p>
             
             <!-- CORRIGIDO: Forçado o texto preto (#000) e camada superior para o "Continuar Comprando" -->
@@ -1729,6 +2048,20 @@ function resetarCupom() {
     updateCart();
 }
 
+// --- CONTROLE DE TRANSPARÊNCIA DO HEADER ---
+window.addEventListener('scroll', function() {
+    var header = document.getElementById('meu-header');
+    if (header) {
+        if (window.scrollY > 20) {
+            header.style.setProperty('background-color', '#000000', 'important');
+            header.style.setProperty('background', '#000000', 'important');
+        } else {
+            header.style.setProperty('background-color', 'transparent', 'important');
+            header.style.setProperty('background', 'transparent', 'important');
+        }
+    }
+});
+
 function toggleSearch() {
     const box = document.getElementById('search-box');
     box.style.display = box.style.display === 'block' ? 'none' : 'block';
@@ -1949,14 +2282,170 @@ function openProduct(id) {
         btnCart.disabled = false;
     }
 
-    let cat = SELECTED_PROD.categoria.toLowerCase();
+    let cat = SELECTED_PROD.categoria ? SELECTED_PROD.categoria.toLowerCase() : '';
     
     let sizes = (cat === 'tenis' || cat === 'tenis-feminino' || cat === 'chinelos') ? ['38','39','40','41','42','43'] : cat === 'joias' ? ['único'] : ['P','M','G','GG'];
     
     document.getElementById('m-sizes').innerHTML = sizes.map(s => 
         `<button onclick="SELECTED_SIZE='${s}'; Array.from(this.parentNode.children).forEach(b=>b.style.border='1px solid #333'); this.style.border='1px solid #fff'" style="padding:8px; background:#111; color:#fff; border:1px solid #333; cursor:pointer">${s}</button>`
     ).join('');
-    document.getElementById('modal-produto').classList.add('active');
+
+    // Limpa a busca e os resultados de frete ao trocar de produto
+    const cepInput = document.getElementById('cep-input');
+    const freteRes = document.getElementById('frete-resultado');
+    if (cepInput) cepInput.value = '';
+    if (freteRes) freteRes.innerHTML = '';
+
+    // --- ADICIONADO: CARREGA OS PRODUTOS SIMILARES REAIS DA MESMA CATEGORIA/SITE ---
+    renderSimilares(SELECTED_PROD);
+
+    const modal = document.getElementById('modal-produto');
+    modal.classList.add('active');
+    modal.scrollTop = 0; // Garante que abra no topo da página
+}
+
+// FUNÇÃO DOS SIMILARES: Pega 1 produto aleatório de cada categoria diferente
+function renderSimilares(prodAtual) {
+    const gridContainer = document.getElementById('related-grid');
+    if (!gridContainer || typeof ALL_PRODUCTS === 'undefined' || !ALL_PRODUCTS.length) return;
+
+    gridContainer.innerHTML = '';
+
+    // 1. Agrupa todos os produtos (exceto o atual) por categoria
+    const produtosPorCategoria = {};
+
+    ALL_PRODUCTS.forEach(p => {
+        if (p.id !== prodAtual.id) {
+            const cat = p.categoria ? p.categoria.toLowerCase() : 'outros';
+            if (!produtosPorCategoria[cat]) {
+                produtosPorCategoria[cat] = [];
+            }
+            produtosPorCategoria[cat].push(p);
+        }
+    });
+
+    // 2. Seleciona 1 produto aleatório de cada categoria registrada
+    let similares = [];
+    Object.keys(produtosPorCategoria).forEach(cat => {
+        const listaDaCat = produtosPorCategoria[cat];
+        const itemSorteado = listaDaCat[Math.floor(Math.random() * listaDaCat.length)];
+        similares.push(itemSorteado);
+    });
+
+    // 3. Embaralha a lista final para não vir sempre na mesma ordem de categorias
+    similares.sort(() => Math.random() - 0.5);
+
+    // 4. Exibe até 4 produtos variados
+    similares.slice(0, 4).forEach(prod => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.onclick = function() { openProduct(prod.id); };
+        
+        card.innerHTML = `
+            <div class="img-container">
+                <img src="${prod.imagem}" alt="${prod.nome}">
+            </div>
+            <h3>${prod.nome}</h3>
+            <div class="price">R$ ${prod.preco}</div>
+        `;
+        
+        gridContainer.appendChild(card);
+    });
+}
+
+// =========================================================
+// FUNÇÕES DA CALCULADORA DE FRETE (NOVAS)
+// =========================================================
+
+// Mascara de CEP (Faz formatar 00000-000 enquanto digita)
+function mascaraCEP(input) {
+    let v = input.value.replace(/\D/g, '');
+    if (v.length > 5) v = v.substring(0, 5) + '-' + v.substring(5, 8);
+    input.value = v;
+}
+
+// Lógica de cálculo do frete no Modal
+// Lógica de cálculo do frete no Modal (Com preços regionais e Frete Grátis)
+async function calcularFreteModal() {
+    const cepInput = document.getElementById('cep-input');
+    const resDiv = document.getElementById('frete-resultado');
+    if (!cepInput || !resDiv) return;
+
+    const cep = cepInput.value.replace(/\D/g, '');
+
+    if (cep.length !== 8) {
+        resDiv.innerHTML = '<span style="color:#ff4444;">Por favor, digite um CEP válido.</span>';
+        return;
+    }
+
+    resDiv.innerHTML = '<span style="color:#aaa;"><i class="fas fa-spinner fa-spin"></i> Consultando CEP...</span>';
+
+    try {
+        const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+        const dados = await response.json();
+
+        if (dados.erro) {
+            resDiv.innerHTML = '<span style="color:#ff4444;">CEP não encontrado.</span>';
+            return;
+        }
+
+        // Se existir um input de endereço na tela/checkout, preenche automaticamente
+        const inputEndereco = document.getElementById('input-endereco') || document.getElementById('endereco-input');
+        if (inputEndereco) {
+            const logradouroText = dados.logradouro ? `${dados.logradouro}, ` : '';
+            const bairroText = dados.bairro ? `- ${dados.bairro}, ` : '';
+            inputEndereco.value = `${logradouroText}${bairroText}${dados.localidade}/${dados.uf}`;
+        }
+
+        // 1. Definição do valor base do frete por região/UF
+        let valorCalculado = 19.90; 
+
+        if (dados.uf === 'SP') {
+            valorCalculado = 11.00; 
+        } else if (['RJ', 'MG', 'PR', 'SC'].includes(dados.uf)) {
+            valorCalculado = 16.90;
+        } else {
+            valorCalculado = 24.90; 
+        }
+
+        // 2. Regra de Frete Grátis para compras a partir de R$ 350
+        // Tenta pegar o valor do produto selecionado no modal se a função do carrinho não existir
+        let totalCarrinhoBase = 0;
+        if (typeof obterValorNumericoTotal === 'function') {
+            totalCarrinhoBase = obterValorNumericoTotal();
+        } else if (typeof SELECTED_PROD !== 'undefined' && SELECTED_PROD && SELECTED_PROD.preco) {
+            totalCarrinhoBase = parseFloat(SELECTED_PROD.preco.toString().replace('R$', '').replace('.', '').replace(',', '.').trim());
+        }
+
+        if (totalCarrinhoBase >= 350) {
+            valorCalculado = 0;
+        }
+
+        // Formatação dos preços exibidos
+        const textoPac = valorCalculado === 0 
+            ? '<span style="color:#00ff88; font-weight:800;">FRETE GRÁTIS</span>' 
+            : `<span style="color:#00ff88; font-weight:800;">R$ ${valorCalculado.toFixed(2).replace('.', ',')}</span>`;
+
+        const valorSedex = valorCalculado === 0 ? 15.00 : valorCalculado + 12.00;
+        const textoSedex = `<span style="color:#00ff88; font-weight:800;">R$ ${valorSedex.toFixed(2).replace('.', ',')}</span>`;
+
+        // Renderização dos resultados
+        resDiv.innerHTML = `
+            <div style="margin-bottom:8px; color:#fff; font-weight:700;">
+                <i class="fas fa-map-marker-alt" style="color:#00ff88;"></i> Entrega para ${dados.localidade} - ${dados.uf}:
+            </div>
+            <div class="frete-option">
+                <span><strong>PAC Correios</strong> (Até 8 dias)</span>
+                ${textoPac}
+            </div>
+            <div class="frete-option">
+                <span><strong>SEDEX Express</strong> (Até 7 dias)</span>
+                ${textoSedex}
+            </div>
+        `;
+    } catch (err) {
+        resDiv.innerHTML = '<span style="color:#ff4444;">Erro ao calcular frete. Tente novamente.</span>';
+    }
 }
 
 function closeModals() { document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active')); }
@@ -1986,7 +2475,6 @@ function addAoCarrinho() {
     
     const aviso = document.createElement('div');
     aviso.innerHTML = `<i class="fas fa-check-circle" style="color: #fff; margin-right: 8px;"></i> PRODUTO ADICIONADO`;
-    // ... o restante do seu código que fecha o modal ou exibe o aviso continua aqui embaixo de forma idêntica
     
     Object.assign(aviso.style, {
         position: 'fixed',
