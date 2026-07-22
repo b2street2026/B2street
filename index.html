@@ -855,6 +855,224 @@ body {
         }
         .sidebar-social-icon.insta:hover { color: #dc2743; }
         .sidebar-social-icon.tt:hover { color: #25f4ee; }
+/* =========================================================
+   1. ESTILO DO RODAPÉ (PITCH BLACK & DESIGN PREMIUM)
+   ========================================================= */
+.site-footer {
+    background-color: #000000 !important;
+    border-top: 1px solid #1a1a1a;
+    padding: 50px 20px 20px 20px;
+    color: #ffffff;
+    font-family: inherit;
+    margin-top: 60px;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #111111;
+}
+
+.footer-logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    color: #ffffff;
+}
+
+.footer-desc {
+    color: #888888;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.footer-col h4 {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 18px;
+    color: #ffffff;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 12px;
+}
+
+.footer-links a, .social-btn {
+    color: #aaaaaa;
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.footer-links a:hover, .social-btn:hover {
+    color: #ffffff;
+    transform: translateX(4px);
+}
+
+.social-btn {
+    background: #111111;
+    padding: 10px 18px;
+    border-radius: 20px;
+    border: 1px solid #222222;
+}
+
+.social-btn:hover {
+    border-color: #ffffff;
+    background: #161616;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 25px;
+    color: #555555;
+    font-size: 0.8rem;
+}
+
+/* =========================================================
+   2. ANIMAÇÕES PROFISSIONAIS NO SITE TODO (SMOOTH FADE & HOVER)
+   ========================================================= */
+
+/* Entrada suave de elementos principais */
+#hero-section, #search-box, .product-card, .site-footer {
+    animation: fadeInSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Efeito de Elevação e Brilho Suave nos Cards dos Produtos */
+.product-card {
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-color 0.3s ease, 
+                box-shadow 0.3s ease !important;
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    border-color: #333333 !important;
+    box-shadow: 0 10px 25px rgba(255, 255, 255, 0.05) !important;
+}
+
+.product-card img {
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.product-card:hover img {
+    transform: scale(1.04); /* Zoom suave na foto do produto */
+}
+
+/* Animação Suave nos Botões do Site */
+button, .btn-action, .menu-link {
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+button:active, .btn-action:active {
+    transform: scale(0.96) !important;
+}
+/* =========================================================
+   AJUSTES DA LOGO E ÍCONES OFICIAIS DO RODAPÉ
+   ========================================================= */
+
+/* Logo da Imagem no Rodapé */
+.footer-logo-link {
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.footer-logo-img {
+    max-height: 50px; /* Ajuste a altura máxima para manter a elegância */
+    width: auto;
+    object-fit: contain;
+    display: block;
+    filter: brightness(1); /* Garante que a imagem mantenha o brilho original */
+}
+
+/* Alinhamento Geral dos Ícones */
+.social-icon {
+    display: inline-block;
+    vertical-align: middle;
+    transition: transform 0.3s ease;
+}
+
+.contact-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #aaaaaa;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.contact-link:hover {
+    color: #ffffff;
+}
+
+/* Ícone e Efeito WhatsApp */
+.zap-icon {
+    fill: #25D366; /* Verde oficial WhatsApp */
+}
+
+.zap-link:hover .zap-icon {
+    transform: scale(1.15);
+}
+
+/* Botão Oficial do Instagram com Degradê */
+.social-btn.insta-btn {
+    background: #111111;
+    border: 1px solid #222222;
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 25px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.insta-icon {
+    fill: #E4405F; /* Cor base Instagram */
+    transition: fill 0.3s ease;
+}
+
+/* Efeito Hover do Instagram */
+.social-btn.insta-btn:hover {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    border-color: transparent;
+    box-shadow: 0 5px 15px rgba(220, 39, 67, 0.3);
+    color: #ffffff;
+}
+
+.social-btn.insta-btn:hover .insta-icon {
+    fill: #ffffff; /* Fica branco sobre o gradiente */
+    transform: scale(1.1);
+}
     </style>
 </head>
 <body>
@@ -1371,7 +1589,7 @@ body {
                 <div class="info-dropdown-content">
                     <div>
                         <p style="margin-bottom: 6px;">• <strong>PIX:</strong> Aprovação imediata com desconto.</p>
-                        <p style="margin-bottom: 6px;">• <strong>Cartão de Débito:</strong> pagamento no local de retirada.</p>
+                        <p style="margin-bottom: 6px;">• <strong>Cartão de Crédito/Débito:</strong> Parcelamento em até 12x ou pagamento no local de retirada.</p>
                     </div>
                 </div>
             </div>
@@ -1559,7 +1777,59 @@ body {
         document.getElementById('modal-meus-pedidos').classList.remove('active');
     }
 </script>
+<!-- RODAPÉ OFICIAL B2 STREET -->
+<footer class="site-footer">
+    <div class="footer-container">
+        <!-- Coluna 1: Logo & Sobre -->
+        <div class="footer-col">
+            <a href="#" class="footer-logo-link">
+                <img src="logo3.png" alt="B2 STREET" class="footer-logo-img">
+            </a>
+            <p class="footer-desc">Sua loja premium de streetwear, tênis e acessórios exclusivos.</p>
+        </div>
 
+        <!-- Coluna 2: Contato & Suporte -->
+        <div class="footer-col">
+            <h4>Atendimento</h4>
+            <ul class="footer-links">
+                <li>
+                    <a href="https://wa.me/5519995544596" target="_blank" rel="noopener" class="contact-link zap-link">
+                        <svg class="social-icon zap-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                            <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.762.459 3.48 1.332 5.001L2 22l5.127-1.338c1.464.798 3.111 1.218 4.88 1.218h.005c5.503 0 9.987-4.479 9.988-9.985 0-2.667-1.038-5.175-2.925-7.062C17.187 3.038 14.68 2 12.012 2zm5.829 14.152c-.244.687-1.42 1.312-1.959 1.383-.502.066-1.141.1-3.328-.804-2.798-1.157-4.593-4.004-4.733-4.19-.139-.187-1.127-1.502-1.127-2.865 0-1.363.712-2.032.966-2.308.254-.276.554-.345.739-.345.185 0 .369.002.531.009.172.008.404-.065.632.482.238.574.808 1.97.877 2.112.069.141.115.309.023.493-.092.185-.138.3-.276.462-.139.162-.291.362-.416.486-.139.138-.284.288-.122.565.162.277.719 1.187 1.542 1.92 1.059.943 1.952 1.235 2.229 1.373.277.138.439.115.601-.069.162-.185.693-.808.877-1.085.185-.277.369-.231.623-.138.254.092 1.615.762 1.892.9.277.138.462.208.531.323.069.115.069.669-.175 1.356z"/>
+                        </svg>
+                        WhatsApp Suporte
+                    </a>
+                </li>
+                <li>
+                    <a href="mailto:b2street2026@gmail.com" class="contact-link">
+                        <svg class="social-icon mail-icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        b2street2026@gmail.com
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Coluna 3: Redes Sociais com Ícone Oficial -->
+        <div class="footer-col">
+            <h4>Conecte-se</h4>
+            <div class="social-links">
+                <a href="https://www.instagram.com/b2.street_/" target="_blank" rel="noopener" class="social-btn insta-btn">
+                    <svg class="social-icon insta-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                    Instagram
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2026 B2 STREET. Todos os direitos reservados.</p>
+    </div>
+</footer>
 </body>
 </html>
 
