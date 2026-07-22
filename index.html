@@ -123,48 +123,48 @@
         .btn-google img { width: 18px; }
         .auth-switch { font-size: 0.75rem; color: #888; margin-top: 15px; cursor: pointer; text-decoration: underline; }
 
-        ..hero-video {
+       .hero-video {
     width: 100%;
-    height: 75vh;
+    height: auto; /* Deixa a altura se ajustar naturalmente à imagem, sem cortar nada */
     position: relative;
     overflow: hidden;
-    background: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: #000000;
+    display: block;
+    line-height: 0; /* REMOVE totalmente qualquer espaço/fresta invisível abaixo da imagem */
+    margin: 0;
+    padding: 0;
 }
 
-/* Garante que o container do <picture> ocupe 100% da área */
+/* Garante que o link de clique e a tag picture ocupem 100% da largura */
+.hero-video a,
 .hero-video picture {
+    display: block;
     width: 100%;
-    height: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
 }
 
-/* Regras aplicadas à imagem principal */
-/* Imagem com cores 100% originais (sem transparência) */
+/* Regras da imagem: proporção perfeita e colada */
 .hero-media {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    opacity: 1; /* Mudado de 0.85 para 1 para remover a transparência escura */
+    height: auto;
+    display: block;
+    object-fit: contain;
+    opacity: 1;
 }
 
-/* Gradiente desativado (para não escurecer a imagem) */
+/* Gradiente mantido desativado */
 .hero-gradient {
-    display: none; /* Esconde a camada do gradiente preto */
+    display: none;
 }
 
 /* --- ADAPTAÇÃO PARA MOBILE --- */
 @media (max-width: 768px) {
     .hero-video {
-        /* Altura adaptada para telas na vertical de celulares */
-        height: 60vh; 
-    }
-    
-    .hero-media {
-        /* Foca no centro da imagem para não cortar detalhes principais no celular */
-        object-position: center center; 
+        height: auto; /* Garante que no celular a imagem fique 100% inteira e encostada no topo */
+        margin-top: 0 !important;
+        padding-top: 0 !important;
     }
 }
 
@@ -724,25 +724,45 @@ body {
 .remove-item { color: rgba(255, 68, 68, 0.8); cursor: pointer; font-size: 0.8rem; margin-left: auto; transition: color 0.2s; }
 .remove-item:hover { color: #ff4444; }
 
+/* Container da busca totalmente preto e centralizado */
 #search-box { 
   width: 100%; 
-  background: rgba(0, 0, 0, 0.4); 
-  /* Aumentamos o padding de 15px para 22px 20px (mais espaço em cima/baixo) */
-  padding: 22px 20px; 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08); 
-  backdrop-filter: blur(5px); 
+  background: #000000 !important; 
+  padding: 15px 20px; 
+  border-bottom: 1px solid #1a1a1a; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Garante que ele fique abaixo do header fixo */
+  margin-top: 25px; /* Se o header for maior/menor, basta ajustar este valor */
+  position: relative;
+  z-index: 10;
 }
 
+/* Campo de digitação com design moderno dark, borda suave e boa área clicável */
 #search-box input { 
   width: 100%; 
-  background: none; 
-  border: none; 
-  color: rgba(255, 255, 255, 0.8); 
-  /* Aumentamos levemente a fonte para acompanhar a altura */
-  font-size: 1.05rem; 
+  max-width: 600px;
+  background: #111111; 
+  border: 1px solid #2a2a2a; 
+  border-radius: 25px;
+  color: #ffffff; 
+  font-size: 0.95rem; 
   outline: none; 
-  /* Adicionamos padding interno no input para dar mais altura à área clicável */
-  padding: 8px 0; 
+  padding: 12px 20px; 
+  transition: all 0.3s ease;
+}
+
+/* Cor do texto de dica (placeholder) */
+#search-box input::placeholder {
+  color: #777777;
+}
+
+/* Efeito ao clicar no campo de busca */
+#search-box input:focus {
+  border-color: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+  background: #161616;
 }
 
 .loader-spinner { 
@@ -948,32 +968,21 @@ body {
     <input type="text" id="input-busca" placeholder="O que você está procurando?" oninput="buscarProduto()">
 </div>
 
-<section id="hero-section" class="hero-video">
-    <div class="hero-gradient"></div>
-    
-    <!-- Tag <picture> gerencia a troca automática de imagem entre Mobile e PC -->
-    <picture>
-        <!-- Imagem para Celulares (telas até 768px de largura) -->
-        <source media="(max-width: 768px)" srcset="imagem3.jpg">
-        
-        <!-- Imagem Padrão para Computadores / Notebooks -->
-        <img src="imagem2.jpg" alt="Hero Banner" class="hero-media">
-    </picture>
+<section id="hero-section" class="hero-video" style="cursor: pointer;">
+    <a href="#main-content" style="display: block; width: 100%; height: 100%;">
+        <picture>
+            <source media="(max-width: 768px)" srcset="imagem3.jpg">
+            <img src="imagem2.jpg" alt="Hero Banner" class="hero-media">
+        </picture>
+    </a>
 </section>
 </script>
 
-<section class="about-section">
-    <h2> NOSSA PÁGINA </h2>
-    <p class="about-text"> siga nossas redes e fique por dentro de nossas novidades em primeira mão!! <br> @b2.street_ </p>
-    <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
-        <a href="https://www.instagram.com/b2.street_/" target="_blank" class="instagram-btn">
-            <i class="fab fa-instagram" style="font-size: 1.3rem;"></i> Nosso Instagram !!
-        </a> 
-        <a href="https://www.tiktok.com/@b2.street" target="_blank" class="tiktok-btn">
-            <i class="fab fa-tiktok" style="font-size: 1.2rem;"></i> Nosso TikTok !!
-        </a>
-    </div>
-</section>
+<div style="display: flex; justify-content: center; background: #000; padding: 15px 0 5px 0;">
+    <a href="https://www.instagram.com/b2.street_/" target="_blank" class="instagram-btn">
+        <i class="fab fa-instagram" style="font-size: 1.2rem;"></i> Nosso Instagram
+    </a>
+</div>
 
 <div class="brand-filters" id="brand-filters">
     <div class="brand-btn" onclick="filterCat('syna')">
