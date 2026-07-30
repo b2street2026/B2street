@@ -1194,6 +1194,19 @@ button:active, .btn-action:active {
         <i class="fab fa-instagram" style="font-size: 1.2rem;"></i> Nosso Instagram
     </a>
 </div>
+<!-- BANNER ROTATIVO PROFISSIONAL -->
+<section class="hero-banner-container">
+  <div class="banner-carousel" id="bannerCarousel">
+    <div class="banner-loader">Carregando destaques do dia...</div>
+  </div>
+  
+  <!-- Controles de navegação (setas) -->
+  <button class="banner-prev" onclick="moveBanner(-1)" aria-label="Banner anterior">&#10094;</button>
+  <button class="banner-next" onclick="moveBanner(1)" aria-label="Próximo banner">&#10095;</button>
+  
+  <!-- Indicadores inferiores (bolinhas) -->
+  <div class="banner-dots" id="bannerDots"></div>
+</section>
 
 <div class="brand-filters" id="brand-filters">
     <div class="brand-btn" onclick="filterCat('syna')">
@@ -1513,6 +1526,206 @@ button:active, .btn-action:active {
     display: flex;
     flex-direction: column;
     gap: 15px;
+}
+/* ==========================================
+   BANNER ROTATIVO RESPONSIVO (PRETO & PRATA)
+   ========================================== */
+.hero-banner-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 10px auto 25px auto;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  background-color: #0d0d0d;
+  border: 1px solid #2a2a2a;
+}
+
+.banner-carousel {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  width: 100%;
+  min-height: 280px;
+}
+
+.banner-slide {
+  min-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 50px;
+  box-sizing: border-box;
+  /* Degradê escuro de fundo */
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #262626 100%);
+  color: #ffffff;
+}
+
+.banner-info {
+  flex: 1;
+  max-width: 50%;
+  z-index: 2;
+}
+
+/* Tag Destaque com efeito metálico em prata */
+.banner-tag {
+  background: linear-gradient(90deg, #d1d5db, #ffffff);
+  color: #000000;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  display: inline-block;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.banner-info h2 {
+  font-size: 2rem;
+  margin: 0 0 10px 0;
+  line-height: 1.2;
+  color: #f3f4f6;
+  font-weight: 700;
+}
+
+/* Preço em tom prata brilhante */
+.banner-info p {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #e5e7eb;
+  margin-bottom: 20px;
+}
+
+/* Botão "Confira Já" - Estilo Prata Metálico */
+.btn-confira {
+  display: inline-block;
+  background: linear-gradient(180deg, #ffffff 0%, #cccccc 100%);
+  color: #000000;
+  padding: 12px 28px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.btn-confira:hover {
+  background: linear-gradient(180deg, #ffffff 0%, #e6e6e6 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(255, 255, 255, 0.25);
+}
+
+.banner-img-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner-img-wrapper img {
+  max-height: 220px;
+  max-width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0px 10px 15px rgba(0,0,0,0.6));
+}
+
+/* Setas de Navegação Premium */
+.banner-prev, .banner-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  background: rgba(18, 18, 18, 0.6);
+  color: #e5e7eb;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  border-radius: 50%;
+  font-size: 16px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+.banner-prev:hover, .banner-next:hover {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+}
+
+.banner-prev { left: 15px; }
+.banner-next { right: 15px; }
+
+/* Indicadores (Bolinhas) */
+.banner-dots {
+  position: absolute;
+  bottom: 12px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  z-index: 5;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  background-color: #ffffff;
+  width: 24px;
+  border-radius: 5px;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+.banner-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  color: #d1d5db;
+  font-size: 1rem;
+}
+
+/* Adaptativo para Celular (Mobile) */
+@media (max-width: 768px) {
+  .banner-slide {
+    flex-direction: column-reverse;
+    padding: 25px 20px 45px 20px;
+    text-align: center;
+  }
+
+  .banner-info {
+    max-width: 100%;
+    margin-top: 10px;
+  }
+
+  .banner-info h2 {
+    font-size: 1.3rem;
+  }
+
+  .banner-img-wrapper img {
+    max-height: 140px;
+  }
+
+  .banner-prev, .banner-next {
+    width: 34px;
+    height: 34px;
+    font-size: 13px;
+  }
+  
+  .banner-prev { left: 8px; }
+  .banner-next { right: 8px; }
 }
         </style>
 
@@ -2254,7 +2467,161 @@ function finalizarWhatsApp() {
     const mensagemUrl = encodeURIComponent(mensagem);
     window.open(`https://wa.me/5519995544596?text=${mensagemUrl}`, '_blank');
 }
-// --- RESTANTE DAS FUNÇÕES ---
+// ==========================================
+// BANNER ROTATIVO DIÁRIO (ROUPAS & ESTILO DA LOJA)
+// ==========================================
+(function() {
+    let currentSlide = 0;
+    let totalSlides = 0;
+    let autoSlideInterval = null;
+
+    async function carregarBannerRotativo() {
+        const carouselEl = document.getElementById('bannerCarousel');
+        const dotsEl = document.getElementById('bannerDots');
+        
+        if (!carouselEl) return;
+
+        try {
+            if (typeof db === 'undefined') {
+                console.error("Banner: Objeto 'db' do Firebase não encontrado.");
+                return;
+            }
+
+            const snapshot = await db.ref('produtos').once('value');
+            if (!snapshot.exists()) {
+                carouselEl.innerHTML = '<div class="banner-loader">Nenhum produto cadastrado.</div>';
+                return;
+            }
+
+            const data = snapshot.val();
+            let produtos = [];
+
+            if (Array.isArray(data)) {
+                produtos = data.filter(Boolean).map((p, index) => ({ id: p.id || index, ...p }));
+            } else if (typeof data === 'object') {
+                produtos = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+            }
+
+            // ==========================================
+            // FILTRO: APENAS ROUPAS (EXCLUI TÊNIS / CALÇADOS)
+            // ==========================================
+            const termosProibidos = ['tenis', 'tênis', 'calcado', 'calçado', 'sapato', 'snkrs', 'chuteira', 'chinelo', 'sapatilha', 'crocs'];
+            
+            let apenasRoupas = produtos.filter(produto => {
+                const nome = (produto.nome || '').toLowerCase();
+                const categoria = (produto.categoria || '').toLowerCase();
+                const subcategoria = (produto.subcategoria || '').toLowerCase();
+
+                // Se tiver 'categoria', verifica se é roupa/vestuário
+                const ehRoupaPorCategoria = categoria.includes('roupa') || categoria.includes('vestuario') || categoria.includes('camisa') || categoria.includes('camiseta') || categoria.includes('calca') || categoria.includes('bermuda') || categoria.includes('jaqueta') || categoria.includes('moleton');
+                
+                // Verifica se NÃO contém termos de calçados no nome ou categoria
+                const ehCalcado = termosProibidos.some(termo => nome.includes(termo) || categoria.includes(termo) || subcategoria.includes(termo));
+
+                if (ehCalcado) return false;
+                if (ehRoupaPorCategoria) return true;
+
+                // Caso não tenha categoria definida, passa tudo que não for calçado
+                return true;
+            });
+
+            if (apenasRoupas.length === 0) {
+                // Fallback: se não encontrar nenhuma roupa filtrada, usa os produtos gerais (exceto tênis)
+                apenasRoupas = produtos.filter(p => !termosProibidos.some(t => (p.nome || '').toLowerCase().includes(t)));
+            }
+
+            if (apenasRoupas.length === 0) {
+                carouselEl.innerHTML = '<div class="banner-loader">Nenhum destaque encontrado.</div>';
+                return;
+            }
+
+            // SELEÇÃO DIÁRIA
+            const hoje = new Date().toISOString().slice(0, 10);
+            let seed = 0;
+            for (let i = 0; i < hoje.length; i++) seed += hoje.charCodeAt(i);
+
+            const produtosDoDia = [...apenasRoupas].sort((a, b) => {
+                const idA = String(a.id || '');
+                const idB = String(b.id || '');
+                const charCodeA = idA.length > 0 ? idA.charCodeAt(0) : 0;
+                const charCodeB = idB.length > 0 ? idB.charCodeAt(0) : 0;
+                return ((charCodeA + seed) % 5) - ((charCodeB + seed) % 5);
+            }).slice(0, 5);
+
+            totalSlides = produtosDoDia.length;
+            carouselEl.innerHTML = '';
+            if (dotsEl) dotsEl.innerHTML = '';
+
+            // RENDERIZAÇÃO DOS SLIDES
+            produtosDoDia.forEach((produto, index) => {
+                const slide = document.createElement('div');
+                slide.className = 'banner-slide';
+                
+                const precoLimpo = produto.preco ? String(produto.preco).replace('R$', '').replace('.', '').replace(',', '.').trim() : '0';
+                const precoFormatado = produto.preco ? `R$ ${parseFloat(precoLimpo).toFixed(2).replace('.', ',')}` : '';
+                const linkProduto = `#produto-${produto.id}`;
+
+                // As classes 'banner-info', 'btn-primary' e 'banner-tag' vão herdar as cores/fontes do CSS global da sua loja
+                slide.innerHTML = `
+                    <div class="banner-info">
+                        <span class="banner-tag">Destaque do Dia</span>
+                        <h2>${produto.nome || 'Produto em Destaque'}</h2>
+                        <p class="banner-preco">${precoFormatado}</p>
+                        <a href="${linkProduto}" class="btn-confira btn-primary">Confira Já</a>
+                    </div>
+                    <div class="banner-img-wrapper">
+                        <img src="${produto.imagem || 'https://via.placeholder.com/300'}" alt="${produto.nome || 'Imagem'}">
+                    </div>
+                `;
+                carouselEl.appendChild(slide);
+
+                if (dotsEl) {
+                    const dot = document.createElement('div');
+                    dot.className = `dot ${index === 0 ? 'active' : ''}`;
+                    dot.onclick = () => window.goToSlide(index);
+                    dotsEl.appendChild(dot);
+                }
+            });
+
+            iniciarAutoSlide();
+
+        } catch (error) {
+            console.error("Erro no banner:", error);
+            carouselEl.innerHTML = '<div class="banner-loader">Erro ao carregar destaques.</div>';
+        }
+    }
+
+    function updateSlidePosition() {
+        const carouselEl = document.getElementById('bannerCarousel');
+        const dots = document.querySelectorAll('.dot');
+        if (carouselEl) carouselEl.style.transform = `translateX(-${currentSlide * 100}%)`;
+        dots.forEach((dot, idx) => dot.classList.toggle('active', idx === currentSlide));
+    }
+
+    function iniciarAutoSlide() {
+        clearInterval(autoSlideInterval);
+        autoSlideInterval = setInterval(() => window.moveBanner(1), 5000);
+    }
+
+    window.moveBanner = function(direction) {
+        if (totalSlides === 0) return;
+        currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+        updateSlidePosition();
+        iniciarAutoSlide();
+    };
+
+    window.goToSlide = function(index) {
+        currentSlide = index;
+        updateSlidePosition();
+        iniciarAutoSlide();
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', carregarBannerRotativo);
+    } else {
+        carregarBannerRotativo();
+    }
+})();
 
 function aplicarCupom() {
     const cod = document.getElementById('input-cupom').value.toUpperCase().trim();
