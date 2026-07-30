@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+   <!DOCTYPE html>
 <html lang="pt-BR" style="scroll-behavior: smooth;">
 <head>
     <meta charset="UTF-8">
@@ -1698,34 +1698,77 @@ button:active, .btn-action:active {
 }
 
 /* Adaptativo para Celular (Mobile) */
+/* Adaptativo para Celular (Mobile Otimizado) */
 @media (max-width: 768px) {
+  .hero-banner-container {
+    margin: 10px auto 15px auto;
+    border-radius: 8px;
+  }
+
   .banner-slide {
     flex-direction: column-reverse;
-    padding: 25px 20px 45px 20px;
+    padding: 12px 10px 35px 10px; /* Margens mínimas */
     text-align: center;
+    gap: 8px;
   }
 
   .banner-info {
     max-width: 100%;
-    margin-top: 10px;
+    margin-top: 4px;
+  }
+
+  .banner-tag {
+    font-size: 0.65rem;
+    padding: 2px 8px;
+    margin-bottom: 6px;
   }
 
   .banner-info h2 {
-    font-size: 1.3rem;
+    font-size: 1.05rem; /* Texto bem compacto */
+    margin: 0 0 4px 0;
+    line-height: 1.15;
+  }
+
+  .banner-info p {
+    font-size: 0.95rem; /* Preço menor */
+    margin-bottom: 10px;
+  }
+
+  .btn-confira {
+    padding: 8px 18px;
+    font-size: 0.85rem;
+    width: auto;
+  }
+
+  /* Imagem grande preenchendo quase sem bordas */
+  .banner-img-wrapper {
+    width: 100%;
+    max-height: 220px; /* Aumentado para a imagem se destacar */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
   }
 
   .banner-img-wrapper img {
-    max-height: 140px;
+    max-height: 210px;
+    width: 100%;
+    object-fit: contain; /* Mantém a proporção sem cortar */
   }
 
   .banner-prev, .banner-next {
-    width: 34px;
-    height: 34px;
-    font-size: 13px;
+    width: 30px;
+    height: 30px;
+    font-size: 11px;
+    background: rgba(0, 0, 0, 0.7);
   }
   
-  .banner-prev { left: 8px; }
-  .banner-next { right: 8px; }
+  .banner-prev { left: 4px; }
+  .banner-next { right: 4px; }
+
+  .banner-dots {
+    bottom: 8px;
+  }
 }
         </style>
 
@@ -2468,7 +2511,7 @@ function finalizarWhatsApp() {
     window.open(`https://wa.me/5519995544596?text=${mensagemUrl}`, '_blank');
 }
 // ==========================================
-// BANNER ROTATIVO DIÁRIO (ROUPAS & ESTILO DA LOJA)
+// BANNER ROTATIVO DIÁRIO (CLIQUE CORRIGIDO)
 // ==========================================
 (function() {
     let currentSlide = 0;
@@ -2502,9 +2545,7 @@ function finalizarWhatsApp() {
                 produtos = Object.keys(data).map(key => ({ id: key, ...data[key] }));
             }
 
-            // ==========================================
-            // FILTRO: APENAS ROUPAS (EXCLUI TÊNIS / CALÇADOS)
-            // ==========================================
+            // FILTRO DE ROUPAS
             const termosProibidos = ['tenis', 'tênis', 'calcado', 'calçado', 'sapato', 'snkrs', 'chuteira', 'chinelo', 'sapatilha', 'crocs'];
             
             let apenasRoupas = produtos.filter(produto => {
@@ -2512,21 +2553,15 @@ function finalizarWhatsApp() {
                 const categoria = (produto.categoria || '').toLowerCase();
                 const subcategoria = (produto.subcategoria || '').toLowerCase();
 
-                // Se tiver 'categoria', verifica se é roupa/vestuário
                 const ehRoupaPorCategoria = categoria.includes('roupa') || categoria.includes('vestuario') || categoria.includes('camisa') || categoria.includes('camiseta') || categoria.includes('calca') || categoria.includes('bermuda') || categoria.includes('jaqueta') || categoria.includes('moleton');
-                
-                // Verifica se NÃO contém termos de calçados no nome ou categoria
                 const ehCalcado = termosProibidos.some(termo => nome.includes(termo) || categoria.includes(termo) || subcategoria.includes(termo));
 
                 if (ehCalcado) return false;
                 if (ehRoupaPorCategoria) return true;
-
-                // Caso não tenha categoria definida, passa tudo que não for calçado
                 return true;
             });
 
             if (apenasRoupas.length === 0) {
-                // Fallback: se não encontrar nenhuma roupa filtrada, usa os produtos gerais (exceto tênis)
                 apenasRoupas = produtos.filter(p => !termosProibidos.some(t => (p.nome || '').toLowerCase().includes(t)));
             }
 
@@ -2552,24 +2587,22 @@ function finalizarWhatsApp() {
             carouselEl.innerHTML = '';
             if (dotsEl) dotsEl.innerHTML = '';
 
-            // RENDERIZAÇÃO DOS SLIDES
+            // RENDERIZAÇÃO
             produtosDoDia.forEach((produto, index) => {
                 const slide = document.createElement('div');
                 slide.className = 'banner-slide';
                 
                 const precoLimpo = produto.preco ? String(produto.preco).replace('R$', '').replace('.', '').replace(',', '.').trim() : '0';
                 const precoFormatado = produto.preco ? `R$ ${parseFloat(precoLimpo).toFixed(2).replace('.', ',')}` : '';
-                const linkProduto = `#produto-${produto.id}`;
 
-                // As classes 'banner-info', 'btn-primary' e 'banner-tag' vão herdar as cores/fontes do CSS global da sua loja
                 slide.innerHTML = `
                     <div class="banner-info">
                         <span class="banner-tag">Destaque do Dia</span>
                         <h2>${produto.nome || 'Produto em Destaque'}</h2>
-                        <p class="banner-preco">${precoFormatado}</p>
-                        <a href="${linkProduto}" class="btn-confira btn-primary">Confira Já</a>
+                        <p>${precoFormatado}</p>
+                        <button type="button" onclick="window.abrirProdutoDoBanner('${produto.id}')" class="btn-confira">Confira Já</button>
                     </div>
-                    <div class="banner-img-wrapper">
+                    <div class="banner-img-wrapper" onclick="window.abrirProdutoDoBanner('${produto.id}')">
                         <img src="${produto.imagem || 'https://via.placeholder.com/300'}" alt="${produto.nome || 'Imagem'}">
                     </div>
                 `;
@@ -2602,6 +2635,27 @@ function finalizarWhatsApp() {
         clearInterval(autoSlideInterval);
         autoSlideInterval = setInterval(() => window.moveBanner(1), 5000);
     }
+
+    // AÇÃO DE ABRIR O PRODUTO AO CLICAR
+    window.abrirProdutoDoBanner = function(id) {
+        // Tenta chamar as funções comuns de modal da loja
+        if (typeof openProduct === 'function') {
+            openProduct(id);
+        } else if (typeof abrirModal === 'function') {
+            abrirModal(id);
+        } else if (typeof abrirDetalhesProduto === 'function') {
+            abrirDetalhesProduto(id);
+        } else {
+            // Se não houver função de modal, tenta clicar no elemento correspondente da loja
+            const el = document.querySelector(`[data-id="${id}"], #produto-${id}, [onclick*="${id}"]`);
+            if (el) {
+                el.click();
+                el.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                console.log("Não foi possível encontrar o modal do produto de ID:", id);
+            }
+        }
+    };
 
     window.moveBanner = function(direction) {
         if (totalSlides === 0) return;
