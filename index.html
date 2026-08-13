@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR" style="scroll-behavior: smooth;">
 <head>
     <meta charset="UTF-8">
@@ -1153,6 +1153,264 @@ button:active, .btn-action:active {
     body {
         padding-top: 100px; /* Deixa um espaço para compensar o letreiro e header fixos */
     }
+/* =========================================================
+   BANNER PRINCIPAL (ESTILO E ESCOLHA)
+   ========================================================= */
+.main-style-banner {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 25px auto 15px auto;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #0d0d0d;
+    border: 1px solid #1a1a1a;
+    min-height: 280px;
+    display: flex;
+    align-items: center;
+}
+
+.main-style-banner img.banner-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.main-style-overlay {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.4) 100%);
+    padding: 35px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.main-style-overlay h2 {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+    line-height: 1.1;
+}
+
+.main-style-overlay p {
+    font-size: 0.95rem;
+    color: #cccccc;
+    margin-bottom: 20px;
+    max-width: 500px;
+    text-transform: lowercase;
+}
+
+.main-style-overlay p::first-letter {
+    text-transform: uppercase;
+}
+
+.banner-btn-group {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn-main-action {
+    display: inline-block;
+    padding: 12px 22px;
+    background: #ffffff;
+    color: #000000;
+    font-weight: 800;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-main-action:hover {
+    background: #e0e0e0;
+    transform: translateY(-2px);
+}
+
+.btn-main-action.secondary {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(4px);
+}
+
+.btn-main-action.secondary:hover {
+    background: #ffffff;
+    color: #000000;
+}
+
+/* Ajustes Responsivos do Banner Grande no Celular */
+@media (max-width: 768px) {
+    .main-style-banner {
+        min-height: 240px;
+        margin: 20px auto 15px auto;
+    }
+    
+    .main-style-overlay {
+        background: linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.92) 100%);
+        padding: 25px 20px;
+        align-items: center;
+        text-align: center;
+    }
+
+    .main-style-overlay h2 {
+        font-size: 1.5rem;
+    }
+
+    .main-style-overlay p {
+        font-size: 0.85rem;
+    }
+
+    .banner-btn-group {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .btn-main-action {
+        width: 100%;
+        max-width: 200px;
+        text-align: center;
+    }
+}
+
+/* =========================================================
+   BANNERS DUPLOS (DESKTOP E RESPONSIVO MOBILE SLIDER)
+   ========================================================= */
+.dual-banners-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 25px auto;
+}
+
+/* Layout para Computador (Lado a Lado) */
+.dual-banners-wrapper {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.dual-banner-card {
+    flex: 1;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #0d0d0d;
+    border: 1px solid #1a1a1a;
+    display: flex;
+    flex-direction: column;
+}
+
+.dual-banner-card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.dual-banner-card:hover img {
+    transform: scale(1.05);
+}
+
+.dual-banner-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.85) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+}
+
+.dual-banner-overlay h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-banner-action {
+    display: inline-block;
+    width: fit-content;
+    padding: 10px 20px;
+    background: #ffffff;
+    color: #000000;
+    font-weight: 800;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-banner-action:hover {
+    background: #e0e0e0;
+    transform: translateY(-2px);
+}
+
+.banner-dots {
+    display: none;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.banner-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #333;
+    transition: background 0.3s ease, width 0.3s ease;
+}
+
+.banner-dot.active {
+    background: #fff;
+    width: 20px;
+    border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+    .dual-banners-wrapper {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 15px;
+        padding-bottom: 5px;
+    }
+
+    .dual-banners-wrapper::-webkit-scrollbar {
+        display: none;
+    }
+
+    .dual-banner-card {
+        min-width: 88%;
+        scroll-snap-align: center;
+    }
+
+    .dual-banner-card img {
+        height: 200px;
+    }
+
+    .banner-dots {
+        display: flex;
+    }
+}
 </style>
 
 <script>
@@ -1187,6 +1445,62 @@ button:active, .btn-action:active {
         </picture>
     </a>
 </section>
+<!-- BANNER GRANDÃO: SEU ESTILO. SUA ESCOLHA. -->
+<div class="dual-banners-container" style="padding: 0 4%;">
+    
+    <div class="main-style-banner">
+        <!-- Altere 'sua_imagem_banner_grande.jpg' para o caminho/URL da foto que você quer usar -->
+        <img src="sua_imagem_banner_grande.jpg" alt="Seu Estilo. Sua Escolha." class="banner-bg">
+        
+        <div class="main-style-overlay">
+            <h2>SEU ESTILO. SUA ESCOLHA.</h2>
+            <p>Os melhores tênis e roupas você encontra aqui.</p>
+            <div class="banner-btn-group">
+                <a href="#main-content" onclick="filterCat('tenis')" class="btn-main-action">Ver Tênis</a>
+                <a href="#main-content" onclick="filterCat('camisas')" class="btn-main-action secondary">Ver Roupas</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- BANNERS DUPLOS (ROUPAS & TÊNIS) -->
+    <div class="dual-banners-wrapper" id="dual-banners-wrapper" onscroll="atualizarDotsBanner()">
+        
+        <!-- Banner 1: Roupas -->
+        <div class="dual-banner-card">
+            <img src="banner_roupas.jpg" alt="Coleção Roupas">
+            <div class="dual-banner-overlay">
+                <h3>Coleção Roupas</h3>
+                <a href="#main-content" onclick="filterCat('camisas')" class="btn-banner-action">Confira Já</a>
+            </div>
+        </div>
+
+        <!-- Banner 2: Tênis -->
+        <div class="dual-banner-card">
+            <img src="banner_tenis.jpg" alt="Coleção Tênis">
+            <div class="dual-banner-overlay">
+                <h3>Coleção Tênis</h3>
+                <a href="#main-content" onclick="filterCat('tenis')" class="btn-banner-action">Confira Já</a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Indicadores do carrossel mobile para os 2 banners menores -->
+    <div class="banner-dots">
+        <span class="banner-dot active" id="dot-0"></span>
+        <span class="banner-dot" id="dot-1"></span>
+    </div>
+
+</div>
+
+    </div>
+
+    <!-- Indicadores de slide no mobile -->
+    <div class="banner-dots">
+        <span class="banner-dot active" id="dot-0"></span>
+        <span class="banner-dot" id="dot-1"></span>
+    </div>
+</div>
 </script>
 
 <div style="display: flex; justify-content: center; background: #000; padding: 15px 0 5px 0;">
@@ -1194,19 +1508,6 @@ button:active, .btn-action:active {
         <i class="fab fa-instagram" style="font-size: 1.2rem;"></i> Nosso Instagram
     </a>
 </div>
-<!-- BANNER ROTATIVO PROFISSIONAL -->
-<section class="hero-banner-container">
-  <div class="banner-carousel" id="bannerCarousel">
-    <div class="banner-loader">Carregando destaques do dia...</div>
-  </div>
-  
-  <!-- Controles de navegação (setas) -->
-  <button class="banner-prev" onclick="moveBanner(-1)" aria-label="Banner anterior">&#10094;</button>
-  <button class="banner-next" onclick="moveBanner(1)" aria-label="Próximo banner">&#10095;</button>
-  
-  <!-- Indicadores inferiores (bolinhas) -->
-  <div class="banner-dots" id="bannerDots"></div>
-</section>
 
 <div class="brand-filters" id="brand-filters">
     <div class="brand-btn" onclick="filterCat('syna')">
@@ -1527,296 +1828,7 @@ button:active, .btn-action:active {
     flex-direction: column;
     gap: 15px;
 }
-/* ==========================================
-   BANNER ROTATIVO RESPONSIVO (PRETO & PRATA PREMIUM)
-   ========================================== */
-.hero-banner-container {
-  position: relative;
-  width: 100%;
-  max-width: 1200px;
-  margin: 10px auto 25px auto;
-  overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-  background-color: #0d0d0d;
-  border: 1px solid #2a2a2a;
-}
 
-.banner-carousel {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-  width: 100%;
-  min-height: 360px;
-}
-
-.banner-slide {
-  position: relative;
-  min-width: 100%;
-  height: 360px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 30px 60px;
-  box-sizing: border-box;
-  overflow: hidden;
-}
-
-/* 1. FUNDO AMBIENTE DESFOCADO (Usa a própria imagem para criar o clima sem esticar) */
-.banner-bg-blur {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  overflow: hidden;
-}
-
-.banner-bg-blur img {
-  width: 110%;
-  height: 110%;
-  object-fit: cover;
-  filter: blur(25px) brightness(0.35); /* Desfoca e escurece o fundo */
-  transform: translate(-5%, -5%);
-}
-
-/* Máscara escura extra para garantir contraste */
-.banner-slide::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, rgba(13,13,13,0.95) 0%, rgba(13,13,13,0.6) 50%, rgba(13,13,13,0.3) 100%);
-  z-index: 2;
-  pointer-events: none;
-}
-
-/* 2. INFORMAÇÕES DO PRODUTO (TEXTO) */
-.banner-info {
-  position: relative;
-  z-index: 3;
-  max-width: 48%;
-  color: #ffffff;
-}
-
-.banner-tag {
-  background: linear-gradient(90deg, #d1d5db, #ffffff);
-  color: #000000;
-  font-size: 0.75rem;
-  font-weight: 800;
-  padding: 4px 12px;
-  border-radius: 20px;
-  text-transform: uppercase;
-  display: inline-block;
-  margin-bottom: 12px;
-  letter-spacing: 0.5px;
-}
-
-.banner-info h2 {
-  font-size: 2rem;
-  margin: 0 0 8px 0;
-  line-height: 1.2;
-  color: #ffffff;
-  font-weight: 800;
-}
-
-.banner-info p {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #e5e7eb;
-  margin-bottom: 22px;
-}
-
-/* BOTÃO CONFIRA JÁ (PRATA METÁLICO) */
-.btn-confira {
-  display: inline-block;
-  background: linear-gradient(180deg, #ffffff 0%, #cccccc 100%);
-  color: #000000;
-  padding: 12px 28px;
-  border-radius: 6px;
-  border: none;
-  font-weight: 800;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-}
-
-.btn-confira:hover {
-  background: linear-gradient(180deg, #ffffff 0%, #e6e6e6 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(255, 255, 255, 0.3);
-}
-
-/* 3. IMAGEM DO PRODUTO (INTEIRA E QUADRADA SEM CORTAR) */
-.banner-img-wrapper {
-  position: relative;
-  z-index: 3;
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  cursor: pointer;
-}
-
-.banner-img-wrapper img {
-  max-height: 290px;
-  max-width: 100%;
-  aspect-ratio: 1 / 1; /* Força a proporção quadrada perfeita */
-  object-fit: contain; /* Não corta a imagem */
-  border-radius: 10px;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.banner-slide:hover .banner-img-wrapper img {
-  transform: scale(1.03);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.8);
-}
-
-/* SETAS DE NAVEGAÇÃO */
-.banner-prev, .banner-next {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  background: rgba(18, 18, 18, 0.7);
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  cursor: pointer;
-  border-radius: 50%;
-  font-size: 16px;
-  z-index: 5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(4px);
-}
-
-.banner-prev:hover, .banner-next:hover {
-  background: #ffffff;
-  color: #000000;
-  border-color: #ffffff;
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
-}
-
-.banner-prev { left: 15px; }
-.banner-next { right: 15px; }
-
-/* INDICADORES (DOTS) */
-.banner-dots {
-  position: absolute;
-  bottom: 12px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  z-index: 5;
-}
-
-.dot {
-  width: 10px;
-  height: 10px;
-  background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.dot.active {
-  background-color: #ffffff;
-  width: 26px;
-  border-radius: 5px;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-}
-
-.banner-loader {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 280px;
-  color: #d1d5db;
-  font-size: 1rem;
-}
-
-/* ==========================================
-   ADAPTATIVO PARA CELULAR (MOBILE)
-   ========================================== */
-@media (max-width: 768px) {
-  .banner-carousel {
-    min-height: 340px;
-  }
-
-  .banner-slide {
-    height: 340px;
-    flex-direction: column-reverse;
-    padding: 15px 15px 35px 15px;
-    justify-content: flex-end;
-    text-align: center;
-    gap: 10px;
-  }
-
-  .banner-slide::after {
-    background: linear-gradient(0deg, rgba(13,13,13,0.95) 0%, rgba(13,13,13,0.6) 60%, transparent 100%);
-  }
-
-  .banner-info {
-    max-width: 100%;
-    width: 100%;
-  }
-
-  .banner-tag {
-    font-size: 0.65rem;
-    padding: 2px 8px;
-    margin-bottom: 4px;
-  }
-
-  .banner-info h2 {
-    font-size: 1.15rem;
-    margin: 0 0 2px 0;
-  }
-
-  .banner-info p {
-    font-size: 0.95rem;
-    margin-bottom: 10px;
-  }
-
-  .btn-confira {
-    padding: 8px 20px;
-    font-size: 0.85rem;
-  }
-
-  /* No mobile, a foto quadrada fica grande no centro */
-  .banner-img-wrapper {
-    width: 100%;
-    height: 170px;
-  }
-
-  .banner-img-wrapper img {
-    max-height: 160px;
-    aspect-ratio: 1 / 1;
-  }
-
-  .banner-prev, .banner-next {
-    width: 32px;
-    height: 32px;
-    font-size: 12px;
-  }
-  
-  .banner-prev { left: 6px; }
-  .banner-next { right: 6px; }
-
-  .banner-dots {
-    bottom: 8px;
-  }
-}
         </style>
 
         <div class="rastreamento-container">
@@ -2557,172 +2569,6 @@ function finalizarWhatsApp() {
     const mensagemUrl = encodeURIComponent(mensagem);
     window.open(`https://wa.me/5519995544596?text=${mensagemUrl}`, '_blank');
 }
-// ==========================================
-// BANNER ROTATIVO DIÁRIO (CLIQUE CORRIGIDO)
-// ==========================================
-(function() {
-    let currentSlide = 0;
-    let totalSlides = 0;
-    let autoSlideInterval = null;
-
-    async function carregarBannerRotativo() {
-        const carouselEl = document.getElementById('bannerCarousel');
-        const dotsEl = document.getElementById('bannerDots');
-        
-        if (!carouselEl) return;
-
-        try {
-            if (typeof db === 'undefined') {
-                console.error("Banner: Objeto 'db' do Firebase não encontrado.");
-                return;
-            }
-
-            const snapshot = await db.ref('produtos').once('value');
-            if (!snapshot.exists()) {
-                carouselEl.innerHTML = '<div class="banner-loader">Nenhum produto cadastrado.</div>';
-                return;
-            }
-
-            const data = snapshot.val();
-            let produtos = [];
-
-            if (Array.isArray(data)) {
-                produtos = data.filter(Boolean).map((p, index) => ({ id: p.id || index, ...p }));
-            } else if (typeof data === 'object') {
-                produtos = Object.keys(data).map(key => ({ id: key, ...data[key] }));
-            }
-
-            // FILTRO DE ROUPAS
-            const termosProibidos = ['tenis', 'tênis', 'calcado', 'calçado', 'sapato', 'snkrs', 'chuteira', 'chinelo', 'sapatilha', 'crocs'];
-            
-            let apenasRoupas = produtos.filter(produto => {
-                const nome = (produto.nome || '').toLowerCase();
-                const categoria = (produto.categoria || '').toLowerCase();
-                const subcategoria = (produto.subcategoria || '').toLowerCase();
-
-                const ehRoupaPorCategoria = categoria.includes('roupa') || categoria.includes('vestuario') || categoria.includes('camisa') || categoria.includes('camiseta') || categoria.includes('calca') || categoria.includes('bermuda') || categoria.includes('jaqueta') || categoria.includes('moleton');
-                const ehCalcado = termosProibidos.some(termo => nome.includes(termo) || categoria.includes(termo) || subcategoria.includes(termo));
-
-                if (ehCalcado) return false;
-                if (ehRoupaPorCategoria) return true;
-                return true;
-            });
-
-            if (apenasRoupas.length === 0) {
-                apenasRoupas = produtos.filter(p => !termosProibidos.some(t => (p.nome || '').toLowerCase().includes(t)));
-            }
-
-            if (apenasRoupas.length === 0) {
-                carouselEl.innerHTML = '<div class="banner-loader">Nenhum destaque encontrado.</div>';
-                return;
-            }
-
-            // SELEÇÃO DIÁRIA
-            const hoje = new Date().toISOString().slice(0, 10);
-            let seed = 0;
-            for (let i = 0; i < hoje.length; i++) seed += hoje.charCodeAt(i);
-
-            const produtosDoDia = [...apenasRoupas].sort((a, b) => {
-                const idA = String(a.id || '');
-                const idB = String(b.id || '');
-                const charCodeA = idA.length > 0 ? idA.charCodeAt(0) : 0;
-                const charCodeB = idB.length > 0 ? idB.charCodeAt(0) : 0;
-                return ((charCodeA + seed) % 5) - ((charCodeB + seed) % 5);
-            }).slice(0, 5);
-
-            totalSlides = produtosDoDia.length;
-            carouselEl.innerHTML = '';
-            if (dotsEl) dotsEl.innerHTML = '';
-
-            // RENDERIZAÇÃO
-            produtosDoDia.forEach((produto, index) => {
-                const slide = document.createElement('div');
-                slide.className = 'banner-slide';
-                
-                const precoLimpo = produto.preco ? String(produto.preco).replace('R$', '').replace('.', '').replace(',', '.').trim() : '0';
-                const precoFormatado = produto.preco ? `R$ ${parseFloat(precoLimpo).toFixed(2).replace('.', ',')}` : '';
-
-                slide.innerHTML = `
-                    <div class="banner-info">
-                        <span class="banner-tag">Destaque do Dia</span>
-                        <h2>${produto.nome || 'Produto em Destaque'}</h2>
-                        <p>${precoFormatado}</p>
-                        <button type="button" onclick="window.abrirProdutoDoBanner('${produto.id}')" class="btn-confira">Confira Já</button>
-                    </div>
-                    <div class="banner-img-wrapper" onclick="window.abrirProdutoDoBanner('${produto.id}')">
-                        <img src="${produto.imagem || 'https://via.placeholder.com/300'}" alt="${produto.nome || 'Imagem'}">
-                    </div>
-                `;
-                carouselEl.appendChild(slide);
-
-                if (dotsEl) {
-                    const dot = document.createElement('div');
-                    dot.className = `dot ${index === 0 ? 'active' : ''}`;
-                    dot.onclick = () => window.goToSlide(index);
-                    dotsEl.appendChild(dot);
-                }
-            });
-
-            iniciarAutoSlide();
-
-        } catch (error) {
-            console.error("Erro no banner:", error);
-            carouselEl.innerHTML = '<div class="banner-loader">Erro ao carregar destaques.</div>';
-        }
-    }
-
-    function updateSlidePosition() {
-        const carouselEl = document.getElementById('bannerCarousel');
-        const dots = document.querySelectorAll('.dot');
-        if (carouselEl) carouselEl.style.transform = `translateX(-${currentSlide * 100}%)`;
-        dots.forEach((dot, idx) => dot.classList.toggle('active', idx === currentSlide));
-    }
-
-    function iniciarAutoSlide() {
-        clearInterval(autoSlideInterval);
-        autoSlideInterval = setInterval(() => window.moveBanner(1), 5000);
-    }
-
-    // AÇÃO DE ABRIR O PRODUTO AO CLICAR
-    window.abrirProdutoDoBanner = function(id) {
-        // Tenta chamar as funções comuns de modal da loja
-        if (typeof openProduct === 'function') {
-            openProduct(id);
-        } else if (typeof abrirModal === 'function') {
-            abrirModal(id);
-        } else if (typeof abrirDetalhesProduto === 'function') {
-            abrirDetalhesProduto(id);
-        } else {
-            // Se não houver função de modal, tenta clicar no elemento correspondente da loja
-            const el = document.querySelector(`[data-id="${id}"], #produto-${id}, [onclick*="${id}"]`);
-            if (el) {
-                el.click();
-                el.scrollIntoView({ behavior: 'smooth' });
-            } else {
-                console.log("Não foi possível encontrar o modal do produto de ID:", id);
-            }
-        }
-    };
-
-    window.moveBanner = function(direction) {
-        if (totalSlides === 0) return;
-        currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
-        updateSlidePosition();
-        iniciarAutoSlide();
-    };
-
-    window.goToSlide = function(index) {
-        currentSlide = index;
-        updateSlidePosition();
-        iniciarAutoSlide();
-    };
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', carregarBannerRotativo);
-    } else {
-        carregarBannerRotativo();
-    }
-})();
 
 function aplicarCupom() {
     const cod = document.getElementById('input-cupom').value.toUpperCase().trim();
@@ -3417,4 +3263,21 @@ auth.onAuthStateChanged(u => {
 function loginGoogle() { const provider = new firebase.auth.GoogleAuthProvider(); auth.signInWithPopup(provider).then(() => closeModals()).catch(err => alert(err.message)); }
 function logoutUser() { if(confirm("Deseja sair da conta?")) auth.signOut().then(() => location.reload()); }
 function handleAuth() { const e = document.getElementById('auth-email').value, p = document.getElementById('auth-pass').value; if(isSignUp) auth.createUserWithEmailAndPassword(e, p).then(()=>closeModals()).catch(err => alert(err.message)); else auth.signInWithEmailAndPassword(e, p).then(()=>closeModals()).catch(err => alert(err.message)); }
+function atualizarDotsBanner() {
+    const wrapper = document.getElementById('dual-banners-wrapper');
+    if (!wrapper) return;
+    
+    const scrollPosition = wrapper.scrollLeft;
+    const cardWidth = wrapper.offsetWidth * 0.8;
+    
+    const activeIndex = Math.round(scrollPosition / cardWidth);
+    
+    const dot0 = document.getElementById('dot-0');
+    const dot1 = document.getElementById('dot-1');
+
+    if (dot0 && dot1) {
+        dot0.classList.toggle('active', activeIndex === 0);
+        dot1.classList.toggle('active', activeIndex === 1);
+    }
+}
 </script>
