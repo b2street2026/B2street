@@ -1154,7 +1154,7 @@ button:active, .btn-action:active {
         padding-top: 100px; /* Deixa um espaço para compensar o letreiro e header fixos */
     }
 /* =========================================================
-   BANNER PRINCIPAL (AJUSTADO PARA LIBERAR A FOTO NO MOBILE)
+   BANNER PRINCIPAL (PROPORÇÃO FLUIDA PARA NÃO CORTAR NO PC)
    ========================================================= */
 .main-style-banner {
     position: relative;
@@ -1165,7 +1165,9 @@ button:active, .btn-action:active {
     overflow: hidden;
     background: #0d0d0d;
     border: 1px solid #1a1a1a;
-    min-height: 280px;
+    /* Proporção 4:1 (Desktop) - ajusta a altura dinamicamente */
+    aspect-ratio: 4 / 1;
+    height: auto;
     display: flex;
     align-items: center;
 }
@@ -1231,59 +1233,8 @@ button:active, .btn-action:active {
     backdrop-filter: blur(4px);
 }
 
-/* ---------------------------------------------------------
-   AJUSTES MOBILE: IMAGEM TOTALMENTE LIVRE NO CENTRO/TOPO
-   --------------------------------------------------------- */
-@media (max-width: 768px) {
-    .main-style-banner {
-        min-height: 350px; /* Dá espaço total para a imagem brilhar no fundo */
-        display: flex;
-        align-items: flex-end; /* Força todo o conteúdo a ir para o RODAPÉ */
-    }
-    
-    .main-style-overlay {
-        position: relative;
-        height: auto; /* Deixa o overlay ter apenas a altura do texto/botões */
-        width: 100%;
-        /* Gradiente aplicado APENAS na parte de baixo (0% no topo, 100% bem escuro no rodapé) */
-        background: linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 60%, rgba(0,0,0,0) 100%) !important;
-        padding: 40px 12px 12px 12px; /* Espaçamento interno concentrado no rodapé */
-        justify-content: flex-end;
-        align-items: center;
-        text-align: center;
-    }
-
-    .main-style-overlay h2 {
-        font-size: 1rem; /* Título pequeno para não cobrir nada */
-        letter-spacing: 0.5px;
-        margin-bottom: 2px;
-        line-height: 1.2;
-    }
-
-    .desc-desktop { display: none; }
-    .desc-mobile { 
-        display: block; 
-        font-size: 0.7rem; 
-        color: #ccc; 
-        margin-bottom: 8px; 
-    }
-
-    .banner-btn-group {
-        width: 100%;
-        justify-content: center;
-        gap: 6px;
-    }
-
-    .btn-main-action {
-        padding: 6px 10px; /* Botões bem pequenos tipo etiqueta */
-        font-size: 0.65rem;
-        border-radius: 3px;
-        min-width: 90px;
-    }
-}
-
 /* =========================================================
-   BANNERS DUPLOS (DESKTOP E RESPONSIVO MOBILE SLIDER)
+   BANNERS DUPLOS (PROPORÇÃO FLUIDA PARA NÃO CORTAR NO PC)
    ========================================================= */
 .dual-banners-container {
     width: 100%;
@@ -1291,7 +1242,6 @@ button:active, .btn-action:active {
     margin: 0 auto 25px auto;
 }
 
-/* Layout para Computador (Lado a Lado) */
 .dual-banners-wrapper {
     display: flex;
     gap: 20px;
@@ -1305,13 +1255,16 @@ button:active, .btn-action:active {
     overflow: hidden;
     background: #0d0d0d;
     border: 1px solid #1a1a1a;
+    /* Proporção 2:1 (Desktop) - 2 cards lado a lado perfeitamente proporcionais */
+    aspect-ratio: 2 / 1;
+    height: auto;
     display: flex;
     flex-direction: column;
 }
 
 .dual-banner-card img {
     width: 100%;
-    height: 250px;
+    height: 100%;
     object-fit: cover;
     display: block;
     transition: transform 0.4s ease;
@@ -1381,7 +1334,56 @@ button:active, .btn-action:active {
     border-radius: 4px;
 }
 
+/* =========================================================
+   MANTÉM AS REGRAS EXCLUSIVAS DO CELULAR INTECRAS
+   ========================================================= */
 @media (max-width: 768px) {
+    .main-style-banner {
+        aspect-ratio: auto;
+        min-height: 350px;
+        display: flex;
+        align-items: flex-end;
+    }
+    
+    .main-style-overlay {
+        position: relative;
+        height: auto;
+        width: 100%;
+        background: linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 60%, rgba(0,0,0,0) 100%) !important;
+        padding: 40px 12px 12px 12px;
+        justify-content: flex-end;
+        align-items: center;
+        text-align: center;
+    }
+
+    .main-style-overlay h2 {
+        font-size: 1rem;
+        letter-spacing: 0.5px;
+        margin-bottom: 2px;
+        line-height: 1.2;
+    }
+
+    .desc-desktop { display: none; }
+    .desc-mobile { 
+        display: block; 
+        font-size: 0.7rem; 
+        color: #ccc; 
+        margin-bottom: 8px; 
+    }
+
+    .banner-btn-group {
+        width: 100%;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .btn-main-action {
+        padding: 6px 10px;
+        font-size: 0.65rem;
+        border-radius: 3px;
+        min-width: 90px;
+    }
+
     .dual-banners-wrapper {
         display: flex;
         overflow-x: auto;
@@ -1396,6 +1398,7 @@ button:active, .btn-action:active {
     }
 
     .dual-banner-card {
+        aspect-ratio: auto;
         min-width: 88%;
         scroll-snap-align: center;
     }
