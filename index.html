@@ -3383,4 +3383,47 @@ function atualizarDotsBanner() {
         dot1.classList.toggle('active', activeIndex === 1);
     }
 }
+// Função para transformar qualquer texto/nome em um formato limpo para URL
+function gerarSlug(texto) {
+    if (!texto) return '';
+    return texto
+        .toString()
+        .toLowerCase()
+        .trim()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove acentos
+        .replace(/[^a-z0-9 -]/g, '')                     // Remove caracteres especiais
+        .replace(/\s+/g, '-')                             // Substitui espaços por hífen (-)
+        .replace(/-+/g, '-');                            // Remove hífens duplicados
+}
+document.addEventListener("DOMContentLoaded", function() {
+    // 1. Captura o valor que vem na URL (ex: ?produto=nike-air-force-1)
+    const urlParams = new URLSearchParams(window.location.search);
+    const parametroProduto = urlParams.get('produto');
+
+    if (parametroProduto) {
+        // Aguarda os produtos serem carregados do banco de dados/array
+        const checarCarregamento = setInterval(() => {
+            // Garanta que 'produtos' é a sua variável global onde ficam armazenados os produtos
+            if (typeof produtos !== 'undefined' && produtos.length > 0) {
+                clearInterval(checarCarregamento);
+                
+                // Normaliza o termo buscado vindo da URL
+                const termoBusca = gerarSlug(parametroProduto);
+
+                // Procura o produto combinando por ID ou batendo o Slug do Nome
+                const produtoEncontrado = produtos.find(p => {
+                    const slugNome = gerarSlug(p.nome || p.titulo);
+                    return p.id == parametroProduto || slugNome === termoBusca;
+                });
+
+                if (produtoEncontrado) {
+                    // Abre o modal do produto encontrado
+                    abrirModalProduto(produtoEncontrado);
+                } else {
+                    console.warn("Nenhum produto correspondente encontrado para:", parametroProduto);
+                }
+            }
+        }, 200); // Tenta a cada 200 milissegundos
+    }
+});
 </script>
