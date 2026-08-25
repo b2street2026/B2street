@@ -2253,6 +2253,11 @@ button:active, .btn-action:active {
         <p>&copy; 2026 B2 STREET. Todos os direitos reservados.</p>
     </div>
 </footer>
+<!-- Modal de Notificação / Link Copiado -->
+<div id="toast-copiado" style="position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #111; color: #fff; border: 1px solid #333; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); z-index: 99999;">
+    <i class="fas fa-check-circle" style="color: #00cc66; font-size: 1.2rem;"></i>
+    <span>Link do produto copiado com sucesso!</span>
+</div>
 </body>
 </html>
 
@@ -3414,24 +3419,39 @@ function copiarLinkProduto() {
         return;
     }
 
-    // Se estiver rodando como arquivo local (file://), usa a URL completa sem duplicar barras
     let baseUrl = window.location.href.split('?')[0];
-
-    // Monta o link com o parâmetro do produto
     const urlProduto = `${baseUrl}?p=${SELECTED_PROD.id}`;
 
-    // Copia para a área de transferência
     navigator.clipboard.writeText(urlProduto).then(() => {
-        alert("Link do produto copiado!");
+        mostrarAvisoCopiado(); // Chama o modal bonitão
     }).catch(err => {
-        // Fallback de cópia para navegadores antigos ou sem HTTPS
+        // Fallback caso o navegador não suporte navigator.clipboard
         const textInput = document.createElement("input");
         textInput.value = urlProduto;
         document.body.appendChild(textInput);
         textInput.select();
         document.execCommand("copy");
         document.body.removeChild(textInput);
-        alert("Link do produto copiado!");
+        
+        mostrarAvisoCopiado(); // Chama o modal bonitão
     });
+}
+function mostrarAvisoCopiado() {
+    const toast = document.getElementById('toast-copiado');
+    if (!toast) return;
+
+    // Mostra o modal com animação subindo
+    toast.style.visibility = 'visible';
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateX(-50%) translateY(0)';
+
+    // Esconde automaticamente após 3 segundos
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(-50%) translateY(100px)';
+        setTimeout(() => {
+            toast.style.visibility = 'hidden';
+        }, 300);
+    }, 3000);
 }
 </script>
