@@ -1646,7 +1646,10 @@ button:active, .btn-action:active {
     <div class="menu-link" onclick="filterCat('syna')" style="color: #fff;">Syna</div>
     <div class="menu-link" onclick="filterCat('denim tears')" style="color: #fff;">Denim Tears</div>
     <div class="menu-link" onclick="filterCat('nocta')" style="color: #fff;">Nocta</div>
-    <div class="menu-link" onclick="filterCat('joias')" style="color: #fff;">Joias</div>
+    <div class="menu-link" onclick="filterCat('casablanca')" style="color: #fff;">Casablanca</div>
+    <div class="menu-link" onclick="filterCat('corteiz')" style="color: #fff;">Corteiz coleção</div>
+    <div class="menu-link" onclick="filterCat('hellstar')" style="color: #fff;">Hellstar</div>
+
 
     <div class="sidebar-socials">
         <a href="https://www.instagram.com/b2.street_/" target="_blank" class="sidebar-social-icon insta" title="Instagram">
@@ -2808,7 +2811,7 @@ function renderFull(filtered = null) {
     main.innerHTML = "";
     const data = filtered || ALL_PRODUCTS;
     
-    const cats = ["tenis", "tenis-feminino", "academia", "moletom", "chinelos", "shorts", "conjuntos", "raul", "camisas", "corteiz", "nike", "syna", "denim tears", "nocta", "joias"];
+    const cats = ["tenis", "tenis-feminino", "camisas", "corteiz", "casablanca", "hellstar", "academia", "moletom", "chinelos", "shorts", "conjuntos", "corteiz", "nike", "syna", "denim tears", "nocta", "joias"];
     
     const modelosEsquema = ["nocta", "air max 95", "dn", "tn", "shox", "air force", "dunk", "air jordan", "court vision", "new balance", "puma", "adidas", "timberland"];
 
@@ -2820,6 +2823,9 @@ function renderFull(filtered = null) {
             else if (cat === 'tenis-feminino') tituloExibicao = 'Tênis Feminino';
             else if (cat === 'moletom') tituloExibicao = 'Moletons';
             else if (cat === 'academia') tituloExibicao = 'Moda Academia';
+            else if (cat === 'casablanca') tituloExibicao = 'Coleção Casablanca';
+            else if (cat === 'corteiz') tituloExibicao = 'Corteiz';
+            else if (cat === 'hellstar') tituloExibicao = 'Hellstar';
 
             let html = `<div class="container"><h2 class="cat-title" style="text-transform: uppercase;">${tituloExibicao}</h2>`;
             
@@ -3317,7 +3323,7 @@ function updateCart() {
             if (subtotal < META_FRETE_GRATIS && quantoFalta <= 40) {
                 // Caso 1: Faltam menos de R$ 40,00 -> Sugere Joias/Acessórios
                 produtosDisponiveis = ALL_PRODUCTS.filter(p => 
-                    p.categoria && p.categoria.toLowerCase() === 'joias' && 
+                    p.categoria && p.categoria.toLowerCase() === 'hellstar' && 
                     !idsNoCarrinho.includes(p.id) &&
                     p.tag !== 'esgotado'
                 );
