@@ -1643,12 +1643,13 @@ button:active, .btn-action:active {
     <div class="menu-link" onclick="filterCat('adidas')" style="color: #fff;">Adidas</div>
     <div class="menu-link" onclick="filterCat('puma')" style="color: #fff;">Puma</div>
     <div class="menu-link" onclick="filterCat('new balance')" style="color: #fff;">New Balance</div>
-    <div class="menu-link" onclick="filterCat('syna')" style="color: #fff;">Syna</div>
     <div class="menu-link" onclick="filterCat('denim tears')" style="color: #fff;">Denim Tears</div>
     <div class="menu-link" onclick="filterCat('nocta')" style="color: #fff;">Nocta</div>
     <div class="menu-link" onclick="filterCat('casablanca')" style="color: #fff;">Casablanca</div>
     <div class="menu-link" onclick="filterCat('corteiz')" style="color: #fff;">Corteiz coleção</div>
     <div class="menu-link" onclick="filterCat('hellstar')" style="color: #fff;">Hellstar</div>
+    <div class="menu-link" onclick="filterCat('synaworld')" style="color: #fff;">Syna world</div>
+
 
 
     <div class="sidebar-socials">
@@ -2811,7 +2812,7 @@ function renderFull(filtered = null) {
     main.innerHTML = "";
     const data = filtered || ALL_PRODUCTS;
     
-    const cats = ["tenis", "tenis-feminino", "camisas", "corteiz", "casablanca", "hellstar", "academia", "moletom", "chinelos", "shorts", "conjuntos", "corteiz", "nike", "syna", "denim tears", "nocta", "joias"];
+    const cats = ["tenis", "tenis-feminino", "camisas", "corteiz", "casablanca", "hellstar", "synaworld", "academia", "moletom", "chinelos", "shorts", "conjuntos", "corteiz", "nike", "syna", "denim tears", "nocta", "joias"];
     
     const modelosEsquema = ["nocta", "air max 95", "dn", "tn", "shox", "air force", "dunk", "air jordan", "court vision", "new balance", "puma", "adidas", "timberland"];
 
@@ -2826,7 +2827,8 @@ function renderFull(filtered = null) {
             else if (cat === 'casablanca') tituloExibicao = 'Coleção Casablanca';
             else if (cat === 'corteiz') tituloExibicao = 'Corteiz';
             else if (cat === 'hellstar') tituloExibicao = 'Hellstar';
-
+            else if (cat === 'synaworld') tituloExibicao = 'Syna world';
+              
             let html = `<div class="container"><h2 class="cat-title" style="text-transform: uppercase;">${tituloExibicao}</h2>`;
             
             if(cat === "tenis" || cat === "tenis-feminino") {
