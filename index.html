@@ -529,10 +529,19 @@
     text-transform: uppercase;
 }
 
+/* Container de Produtos Similares */
 .related-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    /* Exibe 2 produtos por linha em telas pequenas (mobile) */
+    grid-template-columns: repeat(2, 1fr);
     gap: 12px;
+}
+
+/* No computador / telas maiores, exibe mais produtos por linha */
+@media (min-width: 768px) {
+    .related-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
 
 /* Rodapé */
@@ -1679,6 +1688,12 @@ button:active, .btn-action:active {
             <img src="syna.png" alt="Syna">
             <span>Syna world</span>
         </div>
+      
+        <!-- ITEM 6: Moletom -->
+        <div class="carousel-slide" onclick="filtrarPorNome('moletom')">
+            <img src="moletom.png" alt="moletom">
+            <span>Moletom</span>
+        </div>
 
     </div>
 
@@ -2190,12 +2205,50 @@ button:active, .btn-action:active {
             <div id="related-grid" class="related-grid"></div>
         </section>
 
-        <!-- Rodapé Oficial -->
-        <footer class="modal-footer">
-            <p>&copy; B2STREET - Todos os direitos reservados.</p>
-        </footer>
-    </div>
-</div>
+       <!-- Rodapé Oficial do Modal de Produto -->
+        <footer class="modal-footer" style="margin-top: 60px; padding: 40px 0 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.08); text-align: left;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-bottom: 30px;">
+                
+                <!-- Coluna 1: Sobre a Loja -->
+                <div>
+                    <h4 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; color: #fff; margin-bottom: 12px; font-weight: 800;">B2 STREET</h4>
+                    <p style="font-size: 0.75rem; color: #888; line-height: 1.6;">Moda urbana e streetwear premium. Produtos de qualidade garantida com entrega para todo o Brasil.</p>
+                </div>
+
+                <!-- Coluna 2: Meios de Pagamento -->
+                <div>
+                    <h4 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; color: #fff; margin-bottom: 12px; font-weight: 800;">Pagamento Seguro</h4>
+                    <p style="font-size: 0.75rem; color: #888; line-height: 1.6;">
+                        <i class="fas fa-qrcode" style="margin-right: 5px; color: #32bcad;"></i> Pix (Aprovação imediata)<br>
+                        <i class="far fa-credit-card" style="margin-right: 5px;"></i> Cartão de Crédito até 12x
+                    </p>
+                </div>
+
+                <!-- Coluna 3: Formas de Envio -->
+                <div>
+                    <h4 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; color: #fff; margin-bottom: 12px; font-weight: 800;">Envio & Entrega</h4>
+                    <p style="font-size: 0.75rem; color: #888; line-height: 1.6;">
+                        <i class="fas fa-shipping-fast" style="margin-right: 5px;"></i> Correios (PAC / SEDEX)<br>
+                        <i class="fas fa-box" style="margin-right: 5px;"></i> Rastreado de ponta a ponta
+                    </p>
+                </div>
+
+                <!-- Coluna 4: Atendimento -->
+                <div>
+                    <h4 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; color: #fff; margin-bottom: 12px; font-weight: 800;">Suporte</h4>
+                    <a href="https://wa.me/5519995544596" target="_blank" style="font-size: 0.75rem; color: #25d366; text-decoration: none; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+                        <i class="fab fa-whatsapp"></i> Falar pelo WhatsApp
+                    </a>
+                </div>
+
+            </div>
+
+            <div style="text-align: center; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 20px;">
+                <p style="font-size: 0.7rem; color: #555; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">
+                    &copy; B2 STREET - Todos os direitos reservados.
+                </p>
+            </div>
+        </div>
 
 <div class="modal-overlay" id="modal-auth">
     <div class="modal-content auth-container">
