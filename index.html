@@ -1336,180 +1336,137 @@ button:active, .btn-action:active {
 }
 
 /* =========================================================
-   BANNERS DUPLOS (PROPORÇÃO FLUIDA PARA NÃO CORTAR NO PC)
+   CARROSEL TRANSPARENTE E MINIMALISTA (AJUSTADO: PRATA + MAIOR NO PC)
    ========================================================= */
-.dual-banners-container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto 25px auto;
-}
-
-.dual-banners-wrapper {
-    display: flex;
-    gap: 20px;
-    width: 100%;
-}
-
-.dual-banner-card {
-    flex: 1;
+.carousel-container {
     position: relative;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #0d0d0d;
-    border: 1px solid #1a1a1a;
-    /* Proporção 2:1 (Desktop) - 2 cards lado a lado perfeitamente proporcionais */
-    aspect-ratio: 2 / 1;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-}
-
-.dual-banner-card img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.4s ease;
+    max-width: 1250px;
+    margin: 20px auto 35px auto;
+    padding: 0 10px;
 }
 
-.dual-banner-card:hover img {
-    transform: scale(1.05);
+.carousel-track {
+    display: flex;
+    gap: 30px; /* Espaçamento entre os produtos */
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    padding: 15px 0;
 }
 
-.dual-banner-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.85) 100%);
+/* Ocultar barra de rolagem */
+.carousel-track::-webkit-scrollbar {
+    display: none;
+}
+.carousel-track {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Item individual */
+.carousel-slide {
+    flex: 0 0 45%; /* No celular mostra 2 produtos bem acomodados */
+    scroll-snap-align: center;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    padding: 20px;
-}
-
-.dual-banner-overlay h3 {
-    font-size: 1.2rem;
-    font-weight: 800;
-    color: #fff;
-    margin-bottom: 10px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.btn-banner-action {
-    display: inline-block;
-    width: fit-content;
-    padding: 10px 20px;
-    background: #ffffff;
-    color: #000000;
-    font-weight: 800;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: background 0.3s ease, transform 0.2s ease;
-}
-
-.btn-banner-action:hover {
-    background: #e0e0e0;
-    transform: translateY(-2px);
-}
-
-.banner-dots {
-    display: none;
+    align-items: center;
     justify-content: center;
-    gap: 8px;
-    margin-top: 12px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 10px;
+    user-select: none;
 }
 
-.banner-dot {
-    width: 8px;
-    height: 8px;
+@media (min-width: 769px) {
+    .carousel-slide {
+        flex: 0 0 23%; /* No PC mostra 4 produtos por vez com mais presença */
+    }
+}
+
+/* Imagem do Produto Cutout (PNG) */
+.carousel-slide img {
+    width: 100%;
+    max-width: 160px; /* Tamanho no celular */
+    height: 120px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0px 10px 18px rgba(0, 0, 0, 0.5));
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+/* Aumenta o destaque da imagem no Computador */
+@media (min-width: 769px) {
+    .carousel-slide img {
+        max-width: 240px; /* Imagem maior no PC */
+        height: 160px;    /* Mais altura no PC */
+    }
+}
+
+.carousel-slide:hover img {
+    transform: translateY(-8px) scale(1.06);
+    filter: drop-shadow(0px 15px 22px rgba(0, 0, 0, 0.7));
+}
+
+/* Texto abaixo do produto */
+.carousel-slide span {
+    margin-top: 14px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #e0e0e0; /* Prata/Branco padrão */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+@media (min-width: 769px) {
+    .carousel-slide span {
+        font-size: 1.05rem; /* Texto levemente maior no PC */
+    }
+}
+
+/* Efeito Prata / Prata Metálico ao passar o mouse ou clicar */
+.carousel-slide:hover span,
+.carousel-slide:active span {
+    color: #c0c0c0; /* Prata puro */
+    text-shadow: 0px 0px 10px rgba(192, 192, 192, 0.6); /* Brilho prata sutil */
+}
+
+/* Setas Transparentes para o Computador */
+.carousel-arrow {
+    display: none;
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.05);
+    color: #c0c0c0;
+    border: 1px solid rgba(192, 192, 192, 0.2);
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
-    background: #333;
-    transition: background 0.3s ease, width 0.3s ease;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
 }
 
-.banner-dot.active {
-    background: #fff;
-    width: 20px;
-    border-radius: 4px;
+.carousel-arrow:hover {
+    background: rgba(192, 192, 192, 0.2);
+    color: #ffffff;
+    border-color: #c0c0c0;
+    box-shadow: 0px 0px 12px rgba(192, 192, 192, 0.4);
 }
 
-/* =========================================================
-   MANTÉM AS REGRAS EXCLUSIVAS DO CELULAR INTECRAS
-   ========================================================= */
-@media (max-width: 768px) {
-    .main-style-banner {
-        aspect-ratio: auto;
-        min-height: 350px;
-        display: flex;
-        align-items: flex-end;
-    }
-    
-    .main-style-overlay {
-        position: relative;
-        height: auto;
-        width: 100%;
-        background: linear-gradient(0deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 60%, rgba(0,0,0,0) 100%) !important;
-        padding: 40px 12px 12px 12px;
-        justify-content: flex-end;
-        align-items: center;
-        text-align: center;
-    }
+.carousel-arrow.prev { left: -15px; }
+.carousel-arrow.next { right: -15px; }
 
-    .main-style-overlay h2 {
-        font-size: 1rem;
-        letter-spacing: 0.5px;
-        margin-bottom: 2px;
-        line-height: 1.2;
-    }
-
-    .desc-desktop { display: none; }
-    .desc-mobile { 
-        display: block; 
-        font-size: 0.7rem; 
-        color: #ccc; 
-        margin-bottom: 8px; 
-    }
-
-    .banner-btn-group {
-        width: 100%;
-        justify-content: center;
-        gap: 6px;
-    }
-
-    .btn-main-action {
-        padding: 6px 10px;
-        font-size: 0.65rem;
-        border-radius: 3px;
-        min-width: 90px;
-    }
-
-    .dual-banners-wrapper {
-        display: flex;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        gap: 15px;
-        padding-bottom: 5px;
-    }
-
-    .dual-banners-wrapper::-webkit-scrollbar {
-        display: none;
-    }
-
-    .dual-banner-card {
-        aspect-ratio: auto;
-        min-width: 88%;
-        scroll-snap-align: center;
-    }
-
-    .dual-banner-card img {
-        height: 200px;
-    }
-
-    .banner-dots {
+@media (min-width: 769px) {
+    .carousel-arrow {
         display: flex;
     }
 }
@@ -1568,56 +1525,57 @@ button:active, .btn-action:active {
     </div>
 </div>
 
-    <!-- BANNERS DUPLOS (ROUPAS & TÊNIS) -->
-    <div class="dual-banners-wrapper" id="dual-banners-wrapper" onscroll="atualizarDotsBanner()">
+    <!-- CARROSEL TRANSPARENTE DE PRODUTOS/COLEÇÕES -->
+<div class="carousel-container">
+    <!-- Seta Esquerda (PC) -->
+    <button class="carousel-arrow prev" onclick="scrollCarrosel(-1)">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+
+    <div class="carousel-track" id="mainCarouselTrack">
         
-        <!-- Banner 1: Roupas -->
-        <div class="dual-banner-card">
-            <img src="banner_roupas.jpg" alt="Coleção Roupas">
-            <div class="dual-banner-overlay">
-                <h3>Coleção Roupas</h3>
-                <a href="#main-content" onclick="filterCat('camisas')" class="btn-banner-action">Confira Já</a>
-            </div>
+        <!-- ITEM 1: Air Max 95 -->
+        <div class="carousel-slide" onclick="filtrarPorNome('Air Max 95')">
+            <img src="airmax95.png" alt="Air Max 95">
+            <span>Air Max 95</span>
         </div>
 
-        <!-- Banner 2: Tênis -->
-        <div class="dual-banner-card">
-            <img src="banner_tenis.jpg" alt="Coleção Tênis">
-            <div class="dual-banner-overlay">
-                <h3>Coleção Tênis</h3>
-                <a href="#main-content" onclick="filterCat('tenis')" class="btn-banner-action">Confira Já</a>
-            </div>
+        <!-- ITEM 2: Air force -->
+        <div class="carousel-slide" onclick="filtrarPorNome('air force')">
+            <img src="airforce.png" alt="Corteiz">
+            <span>Air force</span>
+        </div>
+
+        <!-- ITEM 3: Nocta glide -->
+        <div class="carousel-slide" onclick="filtrarPorNome('nocta')">
+            <img src="nocta.png" alt="nocta glide">
+            <span>Nocta glide</span>
+        </div>
+
+        <!-- ITEM 4: Shox TL -->
+        <div class="carousel-slide" onclick="filtrarPorNome('Shox')">
+            <img src="shox.png" alt="Nike Shox">
+            <span>Nike Shox</span>
+        </div>
+
+        <!-- ITEM 5: NIke TN -->
+        <div class="carousel-slide" onclick="filtrarPorNome('tn')">
+            <img src="tn.png" alt="tn">
+            <span>NIKE TN</span>
         </div>
 
     </div>
 
-    <!-- PONTOS INDICADORES DO MOBILE (ÚNICO) -->
-    <div class="banner-dots">
-        <span class="banner-dot active" id="dot-0"></span>
-        <span class="banner-dot" id="dot-1"></span>
-    </div>
+    <!-- Seta Direita (PC) -->
+    <button class="carousel-arrow next" onclick="scrollCarrosel(1)">
+        <i class="fas fa-chevron-right"></i>
+    </button>
 </div>
-</script>
 
 <div style="display: flex; justify-content: center; background: #000; padding: 15px 0 5px 0;">
     <a href="https://www.instagram.com/b2.street_/" target="_blank" class="instagram-btn">
         <i class="fab fa-instagram" style="font-size: 1.2rem;"></i> Nosso Instagram
     </a>
-</div>
-
-<div class="brand-filters" id="brand-filters">
-    <div class="brand-btn" onclick="filterCat('syna')">
-        <img src="logo_syna.jpg.JPG">
-        <span>Syna</span>
-    </div>
-    <div class="brand-btn" onclick="filterCat('corteiz')">
-        <img src="logo_corteiz.jpg.JPG">
-        <span>Corteiz</span>
-    </div>
-    <div class="brand-btn" onclick="filterCat('nike')">
-        <img src="logo_nike.jpg.JPG">
-        <span>Nike</span>
-    </div>
 </div>
 
 <nav id="menu-sidebar">
@@ -1646,7 +1604,7 @@ button:active, .btn-action:active {
     <div class="menu-link" onclick="filterCat('denim tears')" style="color: #fff;">Denim Tears</div>
     <div class="menu-link" onclick="filterCat('nocta')" style="color: #fff;">Nocta</div>
     <div class="menu-link" onclick="filterCat('casablanca')" style="color: #fff;">Casablanca</div>
-    <div class="menu-link" onclick="filterCat('corteiz')" style="color: #fff;">Corteiz coleção</div>
+    <div class="menu-link" onclick="filterCat('basicas')" style="color: #fff;">Camisas basicas</div>
     <div class="menu-link" onclick="filterCat('hellstar')" style="color: #fff;">Hellstar</div>
     <div class="menu-link" onclick="filterCat('synaworld')" style="color: #fff;">Syna world</div>
 
@@ -2812,7 +2770,7 @@ function renderFull(filtered = null) {
     main.innerHTML = "";
     const data = filtered || ALL_PRODUCTS;
     
-    const cats = ["tenis", "tenis-feminino", "camisas", "corteiz", "casablanca", "hellstar", "synaworld", "academia", "moletom", "chinelos", "shorts", "conjuntos", "corteiz", "nike", "syna", "denim tears", "nocta", "joias"];
+    const cats = ["tenis", "tenis-feminino", "camisas", "corteiz", "casablanca", "hellstar", "synaworld", "academia", "moletom", "chinelos", "shorts", "conjuntos", "basicas", "nike", "syna", "denim tears", "nocta", "joias"];
     
     const modelosEsquema = ["nocta", "air max 95", "dn", "tn", "shox", "air force", "dunk", "air jordan", "court vision", "new balance", "puma", "adidas", "timberland"];
 
@@ -2822,6 +2780,7 @@ function renderFull(filtered = null) {
             let tituloExibicao = cat;
             if (cat === 'tenis') tituloExibicao = 'Tênis Masculino';
             else if (cat === 'tenis-feminino') tituloExibicao = 'Tênis Feminino';
+            else if (cat === 'basicas') tituloExibicao = 'Camisas basicas';
             else if (cat === 'moletom') tituloExibicao = 'Moletons';
             else if (cat === 'academia') tituloExibicao = 'Moda Academia';
             else if (cat === 'casablanca') tituloExibicao = 'Coleção Casablanca';
@@ -3500,6 +3459,36 @@ function carregarGaleriaModal(prodData) {
 
             thumbsContainer.appendChild(thumb);
         });
+    }
+}
+// Função para mover o carrosel via setas no PC
+function scrollCarrosel(direcao) {
+    const track = document.getElementById('mainCarouselTrack');
+    if (track) {
+        const slideWidth = track.querySelector('.carousel-slide').offsetWidth + 15; // Largura do slide + gap
+        track.scrollBy({
+            left: direcao * slideWidth,
+            behavior: 'smooth'
+        });
+    }
+}
+
+// Função para buscar produtos diretamente pelo Nome informado na foto do carrosel
+function filtrarPorNome(termoBusca) {
+    const inputBusca = document.getElementById('input-busca');
+    if (inputBusca) {
+        inputBusca.value = termoBusca;
+        
+        // Rola até os produtos para mostrar os resultados
+        const mainContent = document.getElementById('main-content');
+        if (mainContent) {
+            mainContent.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Executa a função de buscar produtos que já existe no seu projeto
+        if (typeof buscarProduto === 'function') {
+            buscarProduto();
+        }
     }
 }
 </script>
