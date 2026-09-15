@@ -1570,6 +1570,37 @@ button:active, .btn-action:active {
         text-align: center;
     }
 }
+
+/* Indicador de Swipe no Celular */
+.swipe-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: #a0a0a0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    padding-left: 5px;
+}
+
+.swipe-hand {
+    font-size: 0.85rem;
+    color: #c0c0c0;
+    animation: swipeAnim 1.8s infinite ease-in-out;
+}
+
+@keyframes swipeAnim {
+    0%, 100% { transform: translateX(0); opacity: 0.5; }
+    50% { transform: translateX(10px); opacity: 1; }
+}
+
+/* Esconde a dica no PC já que lá existem as setas */
+@media (min-width: 769px) {
+    .swipe-indicator {
+        display: none;
+    }
+}
 </style>
 
 <script>
@@ -1604,6 +1635,58 @@ button:active, .btn-action:active {
         </picture>
     </a>
 </section>
+
+<!-- CARROSEL DE ROUPAS (COLOCAR ACIMA DO CARROSEL DE CALÇADOS) -->
+<div class="carousel-container" style="margin-bottom: 20px;">
+    <!-- Seta Esquerda (PC) -->
+    <button class="carousel-arrow prev" onclick="scrollCarroselRoupas(-1)">
+        <i class="fas fa-chevron-left"></i>
+    </button>
+
+<div class="swipe-indicator">
+    <i class="fas fa-hand-pointer swipe-hand"></i>
+    <span>Arraste para ver mais</span>
+</div>
+
+    <div class="carousel-track" id="trackRoupas">
+        
+        <!-- ITEM 1: coleção Corteiz -->
+        <div class="carousel-slide" onclick="filtrarPorNome('Corteiz')">
+            <img src="corteiz.png" alt="Conjunto Corteiz">
+            <span>Coleção Corteiz</span>
+        </div>
+
+        <!-- ITEM 2: Coleção básica -->
+        <div class="carousel-slide" onclick="filtrarPorNome('basic')">
+            <img src="basica.png" alt="Coleção básica">
+            <span>Coleção básica</span>
+        </div>
+
+        <!-- ITEM 3: hellstar -->
+        <div class="carousel-slide" onclick="filtrarPorNome('hellstar')">
+            <img src="hellstar.png" alt="Moletons">
+            <span>Hellstar</span>
+        </div>
+
+        <!-- ITEM 4: Casablanca -->
+        <div class="carousel-slide" onclick="filtrarPorNome('Casablanca')">
+            <img src="casablanca.png" alt="Casablanca">
+            <span>Casablanca</span>
+        </div>
+
+        <!-- ITEM 5: Syna world -->
+        <div class="carousel-slide" onclick="filtrarPorNome('syna')">
+            <img src="syna.png" alt="Syna">
+            <span>Syna world</span>
+        </div>
+
+    </div>
+
+    <!-- Seta Direita (PC) -->
+    <button class="carousel-arrow next" onclick="scrollCarroselRoupas(1)">
+        <i class="fas fa-chevron-right"></i>
+    </button>
+</div>
 
     <!-- CARROSEL TRANSPARENTE DE PRODUTOS/COLEÇÕES -->
 <div class="carousel-container">
@@ -3593,6 +3676,20 @@ function filtrarPorNome(termoBusca) {
         // Executa a função de buscar produtos que já existe no seu projeto
         if (typeof buscarProduto === 'function') {
             buscarProduto();
+        }
+    }
+}
+// Função de rolagem exclusiva para o Carrossel de Roupas
+function scrollCarroselRoupas(direcao) {
+    const track = document.getElementById('trackRoupas');
+    if (track) {
+        const slide = track.querySelector('.carousel-slide');
+        if (slide) {
+            const slideWidth = slide.offsetWidth + 30;
+            track.scrollBy({
+                left: direcao * slideWidth,
+                behavior: 'smooth'
+            });
         }
     }
 }
