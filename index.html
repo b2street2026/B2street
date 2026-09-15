@@ -1470,6 +1470,53 @@ button:active, .btn-action:active {
         display: flex;
     }
 }
+/* =========================================================
+   CORREÇÃO DO BANNER DO TOPO PARA CELULAR (MOBILE)
+   ========================================================= */
+@media (max-width: 768px) {
+    /* Ajusta o container principal do banner no mobile */
+    .hero-banner,
+    .top-banner,
+    .main-banner {
+        padding: 20px 15px !important;
+        min-height: auto !important;
+        text-align: center !important;
+    }
+
+    /* Ajusta os títulos dentro do banner do topo */
+    .hero-banner h1,
+    .hero-banner h2,
+    .top-banner h1,
+    .top-banner h2,
+    .main-banner h1,
+    .main-banner h2 {
+        font-size: 1.5rem !important; /* Tamanho proporcional para celular */
+        line-height: 1.2 !important; /* Evita que as linhas fiquem encostadas */
+        letter-spacing: 0.5px !important;
+        word-break: break-word !important; /* Evita que palavras grandes vazem a tela */
+        margin-bottom: 10px !important;
+    }
+
+    /* Ajusta os subtítulos / parágrafos do banner */
+    .hero-banner p,
+    .top-banner p,
+    .main-banner p {
+        font-size: 0.88rem !important;
+        line-height: 1.4 !important;
+        margin-bottom: 15px !important;
+    }
+
+    /* Se o banner tiver botão no mobile */
+    .hero-banner .btn,
+    .top-banner .btn,
+    .main-banner .btn {
+        font-size: 0.85rem !important;
+        padding: 10px 20px !important;
+        width: 100% !important; /* Deixa o botão bem visível no celular */
+        max-width: 250px !important;
+        margin: 0 auto !important;
+    }
+}
 </style>
 
 <script>
@@ -1563,6 +1610,12 @@ button:active, .btn-action:active {
             <img src="tn.png" alt="tn">
             <span>NIKE TN</span>
         </div>
+        
+        <!-- ITEM 6: Puma 180 -->
+        <div class="carousel-slide" onclick="filtrarPorNome('puma')">
+            <img src="puma180.png" alt="tn">
+            <span>Puma 180</span>
+        </div>
 
     </div>
 
@@ -1570,6 +1623,25 @@ button:active, .btn-action:active {
     <button class="carousel-arrow next" onclick="scrollCarrosel(1)">
         <i class="fas fa-chevron-right"></i>
     </button>
+</div>
+
+<div class="brand-filters" id="brand-filters">
+    <div class="brand-btn" onclick="filterCat('syna')">
+        <img src="logo_syna.jpg.JPG">
+        <span>Syna</span>
+    </div>
+    <div class="brand-btn" onclick="filterCat('corteiz')">
+        <img src="logo_corteiz.jpg.JPG">
+        <span>Corteiz</span>
+    </div>
+    <div class="brand-btn" onclick="filterCat('nike')">
+        <img src="logo_nike.jpg.JPG">
+        <span>Nike</span>
+    </div>
+<div class="brand-btn" onclick="filterCat('casablanca')">
+        <img src="logo_casablanca.jpg">
+        <span>Casablanca</span>
+    </div>
 </div>
 
 <div style="display: flex; justify-content: center; background: #000; padding: 15px 0 5px 0;">
