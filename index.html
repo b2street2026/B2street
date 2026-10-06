@@ -1851,7 +1851,7 @@ button:active, .btn-action:active {
         </div>
 
         <!-- ITEM 2: Coleção básica -->
-        <div class="carousel-slide" onclick="filtrarPorNome('basicas')">
+        <div class="carousel-slide" onclick="filtrarPorNome('basica')">
             <img src="basica.png" alt="Coleção básica">
             <span>Coleção básica</span>
         </div>
@@ -1973,10 +1973,11 @@ button:active, .btn-action:active {
     <div class="menu-link" onclick="filterCat('tenis-feminino')" style="color: #ff8da1;">Tênis Feminino</div>
      
 
-    <div class="menu-link" onclick="filterCat('moletom')" style="color: #fff;">Moletom</div>
+    <div class="menu-link" onclick="filterCat('nike')" style="color: #fff;">Nike</div>
     <div class="menu-link" onclick="filterCat('chinelos')" style="color: #fff;">Chinelos</div>
     <div class="menu-link" onclick="filterCat('shorts')" style="color: #fff;">Shorts</div>
-    <div class="menu-link" onclick="filterCat('conjuntos')" style="color: #fff;">Conjuntos</div>
+    <div class="menu-link" onclick="filterCat('nocta')" style="color: #fff;">Nocta</div>
+    <div class="menu-link" onclick="filterCat('xtranho')" style="color: #fff;">XTRANHO</div>
     <div class="menu-link" onclick="filterCat('camisas')" style="color: #fff;">Camisas</div>
     <div class="menu-link" onclick="filterCat('corteiz')" style="color: #fff;">Corteiz</div>
     <div class="menu-link" onclick="filterCat('nike')" style="color: #fff;">Nike</div>
@@ -1986,7 +1987,7 @@ button:active, .btn-action:active {
     <div class="menu-link" onclick="filterCat('denim tears')" style="color: #fff;">Denim Tears</div>
     <div class="menu-link" onclick="filterCat('nocta')" style="color: #fff;">Nocta</div>
     <div class="menu-link" onclick="filterCat('casablanca')" style="color: #fff;">Casablanca</div>
-    <div class="menu-link" onclick="filterCat('basicas')" style="color: #fff;">Camisas basicas</div>
+    <div class="menu-link" onclick="filterCat('basica')" style="color: #fff;">Camisas basicas</div>
     <div class="menu-link" onclick="filterCat('hellstar')" style="color: #fff;">Hellstar</div>
     <div class="menu-link" onclick="filterCat('synaworld')" style="color: #fff;">Syna world</div>
 
@@ -3193,7 +3194,7 @@ function renderFull(filtered = null) {
     main.innerHTML = "";
     const data = filtered || ALL_PRODUCTS;
     
-    const cats = ["tenis", "tenis-feminino", "camisas", "corteiz", "casablanca", "hellstar", "synaworld", "academia", "moletom", "chinelos", "shorts", "conjuntos", "basicas", "nike", "syna", "denim tears", "nocta", "joias"];
+    const cats = ["tenis", "tenis-feminino", "camisas", "corteiz", "casablanca", "hellstar", "synaworld", "academia", "nike", "chinelos", "shorts", "nocta", "basicas", "xtranho", "syna", "denim tears", "nocta", "joias"];
     
     const modelosEsquema = ["nocta", "air max 95", "dn", "tn", "shox", "air force", "dunk", "air jordan", "court vision", "new balance", "puma", "adidas", "timberland"];
 
@@ -3203,7 +3204,7 @@ function renderFull(filtered = null) {
             let tituloExibicao = cat;
             if (cat === 'tenis') tituloExibicao = 'Tênis Masculino';
             else if (cat === 'tenis-feminino') tituloExibicao = 'Tênis Feminino';
-            else if (cat === 'moletom') tituloExibicao = 'Moletons';
+            else if (cat === 'nike') tituloExibicao = 'Nike';
             else if (cat === 'academia') tituloExibicao = 'Moda Academia';
 
             let html = `<div class="container"><h2 class="cat-title" style="text-transform: uppercase;">${tituloExibicao}</h2>`;
@@ -3626,7 +3627,7 @@ function adicionarSugeridoDoCarrinho(idProduto, categoria) {
         const cat = categoria ? categoria.toLowerCase() : '';
         let tamanhoPadrao = 'único'; // Padrão para acessórios e joias
         
-        if (cat === 'camisas' || cat === 'shorts' || cat === 'sets') {
+        if (cat === 'camisas' || cat === 'tenis' || cat === 'sets') {
             tamanhoPadrao = 'M'; // Tamanho inicial médio para vestuário
         } else if (cat === 'tenis' || cat === 'tenis-feminino' || cat === 'chinelos') {
             tamanhoPadrao = '40';
