@@ -593,234 +593,333 @@
 /* =========================================================
    NOVO LAYOUT: MENU & CARRINHO (SLIDE DE CIMA PARA BAIXO)
    ========================================================= */
-
 /* =========================================================
-   CORREÇÃO COMPLETA DE LAYOUT E BOTÕES DO CARRINHO
+   CARRINHO LATERAL PREMIUM (SLIDE DA DIREITA)
    ========================================================= */
 
-/* --- CONTAINER DO CARRINHO --- */
+/* Fundo escuro semitransparente que cobre a tela quando o carrinho abre */
+.cart-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 1999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cart-backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Gaveta Lateral do Carrinho */
 .cart-sidebar { 
     position: fixed; 
-    top: -100%; 
-    left: 0; 
+    top: 0; 
+    right: -100%; /* Escondido fora da tela na direita */
+    left: auto !important;
     width: 100%; 
-    max-height: 90vh; 
+    max-width: 440px; /* Largura perfeita para lateral no PC */
+    height: 100vh;
+    max-height: 100vh !important;
     z-index: 2000; 
-    padding: 30px 20px; 
+    padding: 24px 20px; 
     display: flex; 
     flex-direction: column; 
-    background: #0d0d0d !important;
-    border-bottom: 2px solid #222222; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.9) !important;
-    transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    overflow-y: auto;
+    background: #0a0a0a !important;
+    border-left: 1px solid #1f1f1f; 
+    border-bottom: none !important;
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.8) !important;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), right 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    overflow: hidden;
 }
 
+/* Estado Aberto (Desliza da direita para a esquerda) */
 .cart-sidebar.open { 
-    top: 0; 
+    right: 0 !important; 
+    top: 0 !important;
 }
 
-/* Área interna centralizada */
-.cart-sidebar-content {
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
+/* Cabeçalho do Carrinho */
+.cart-header {
     display: flex;
-    flex-direction: column;
-    gap: 15px;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #1a1a1a;
+    margin-bottom: 15px;
 }
 
-/* --- CAMPO DE CUPOM --- */
+.cart-header h3 {
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.cart-close-btn {
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #888;
+    transition: color 0.2s ease, transform 0.2s ease;
+    padding: 5px;
+}
+
+.cart-close-btn:hover {
+    color: #fff;
+    transform: rotate(90deg);
+}
+
+/* Área rolável da lista de itens */
+#cart-list {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 5px;
+    margin-bottom: 15px;
+}
+
+/* Personalização da barra de rolagem */
+#cart-list::-webkit-scrollbar {
+    width: 4px;
+}
+#cart-list::-webkit-scrollbar-track {
+    background: #0d0d0d;
+}
+#cart-list::-webkit-scrollbar-thumb {
+    background: #222;
+    border-radius: 4px;
+}
+
+/* Itens individuais no carrinho */
+.cart-item { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    margin-bottom: 14px; 
+    border-bottom: 1px solid #141414; 
+    padding-bottom: 14px; 
+}
+
+.cart-item img { 
+    width: 60px; 
+    height: 60px; 
+    object-fit: cover; 
+    border-radius: 6px; 
+    border: 1px solid #222; 
+} 
+
+.remove-item { 
+    color: #ff4444; 
+    cursor: pointer; 
+    font-size: 0.85rem; 
+    margin-left: auto; 
+    transition: color 0.2s ease; 
+}
+
+.remove-item:hover { 
+    color: #ff6666; 
+}
+
+/* Rodapé Fixo do Carrinho (Preço + Cupons + Botões) */
+.cart-footer-wrapper {
+    margin-top: auto;
+    padding-top: 15px;
+    border-top: 1px solid #1a1a1a;
+    background: #0a0a0a;
+}
+
+/* Campo de Cupom */
 .coupon-box {
     display: flex;
     gap: 8px;
     width: 100%;
-    margin-top: 10px;
+    margin-bottom: 15px;
 }
 
 .coupon-box input {
     flex: 1;
-    background: #181818 !important;
-    border: 1px solid #333333 !important;
+    background: #141414 !important;
+    border: 1px solid #262626 !important;
     color: #ffffff !important;
-    padding: 12px 15px !important;
-    border-radius: 8px !important;
-    font-size: 0.85rem !important;
+    padding: 10px 14px !important;
+    border-radius: 6px !important;
+    font-size: 0.8rem !important;
     outline: none !important;
     text-transform: uppercase;
+    transition: border-color 0.2s;
 }
 
-.coupon-box input::placeholder {
-    color: #777777;
+.coupon-box input:focus {
+    border-color: #555 !important;
 }
 
 .coupon-box button {
-    background: #e0e0e0 !important;
+    background: #ffffff !important;
     color: #000000 !important;
     border: none !important;
-    padding: 0 20px !important;
-    border-radius: 8px !important;
-    font-weight: 700 !important;
-    font-size: 0.85rem !important;
+    padding: 0 16px !important;
+    border-radius: 6px !important;
+    font-weight: 800 !important;
+    font-size: 0.8rem !important;
     cursor: pointer !important;
-    transition: all 0.2s ease !important;
+    transition: background 0.2s ease !important;
 }
 
 .coupon-box button:hover {
-    background: #ffffff !important;
+    background: #e0e0e0 !important;
 }
 
-/* --- TEXTO DO TOTAL --- */
+/* Valor Total */
 #cart-total {
-    font-size: 1.2rem !important;
+    font-size: 1.15rem !important;
     font-weight: 800 !important;
     color: #ffffff !important;
-    text-align: center;
-    margin: 15px 0 5px 0 !important;
+    text-align: space-between;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px !important;
     letter-spacing: 0.5px;
 }
 
-/* --- BOTÕES DE AÇÃO (FINALIZAR SITE / WHATSAPP) --- */
+/* Botões de Ação */
 .btn-action {
     width: 100% !important;
-    padding: 14px 20px !important;
-    background: #1a1a1a !important;
-    color: #ffffff !important;
-    border: 1px solid #333333 !important;
-    border-radius: 8px !important;
-    font-weight: 700 !important;
-    font-size: 0.9rem !important;
+    padding: 13px 18px !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: none !important;
+    border-radius: 6px !important;
+    font-weight: 800 !important;
+    font-size: 0.82rem !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
+    letter-spacing: 1px !important;
     cursor: pointer !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 10px !important;
-    margin-bottom: 10px !important;
-    transition: all 0.2s ease !important;
+    gap: 8px !important;
+    margin-bottom: 8px !important;
+    transition: all 0.25s ease !important;
 }
 
 .btn-action:hover {
-    background: #282828 !important;
-    border-color: #555555 !important;
-    transform: translateY(-2px);
+    background: #e6e6e6 !important;
+    transform: translateY(-1px);
 }
 
-/* Botão específico do WhatsApp */
 .btn-action-wsp {
     background: #25d366 !important;
     color: #000000 !important;
-    border: none !important;
 }
 
 .btn-action-wsp:hover {
     background: #20ba5a !important;
 }
 
-/* Estado aberto do Carrinho */
-.cart-sidebar.open { 
-    top: 0; /* Desce de cima para baixo */
+/* =========================================================
+   MENU SIDEBAR LATERAL PREMIUM (SLIDE DA ESQUERDA)
+   ========================================================= */
+
+/* Fundo escuro semitransparente/desfocado quando o menu abre */
+.menu-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 1999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* --- MENU SLIDE-DOWN --- */
+.menu-backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Container do Menu Lateral (Gaveta) */
 #menu-sidebar { 
     position: fixed; 
-    top: -100%; /* Inicia escondido acima da tela */
-    left: 0; 
+    top: 0; 
+    left: -100%; /* Escondido à esquerda fora da tela */
     width: 100%; 
-    max-height: 85vh; /* Ocupa até 85% da tela permitindo rolagem interna */
+    max-width: 360px; /* Largura ideal de menu lateral no mobile e PC */
+    height: 100vh;
+    max-height: 100vh;
     z-index: 2000; 
-    padding: 35px 5%; 
+    padding: 30px 20px; 
+    display: flex;
+    flex-direction: column;
     overflow-y: auto; 
-    transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
-    background: #000000 !important;
-    border-bottom: 2px solid #222222; 
-    box-shadow: 0 10px 30px rgba(0,0,0,0.8) !important;
+    transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important; 
+    background: #0a0a0a !important;
+    border-right: 1px solid #1f1f1f; 
+    border-bottom: none !important;
+    box-shadow: 10px 0 30px rgba(0,0,0,0.9) !important;
 }
 
 #menu-sidebar.open { 
-    top: 0; /* Desce de cima para baixo */
+    left: 0 !important; /* Desliza suavemente para dentro da tela */
 }
 
-/* Ajuste nos links do Menu para grid responsivo */
+/* Barra de rolagem interna discreta */
+#menu-sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+#menu-sidebar::-webkit-scrollbar-track {
+    background: #0a0a0a;
+}
+#menu-sidebar::-webkit-scrollbar-thumb {
+    background: #222222;
+    border-radius: 4px;
+}
+
+/* Estilo dos Links das Categorias no Menu Lateral */
 .menu-link { 
-    display: block; 
+    display: flex; 
+    align-items: center;
+    justify-content: space-between;
     color: #aaaaaa; 
     font-weight: 600; 
-    margin-bottom: 8px; 
-    padding: 12px 20px; 
-    border-radius: 8px; 
+    margin-bottom: 6px; 
+    padding: 12px 16px; 
+    border-radius: 6px; 
     text-transform: uppercase; 
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
+    font-size: 0.8rem;
+    letter-spacing: 0.8px;
     cursor: pointer; 
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
     border: 1px solid transparent; 
-    text-align: center;
+    text-align: left;
+    background: transparent;
 }
 
 .menu-link:hover { 
-    background-color: #111111; 
+    background-color: #141414; 
     color: #ffffff; 
-    border-color: #333333; 
-    transform: translateY(-2px); 
+    border-color: #222222; 
+    padding-left: 20px; /* Animação sutil de deslocamento à direita */
 }
 
 .menu-link.active {
-    background-color: #222222;
+    background-color: #1a1a1a;
     color: #ffffff;
     border-color: #ffffff;
 }
 
-/* Organização em Colunas para telas de Computador (PC) */
-@media (min-width: 769px) {
-    #menu-sidebar {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px 20px;
-        align-content: start;
-        padding-top: 60px;
-    }
-    
-    /* Faz o botão fechar (X) ocupar o topo no PC */
-    #menu-sidebar .fa-times {
-        grid-column: 1 / -1;
-        justify-self: end;
-        font-size: 1.5rem;
-    }
-
-    .sidebar-socials {
-        grid-column: 1 / -1;
-        justify-content: center;
-    }
-}
-
-/* Botões do Menu */
-.menu-link { 
-    display: block; 
-    color: #aaaaaa; 
-    font-weight: 600; 
-    margin-bottom: 8px; 
-    padding: 12px 20px; 
-    border-radius: 100px; 
-    text-transform: uppercase; 
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
-    cursor: pointer; 
-    transition: all 0.3s ease;
-    border: 1px solid transparent; 
-}
-.menu-link:hover { 
-    background-color: #111111; 
-    color: #ffffff; 
-    border-color: #333333; 
-    transform: translateX(2px); 
-}
-.menu-link.active {
-    background-color: #222222;
-    color: #ffffff;
-    border-color: #ffffff;
+/* Ajuste dos ícones sociais no rodapé do menu */
+.sidebar-socials {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid #1f1f1f;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
 }
 
 /* --- ITENS DO CARRINHO E OUTROS --- */
@@ -2001,26 +2100,40 @@ button:active, .btn-action:active {
     </div>
 </nav>
 
+<!-- Fundo escuro desfocado atrás do carrinho lateral -->
+<div class="cart-backdrop" id="cart-backdrop" onclick="toggleCart()"></div>
+
+<!-- Gaveta Lateral do Carrinho -->
 <div class="cart-sidebar" id="cart-sidebar">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom: 1px solid #1a1a1a; padding-bottom: 10px;">
-        <h3 style="font-size: 1rem; letter-spacing: 1px;">SEU CARRINHO</h3>
-        <i class="fas fa-times" onclick="toggleCart()" style="cursor:pointer; padding:5px; font-size: 1.2rem;"></i>
+    <div class="cart-header">
+        <h3>SEU CARRINHO</h3>
+        <i class="fas fa-times cart-close-btn" onclick="toggleCart()"></i>
     </div>
     
-    <!-- Div de Notificações Inteligentes e Cross-selling -->
-    <div id="notificacoes-carrinho" style="padding: 0 0 15px 0; display: none;"></div>
+    <!-- Notificações e Cross-selling (mantido) -->
+    <div id="notificacoes-carrinho" style="padding: 0 0 10px 0; display: none;"></div>
     
+    <!-- Lista dos Produtos Inseridos -->
     <div id="cart-list"></div>
 
-    <div style="max-width: 500px; width: 100%; margin: 0 auto;">
+    <!-- Rodapé Fixo do Carrinho -->
+    <div class="cart-footer-wrapper">
         <div class="coupon-box">
-            <input type="text" id="input-cupom" placeholder="CUPOM">
-            <button onclick="aplicarCupom()" style="padding: 0 15px; background: #fff; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; color: #000;">OK</button>
+            <input type="text" id="input-cupom" placeholder="CUPOM DE DESCONTO">
+            <button onclick="aplicarCupom()">APLICAR</button>
         </div>
-        <div id="desconto-info" style="color: #fff; font-size: 0.8rem; margin-bottom: 10px; display: none; font-weight: bold;"></div>
-        <div id="cart-total" style="margin:10px 0; font-weight:800; font-size: 1.1rem; text-align: center;">Total: R$ 0,00</div>
+        
+        <div id="desconto-info" style="color: #25d366; font-size: 0.8rem; margin-bottom: 10px; display: none; font-weight: bold;"></div>
+        
+        <div id="cart-total">
+            <span style="color: #888; font-weight: 600; font-size: 0.9rem;">TOTAL:</span>
+            <span id="cart-total-val">R$ 0,00</span>
+        </div>
+
         <button class="btn-action" onclick="abrirModalDados()">Finalizar pelo Site</button>
-        <button class="btn-action" onclick="finalizarWhatsApp()"><i class="fab fa-whatsapp" style="margin-right:8px;"></i>Finalizar via WhatsApp</button>
+        <button class="btn-action btn-action-wsp" onclick="finalizarWhatsApp()">
+            <i class="fab fa-whatsapp" style="font-size: 1rem;"></i> Finalizar via WhatsApp
+        </button>
     </div>
 </div>
 
