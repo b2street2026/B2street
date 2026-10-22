@@ -391,51 +391,42 @@ header > div {
     color: #888;
 }
 
-.size-section {
-    margin-bottom: 25px;
-}
-
-.size-container-label {
-    font-size: 0.75rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #888;
-    display: block;
-    margin-bottom: 10px;
-}
-
-.size-boxes {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-/* Caixas de Tamanho Quadradas Minimalistas sem borda chata */
+/* Força o formato pílula arredondado nos seletores de tamanho */
+#m-sizes button,
 .size-box {
-    border: 1px solid #333;
-    background: transparent;
-    color: #fff;
-    width: 45px; 
-    height: 45px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.85rem;
-    font-weight: 700;
-    border-radius: 0px; 
-    cursor: pointer;
-    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    background: #0d0d0d !important;
+    color: #ffffff !important;
+    min-width: 54px !important; 
+    height: 42px !important;
+    padding: 0 16px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    border-radius: 50px !important; /* Arredondamento estilo pílula */
+    cursor: pointer !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
+/* Hover (ao passar o mouse) */
+#m-sizes button:hover,
 .size-box:hover { 
-    border-color: #fff;
+    border-color: rgba(255, 255, 255, 0.5) !important;
+    background: #181818 !important;
+    transform: translateY(-2px) !important;
 }
 
+/* Estado Selecionado pelo Cliente */
+#m-sizes button.selected,
 .size-box.selected {
-    background: #fff;
-    color: #000;
-    border-color: #fff;
+    background: #ffffff !important;
+    color: #000000 !important;
+    border-color: #ffffff !important;
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.25) !important;
+    transform: translateY(-2px) !important;
 }
 
 /* Botão Comprar Sólido de Alto Impacto */
@@ -2480,7 +2471,7 @@ button:active, .btn-action:active {
                 <i class="fas fa-shipping-fast"></i> RECEBA EM ATÉ 10 DIAS ÚTEIS
             </div>
 
-            <div class="size-container-label">Tamanho</div>
+            <div class="size-container-label"></div>
             <div id="m-sizes" style="display:flex; gap:10px; margin-bottom:30px; flex-wrap:wrap"></div>
             
             <button class="btn-buy-now" id="btn-add-cart" onclick="addAoCarrinho()">Comprar</button>
@@ -2635,8 +2626,61 @@ button:active, .btn-action:active {
             </div>
              
             <!-- CORRIGIDO: Forçado o texto preto (#000) e camada superior para o "Continuar para Pagamento" -->
-            <button class="btn-action" onclick="processarPedido()" style="background:#fff; color:#000 !important; font-weight:800; margin-top: 15px; position: relative; z-index: 2;">Continuar para Pagamento</button>
+            <button class="btn-action" onclick="abrirModalRevisao()" style="background:#fff; color:#000 !important; font-weight:800; margin-top: 15px; position: relative; z-index: 2;">Revisar Pedido</button>
             <p onclick="closeModals()" style="text-align:center; cursor:pointer; margin-top:15px; font-size:0.7rem; color:#555; font-weight: 800; letter-spacing: 1px;">CANCELAR</p>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DE REVISÃO DO PEDIDO (NOVO) -->
+<div class="modal-overlay" id="modal-revisao">
+    <div class="modal-content" style="max-width: 480px;">
+        <div class="modal-body-standard" style="padding: 25px;">
+            <h2 style="margin-bottom: 15px; font-size: 1.1rem; text-transform: uppercase; font-weight: 800; letter-spacing: 1px;">
+                <i class="fas fa-clipboard-check" style="margin-right: 8px; color: #32bcad;"></i> Revise seu Pedido
+            </h2>
+            
+            <!-- Resumo dos Dados de Entrega -->
+            <div style="background: #111; border: 1px solid #222; border-radius: 8px; padding: 12px; margin-bottom: 15px; font-size: 0.8rem; line-height: 1.5;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                    <span style="color: #888; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px;">Dados de Entrega</span>
+                    <span onclick="voltarParaDados()" style="color: #32bcad; cursor: pointer; font-size: 0.75rem; font-weight: bold;"><i class="fas fa-edit"></i> Editar</span>
+                </div>
+                <div style="color: #ccc;">
+                    <p id="rev-nome-cliente" style="font-weight: bold; color: #fff;"></p>
+                    <p id="rev-contato-cliente"></p>
+                    <p id="rev-cpf-cliente" style="color: #888;"></p>
+                    <p id="rev-endereco-cliente" style="margin-top: 4px; color: #aaa;"></p>
+                </div>
+            </div>
+
+            <!-- Resumo dos Itens -->
+            <span style="color: #888; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 8px;">Itens Selecionados</span>
+            <div id="rev-lista-produtos" style="max-height: 150px; overflow-y: auto; margin-bottom: 15px; padding-right: 4px;"></div>
+
+            <!-- Resumo Financeiro -->
+            <div style="border-top: 1px solid #222; padding-top: 10px; font-size: 0.85rem;">
+                <div style="display: flex; justify-content: space-between; color: #aaa; margin-bottom: 4px;">
+                    <span>Subtotal:</span>
+                    <span id="rev-subtotal-display">R$ 0,00</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; color: #aaa; margin-bottom: 4px;">
+                    <span>Frete:</span>
+                    <span id="rev-frete-display">R$ 0,00</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; color: #fff; font-size: 1rem; font-weight: 800; margin-top: 8px; border-top: 1px dashed #333; padding-top: 8px;">
+                    <span>TOTAL:</span>
+                    <span id="rev-total-display" style="color: #32bcad;">R$ 0,00</span>
+                </div>
+            </div>
+
+            <!-- Botões de Ação -->
+            <button class="btn-action" onclick="confirmarEIrParaPagamento()" style="background: #fff; color: #000 !important; font-weight: 800; margin-top: 18px;">
+                Confirmar e Escolher Pagamento <i class="fas fa-arrow-right" style="margin-left: 6px;"></i>
+            </button>
+            <p onclick="voltarParaDados()" style="text-align: center; cursor: pointer; margin-top: 12px; font-size: 0.7rem; color: #666; font-weight: 800; letter-spacing: 1px;">
+                VOLTAR
+            </p>
         </div>
     </div>
 </div>
@@ -3507,8 +3551,8 @@ function openProduct(id) {
     let sizes = (cat === 'tenis' || cat === 'tenis-feminino' || cat === 'chinelos') ? ['38','39','40','41','42','43'] : cat === 'joias' ? ['único'] : ['P','M','G','GG'];
     
     document.getElementById('m-sizes').innerHTML = sizes.map(s => 
-        `<button onclick="SELECTED_SIZE='${s}'; Array.from(this.parentNode.children).forEach(b=>b.style.border='1px solid #333'); this.style.border='1px solid #fff'" style="padding:8px; background:#111; color:#fff; border:1px solid #333; cursor:pointer">${s}</button>`
-    ).join('');
+    `<button class="size-box" onclick="SELECTED_SIZE='${s}'; Array.from(this.parentNode.children).forEach(b=>b.classList.remove('selected')); this.classList.add('selected');">${s}</button>`
+).join('');
 
     // Limpa a busca e os resultados de frete ao trocar de produto
     const cepInput = document.getElementById('cep-input');
@@ -4092,4 +4136,146 @@ window.addEventListener('scroll', () => {
         header.classList.remove('scrolled');
     }
 });
+// Variável global temporária para armazenar o pedido durante a revisão
+let DADOS_PEDIDO_PENDENTE = null;
+
+function abrirModalRevisao() {
+    const nome = document.getElementById('checkout-nome').value;
+    const email = document.getElementById('checkout-email').value;
+    const tel = document.getElementById('checkout-tel').value;
+    const cpf = document.getElementById('checkout-cpf').value;
+    const cep = document.getElementById('checkout-cep').value;
+    const endBase = document.getElementById('checkout-end').value;
+    
+    const subtotal = obterValorNumericoTotal();
+    const totalFinalCalculado = subtotal + VALOR_FRETE;
+    
+    const tipoResidencia = document.getElementById('checkout-tipo-residencia').value;
+    const bloco = document.getElementById('checkout-bloco').value;
+    const apto = document.getElementById('checkout-apto').value;
+     
+    // Validação de campos obrigatórios
+    if (!nome || !tel || !endBase || !cpf || !cep) { 
+        alert("Preencha todos os dados: Nome, WhatsApp, CPF, CEP e Endereço."); 
+        return; 
+    }
+
+    if (tipoResidencia === 'condominio' && (!bloco || !apto)) {
+        alert("Por favor, preencha o Bloco e o Apartamento/Sala para entregas em condomínio.");
+        return;
+    }
+
+    let enderecoCompleto = endBase;
+    if (tipoResidencia === 'condominio') {
+        enderecoCompleto += ` (Condomínio - Bloco: ${bloco} | Apto: ${apto})`;
+    } else {
+        enderecoCompleto += ` (Casa)`;
+    }
+
+    // Guarda temporariamente os dados validados
+    DADOS_PEDIDO_PENDENTE = {
+        data: new Date().toLocaleString('pt-BR'),
+        cliente: nome, 
+        email: email, 
+        whatsapp: tel, 
+        cpf: cpf,
+        cep: cep,
+        endereco: enderecoCompleto,
+        produtos: [...CART], 
+        subtotal: subtotal,
+        frete: VALOR_FRETE,
+        totalNum: totalFinalCalculado,
+        total: `Total: R$ ${totalFinalCalculado.toFixed(2).replace('.', ',')}`,
+        status: 'Pendente',
+        rastreio: ''
+    };
+
+    // Preenche a tela de revisão com os dados
+    document.getElementById('rev-nome-cliente').innerText = nome;
+    document.getElementById('rev-contato-cliente').innerText = `E-mail: ${email} | Tel: ${tel}`;
+    document.getElementById('rev-cpf-cliente').innerText = `CPF: ${cpf}`;
+    document.getElementById('rev-endereco-cliente').innerText = `Endereço: ${enderecoCompleto} - CEP: ${cep}`;
+
+    // Preenche os itens
+    const divItens = document.getElementById('rev-lista-produtos');
+    divItens.innerHTML = CART.map(i => `
+        <div style="display: flex; align-items: center; justify-content: space-between; background: #070707; border: 1px solid #1f1f1f; padding: 8px 10px; border-radius: 6px; margin-bottom: 6px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="${i.imagem}" style="width: 38px; height: 38px; border-radius: 4px; object-fit: cover;">
+                <div>
+                    <span style="font-size: 0.75rem; color: #fff; font-weight: bold; display: block;">${i.nome}</span>
+                    <span style="font-size: 0.65rem; color: #888;">Tamanho: ${i.tamanho}</span>
+                </div>
+            </div>
+            <span style="font-size: 0.75rem; color: #fff; font-weight: bold;">R$ ${i.preco}</span>
+        </div>
+    `).join('');
+
+    // Preenche os valores
+    document.getElementById('rev-subtotal-display').innerText = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+    document.getElementById('rev-frete-display').innerText = VALOR_FRETE === 0 ? "GRÁTIS" : `R$ ${VALOR_FRETE.toFixed(2).replace('.', ',')}`;
+    document.getElementById('rev-total-display').innerText = `R$ ${totalFinalCalculado.toFixed(2).replace('.', ',')}`;
+
+    // Alterna os modais
+    document.getElementById('modal-dados').classList.remove('active');
+    document.getElementById('modal-revisao').classList.add('active');
+}
+
+function voltarParaDados() {
+    document.getElementById('modal-revisao').classList.remove('active');
+    document.getElementById('modal-dados').classList.add('active');
+}
+
+function confirmarEIrParaPagamento() {
+    if (!DADOS_PEDIDO_PENDENTE) return;
+
+    const pedidoData = { ...DADOS_PEDIDO_PENDENTE };
+    delete pedidoData.subtotal;
+    delete pedidoData.frete;
+    delete pedidoData.totalNum;
+
+    // Métricas e Meta Pixel
+    try {
+        const hoje = new Date().toISOString().split('T')[0];
+        db.ref(`metricas/${hoje}/compras`).transaction((atual) => (atual || 0) + 1);
+        db.ref(`metricas/${hoje}/faturamento`).transaction((atual) => (atual || 0) + DADOS_PEDIDO_PENDENTE.totalNum);
+    } catch (e) { console.error("Erro métricas ADM:", e); }
+
+    try {
+        if (typeof fbq === 'function' && CART && CART.length > 0) {
+            const idsProdutos = CART.map(p => p.id || '');
+            fbq('track', 'Purchase', {
+                value: DADOS_PEDIDO_PENDENTE.totalNum, 
+                currency: 'BRL',
+                content_ids: idsProdutos,
+                content_type: 'product'
+            });
+        }
+    } catch (e) { console.error("Erro Meta Pixel:", e); }
+
+    // Salva no Sheets e no Firebase
+    enviarParaGoogleSheets(pedidoData);
+
+    const novoPedidoRef = db.ref('todos_pedidos').push();
+    const pedidoId = novoPedidoRef.key;
+     
+    novoPedidoRef.set({ ...pedidoData, id: pedidoId });
+
+    if(auth.currentUser) {
+        db.ref('pedidos/' + auth.currentUser.uid + '/' + pedidoId).set(pedidoData);
+    }
+
+    // Abre a tela do Pix
+    document.getElementById('modal-revisao').classList.remove('active'); 
+    document.getElementById('pix-valor-display').innerText = `R$ ${DADOS_PEDIDO_PENDENTE.totalNum.toFixed(2).replace('.', ',')}`; 
+    document.getElementById('pix-loading-view').style.display = 'block';
+    document.getElementById('pix-select-method-view').style.display = 'none';
+    document.getElementById('pix-content-view').style.display = 'none';
+    document.getElementById('modal-pix').classList.add('active'); 
+     
+    setTimeout(() => {
+        document.getElementById('pix-loading-view').style.display = 'none';
+        document.getElementById('pix-select-method-view').style.display = 'block';
+    }, 2500);
+}
 </script>
