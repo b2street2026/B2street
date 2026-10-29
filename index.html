@@ -346,6 +346,7 @@ header > div {
     max-height: 80vh;
     object-fit: contain; 
     display: block; 
+    border-radius: 12px; /* <-- ADICIONE ESTA LINHA PARA ARREDONDAR A FOTO DA PÁGINA DO PRODUTO */
 }
 
 /* Informações do Produto */
@@ -2453,12 +2454,20 @@ button:active, .btn-action:active {
             <i class="fas fa-arrow-left"></i> Voltar para o site
         </button>
 
-        <!-- Mídia do Produto -->
+        <!-- Mídia do Produto com Lupa e Tela Cheia -->
         <div class="modal-media-side" style="flex-direction: column; gap: 10px;">
-    <img id="m-img" src="" alt="Produto">
-    <!-- Container para miniaturas das 5 fotos -->
-    <div id="m-thumbs" style="display: flex; gap: 8px; justify-content: center; margin-top: 10px; flex-wrap: wrap;"></div>
-</div>
+            <div style="position: relative; width: 100%; display: flex; justify-content: center; cursor: pointer;" onclick="abrirTelaCheia()">
+                <!-- Imagem com bordinhas levemente arredondadas (border-radius: 12px) -->
+                <img id="m-img" src="" alt="Produto" style="border-radius: 12px; transition: transform 0.3s ease;">
+                
+                <!-- Ícone de Lupa flutuante -->
+                <div style="position: absolute; bottom: 15px; right: 15px; background: rgba(0, 0, 0, 0.65); backdrop-filter: blur(6px); color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; border: 1px solid rgba(255, 255, 255, 0.25); box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
+                    <i class="fas fa-search-plus"></i>
+                </div>
+            </div>
+            <!-- Container para miniaturas das fotos -->
+            <div id="m-thumbs" style="display: flex; gap: 8px; justify-content: center; margin-top: 10px; flex-wrap: wrap;"></div>
+        </div>
         
         <!-- Detalhes e Ações -->
         <div class="modal-body">
@@ -2841,6 +2850,12 @@ button:active, .btn-action:active {
 <div id="toast-copiado" style="position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: #111; color: #fff; border: 1px solid #333; padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); opacity: 0; visibility: hidden; transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); z-index: 99999;">
     <i class="fas fa-check-circle" style="color: #00cc66; font-size: 1.2rem;"></i>
     <span>Link do produto copiado com sucesso!</span>
+</div>
+
+<!-- Modal de Tela Cheia (Lightbox) -->
+<div id="modal-tela-cheia" style="position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 99999; display: none; align-items: center; justify-content: center; padding: 20px;">
+    <span onclick="fecharTelaCheia()" style="position: absolute; top: 20px; right: 30px; color: #fff; font-size: 2rem; cursor: pointer; z-index: 100000;"><i class="fas fa-times"></i></span>
+    <img id="img-tela-cheia" src="" style="max-width: 100%; max-height: 90vh; object-fit: contain; border-radius: 8px;">
 </div>
 </body>
 </html>
@@ -4277,5 +4292,23 @@ function confirmarEIrParaPagamento() {
         document.getElementById('pix-loading-view').style.display = 'none';
         document.getElementById('pix-select-method-view').style.display = 'block';
     }, 2500);
+}
+// Funções para gerenciar a Tela Cheia (Lightbox) da foto do produto
+function abrirTelaCheia() {
+    const imgPrincipal = document.getElementById('m-img');
+    const modalCheia = document.getElementById('modal-tela-cheia');
+    const imgCheia = document.getElementById('img-tela-cheia');
+    
+    if (imgPrincipal && imgPrincipal.src) {
+        imgCheia.src = imgPrincipal.src;
+        modalCheia.style.display = 'flex';
+    }
+}
+
+function fecharTelaCheia() {
+    const modalCheia = document.getElementById('modal-tela-cheia');
+    if (modalCheia) {
+        modalCheia.style.display = 'none';
+    }
 }
 </script>
