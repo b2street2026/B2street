@@ -2097,6 +2097,10 @@ button:active, .btn-action:active {
     </div>
 
     <div class="menu-link" onclick="filterCat('todos')" style="color: #fff;">Todos</div>
+    <!-- NOVOS ITENS NO MENU LATERAL -->
+    <div class="menu-link" onclick="filterCat('novidade')" style="color: #ffffff; font-weight: 800;">✨ Novidades</div>
+    <div class="menu-link" onclick="filterCat('pronta-entrega')" style="color: #25d366; font-weight: 800;">⚡ Pronta Entrega</div>
+    
     <div class="menu-link" onclick="abrirMeusPedidos()" style="color: #ccc; border-bottom: 1px solid #333;">Meus Pedidos</div>
      
     <div class="menu-link" onclick="filterCat('tenis')" style="color: #00a2ff;">Tênis Masculino</div>
@@ -3400,6 +3404,12 @@ function gerarTagHtml(tagValue) {
     if (tagValue === 'esgotado') {
         return `<span style="position: absolute; top: 10px; left: 10px; background: #ff3333; color: #fff; font-size: 0.65rem; font-weight: bold; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; z-index: 2; letter-spacing: 0.5px; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">Esgotado</span>`;
     }
+    if (tagValue === 'novidade') {
+        return `<span style="position: absolute; top: 10px; left: 10px; background: #ffffff; color: #000; font-size: 0.65rem; font-weight: 800; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; z-index: 2; letter-spacing: 0.5px; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">Novidade</span>`;
+    }
+    if (tagValue === 'pronta-entrega') {
+        return `<span style="position: absolute; top: 10px; left: 10px; background: #25d366; color: #000; font-size: 0.65rem; font-weight: 800; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; z-index: 2; letter-spacing: 0.5px; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">Pronta Entrega</span>`;
+    }
     return '';
 }
 
@@ -3408,7 +3418,41 @@ function renderFull(filtered = null) {
     if(!main) return;
     main.innerHTML = "";
     const data = filtered || ALL_PRODUCTS;
-    
+
+    // --- SEÇÃO ESPECIAL 1: NOVIDADES (Fica no topo absoluto de todas as seções) ---
+    const prodsNovidades = data.filter(p => p.tag && p.tag.toLowerCase() === 'novidade');
+    if (prodsNovidades.length > 0 && !filtered) {
+        let htmlNovidades = `<div class="container"><h2 class="cat-title" style="text-transform: uppercase; color: #fff; border-left: 3px solid #fff; padding-left: 10px;">✨ Lançamentos & Novidades</h2>`;
+        htmlNovidades += `<div class="grid">`;
+        prodsNovidades.forEach(p => {
+            htmlNovidades += `<div class="product-card" onclick="openProduct('${p.id}')" style="position: relative;">
+                         ${gerarTagHtml(p.tag)}
+                         <div class="img-container"><img src="${p.imagem}"></div>
+                         <h3>${p.nome}</h3>
+                         <span class="price">R$ ${p.preco}</span>
+                      </div>`;
+        });
+        htmlNovidades += `</div></div>`;
+        main.innerHTML += htmlNovidades;
+    }
+
+    // --- SEÇÃO ESPECIAL 2: PRONTA ENTREGA ---
+    const prodsProntaEntrega = data.filter(p => p.tag && p.tag.toLowerCase() === 'pronta-entrega');
+    if (prodsProntaEntrega.length > 0 && !filtered) {
+        let htmlPronta = `<div class="container"><h2 class="cat-title" style="text-transform: uppercase; color: #25d366; border-left: 3px solid #25d366; padding-left: 10px;">⚡ Produtos a Pronta Entrega</h2>`;
+        htmlPronta += `<div class="grid">`;
+        prodsProntaEntrega.forEach(p => {
+            htmlPronta += `<div class="product-card" onclick="openProduct('${p.id}')" style="position: relative;">
+                         ${gerarTagHtml(p.tag)}
+                         <div class="img-container"><img src="${p.imagem}"></div>
+                         <h3>${p.nome}</h3>
+                         <span class="price">R$ ${p.preco}</span>
+                      </div>`;
+        });
+        htmlPronta += `</div></div>`;
+        main.innerHTML += htmlPronta;
+    }
+        
     const cats = ["tenis", "tenis-feminino", "camisas", "corteiz", "casablanca", "hellstar", "synaworld", "academia", "nike", "chinelos", "shorts", "nocta", "basicas", "xtranho", "syna", "denim tears", "nocta", "joias"];
     
     const modelosEsquema = ["nocta", "air max 95", "dn", "tn", "shox", "air force", "dunk", "air jordan", "court vision", "new balance", "puma", "adidas", "timberland", "asics"];
@@ -3522,7 +3566,12 @@ function filterCat(c) {
     } else {
         if(hero) hero.style.display = 'none';
         if(brands) brands.style.display = 'none';
-        const filtrados = ALL_PRODUCTS.filter(p => (p.categoria && p.categoria.toLowerCase() === c) || (p.nome && p.nome.toLowerCase().includes(c)));
+        // Agora também busca caso a tag do produto seja igual ao filtro clicado
+        const filtrados = ALL_PRODUCTS.filter(p => 
+            (p.categoria && p.categoria.toLowerCase() === c) || 
+            (p.tag && p.tag.toLowerCase() === c.toLowerCase()) || 
+            (p.nome && p.nome.toLowerCase().includes(c))
+        );
         renderFull(filtrados);
     }
     window.scrollTo({top: 0, behavior: 'smooth'});
